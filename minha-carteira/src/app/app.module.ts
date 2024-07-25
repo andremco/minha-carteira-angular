@@ -13,7 +13,6 @@ import {MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatLabel} from "@angular/material/form-field";
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +34,6 @@ import {MatLabel} from "@angular/material/form-field";
     MatLabel
   ],
   providers: [],
-  bootstrap: [AppComponent,SetorPage]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
