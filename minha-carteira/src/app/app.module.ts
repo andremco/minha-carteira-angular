@@ -9,22 +9,11 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatInputModule } from "@angular/material/input";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
-
-import { MatButton, MatFabButton, MatIconButton } from "@angular/material/button";
+import { MatButtonModule } from "@angular/material/button";
+import {  MatTableModule } from "@angular/material/table";
 
 import { AppComponent } from './app.component';
 import { SetorComponent } from "./components/setor/setor.component";
-import {
-  MatCell, MatCellDef,
-  MatColumnDef,
-  MatHeaderCell,
-  MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
-  MatTable
-} from "@angular/material/table";
-
-
 
 
 @NgModule({
@@ -43,19 +32,8 @@ import {
     MatMenuModule,
     MatInputModule,
     BrowserAnimationsModule,
-    MatIconButton,
-    MatButton,
-    MatFabButton,
-    MatTable,
-    MatColumnDef,
-    MatHeaderCell,
-    MatCell,
-    MatHeaderRow,
-    MatRow,
-    MatHeaderCellDef,
-    MatCellDef,
-    MatHeaderRowDef,
-    MatRowDef,
+    MatButtonModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
