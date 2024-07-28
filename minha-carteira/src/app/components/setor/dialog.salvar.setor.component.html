@@ -1,16 +1,24 @@
-<div style="width: 550px">
+<div class="dialog-salvar">
   <h2 mat-dialog-title>Salvar setor</h2>
   <mat-dialog-content class="mat-typography">
-    <form style="min-width: 150px; max-width: 500px; width: 100%;">
-      <mat-form-field style="width: 100%;">
+    <form>
+      <mat-form-field>
         <mat-label>Descrição do setor</mat-label>
-        <textarea matInput placeholder="Ex.: Tesouro direto, Fundo Imobiliário, Banco, Seguradora..."></textarea>
+        <input matInput>
       </mat-form-field>
     </form>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-raised-button mat-dialog-close>Sair</button>
-    <button mat-raised-button mat-dialog-close>Salvar</button>
+    <button mat-raised-button mat-dialog-close color="primary">Salvar</button>
   </mat-dialog-actions>
 </div>
+<style>
+.dialog-salvar{
+  width: 400px;
+}
+.dialog-salvar form, .dialog-salvar mat-form-field{
+  width: 100%;
+}
+</style>
 

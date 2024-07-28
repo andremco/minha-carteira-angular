@@ -11,15 +11,17 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from './app-routing.module';
 import { MatButtonModule } from "@angular/material/button";
 import {  MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
 
 import { AppComponent } from './app.component';
 import { SetorComponent } from "./components/setor/setor.component";
-
+import { AcaoComponent } from "./components/acao/acao.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    SetorComponent
+    SetorComponent,
+    AcaoComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,8 @@ import { SetorComponent } from "./components/setor/setor.component";
     MatInputModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
