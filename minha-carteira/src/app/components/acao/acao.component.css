@@ -4,19 +4,19 @@
 
 .botao-salvar{
   bottom: 25px;
-  left: 92%;
+  left: 95%;
   marginLeft: -100;
   position: absolute
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 1600px) {
   .botao-salvar{
-    left: 88%;
+    left: 94%;
   }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (max-width: 850px) {
   .botao-salvar{
-    left: 95%;
+    left: 90%;
   }
 }

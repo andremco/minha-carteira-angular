@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatButtonModule } from "@angular/material/button";
 import {  MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { AppComponent } from './app.component';
 import { SetorComponent } from "./components/setor/setor.component";
@@ -36,7 +37,8 @@ import { AcaoComponent } from "./components/acao/acao.component";
     BrowserAnimationsModule,
     MatButtonModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

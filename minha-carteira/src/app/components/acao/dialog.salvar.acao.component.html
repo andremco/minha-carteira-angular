@@ -1,15 +1,15 @@
-<div class="dialog-salvar">
+<div>
   <h2 mat-dialog-title>Salvar ação</h2>
-  <mat-dialog-content class="mat-typography mdc-layout-grid">
-    <form class="mdc-layout-grid__inner">
-      <div class="mdc-layout-grid__cell">
-        <mat-form-field>
+  <mat-dialog-content class="mat-typography">
+    <form>
+      <div fxLayout="row">
+        <mat-form-field fxFlex>
           <mat-label>Razão social</mat-label>
           <input matInput>
         </mat-form-field>
       </div>
-      <div>
-        <mat-form-field>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex>
           <mat-label>Setor</mat-label>
           <mat-select>
             <mat-option value="1">Tesouro direto</mat-option>
@@ -19,17 +19,17 @@
             <mat-option value="3">Hospedagem</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field fxFlex>
           <mat-label>Ticker</mat-label>
           <input matInput>
         </mat-form-field>
       </div>
-      <div>
-        <mat-form-field>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field fxFlex>
           <mat-label>Quantidade</mat-label>
           <input matInput>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field fxFlex>
           <mat-label>Nota</mat-label>
           <input matInput>
         </mat-form-field>
@@ -41,12 +41,4 @@
     <button mat-raised-button mat-dialog-close color="primary">Salvar</button>
   </mat-dialog-actions>
 </div>
-<style>
-  .dialog-salvar{
-    width: 800px;
-  }
-  .dialog-salvar form, .dialog-salvar mat-form-field{
-    width: 100%;
-  }
-</style>
 
