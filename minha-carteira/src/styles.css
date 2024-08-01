@@ -2,3 +2,22 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.btn-criar{
+  bottom: 25px;
+  left: 95%;
+  margin-left: -100;
+  position: absolute
+}
+
+@media screen and (max-width: 1600px) {
+  .btn-criar{
+    left: 93%;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .btn-criar{
+    left: 90%;
+  }
+}

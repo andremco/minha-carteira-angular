@@ -13,16 +13,19 @@ import { MatButtonModule } from "@angular/material/button";
 import {  MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatCardModule } from "@angular/material/card";
 
 import { AppComponent } from './app.component';
 import { SetorComponent } from "./components/setor/setor.component";
 import { AcaoComponent } from "./components/acao/acao.component";
+import { CarteiraComponent } from "./components/carteira/carteira.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     SetorComponent,
-    AcaoComponent
+    AcaoComponent,
+    CarteiraComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { AcaoComponent } from "./components/acao/acao.component";
     MatButtonModule,
     MatTableModule,
     MatPaginatorModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,32 @@
+<div class="stock-cards-container">
+  <mat-card *ngFor="let acao of acoes" class="stock-card">
+    <mat-card-header>
+      <mat-card-title>{{ acao.razaoSocial }}</mat-card-title>
+      <mat-card-subtitle>{{ acao.ticker }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxLayout="row">
+        <div fxFlex>
+          <span>{{ acao.precoDinamico | currency:'BRL' }}</span>
+        </div>
+        <div fxFlex>
+          <span>{{ acao.quantidade }}</span>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex>{{ acao.quantidade * acao.precoDinamico | currency: 'BRL' }}</div>
+        <div fxFlex>{{ acao.lucroOuPerda }}</div>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <div fxLayout="row">
+        <div fxFlex [style.margin-left]="'15px'" [style.margin-top]="'5px'">
+          <span>{{ acao.comprarOuAguardar }}</span>
+        </div>
+        <div fxFlex [style.text-align]="'right'">
+          <button [style.margin-right]="'5px'" mat-button color="primary">Ver +</button>
+        </div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>

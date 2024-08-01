@@ -1,0 +1,11 @@
+.stock-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+}
+
+.stock-card {
+  width: 350px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
