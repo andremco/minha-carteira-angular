@@ -1,5 +1,18 @@
-<div class="stock-cards-container">
-  <mat-card *ngFor="let acao of acoes" class="stock-card">
+<div fxLayout="row" [style.padding-top]="'10px'">
+  <div fxFlex>
+    <section class="mat-typography" [style.padding-left]="'20px'">
+      <h4>Total aporte: R$ 20.000.000,20</h4>
+    </section>
+  </div>
+  <div fxFlex [style.text-align]="'center'">
+    <h4>Investimento ajustado: R$ 28.152.086,78</h4>
+  </div>
+  <div fxFlex [style.text-align]="'right'" [style.padding-right]="'50px'">
+    <h4>Lucro/Perda: R$ 8.152.086,78</h4>
+  </div>
+</div>
+<div class="acao-cards-container">
+  <mat-card *ngFor="let acao of acoes" class="acao-card">
     <mat-card-header>
       <mat-card-title>{{ acao.razaoSocial }}</mat-card-title>
       <mat-card-subtitle>{{ acao.ticker }}</mat-card-subtitle>
@@ -15,16 +28,16 @@
       </div>
       <div fxLayout="row">
         <div fxFlex>{{ acao.quantidade * acao.precoDinamico | currency: 'BRL' }}</div>
-        <div fxFlex>{{ acao.lucroOuPerda }}</div>
+        <div fxFlex [ngClass]="acao.lucroOuPerda === 'Lucro' ? 'sinalizar-compra' : 'sinalizar-perda'">{{ acao.lucroOuPerda }}</div>
       </div>
     </mat-card-content>
     <mat-card-footer>
       <div fxLayout="row">
         <div fxFlex [style.margin-left]="'15px'" [style.margin-top]="'5px'">
-          <span>{{ acao.comprarOuAguardar }}</span>
+          <span [ngClass]="acao.comprarOuAguardar === 'Comprar' ? 'sinalizar-compra' : 'sinalizar-espera'">{{ acao.comprarOuAguardar }}</span>
         </div>
         <div fxFlex [style.text-align]="'right'">
-          <button [style.margin-right]="'5px'" mat-button color="primary">Ver +</button>
+          <button [style.margin-right]="'5px'" [style.margin-bottom]="'2px'" mat-button color="primary">Ver +</button>
         </div>
       </div>
     </mat-card-footer>

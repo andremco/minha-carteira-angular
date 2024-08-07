@@ -16,6 +16,8 @@ $minha-carteira-primary: mat.define-palette(mat.$green-palette, 600);
 $minha-carteira-accent: mat.define-palette(mat.$green-palette, 200);
 $minha-carteira-basic: mat.define-palette(mat.$grey-palette, 400);
 
+$my-typography: mat.define-typography-config();
+
 // The warn palette is optional (defaults to red).
 $minha-carteira-warn: mat.define-palette(mat.$red-palette);
 
@@ -37,3 +39,4 @@ $minha-carteira-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($minha-carteira-theme);
 
+@include mat.typography-hierarchy($my-typography);

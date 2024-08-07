@@ -21,7 +21,7 @@ export interface Acao {
 })
 export class CarteiraComponent implements OnInit {
   acoes: Acao[] = [   // Adicione mais ações conforme necessário
-    {id: 1, setorId: 3, setorDescricao: 'Banco', razaoSocial: 'Banco do Brasil', ticker: 'BBS3', quantidade: 100, nota: 9, dataRegistro: '10/07/2024', precoDinamico: 35.62, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
+    {id: 1, setorId: 3, setorDescricao: 'Banco', razaoSocial: 'Banco do Brasil', ticker: 'BBS3', quantidade: 100, nota: 9, dataRegistro: '10/07/2024', precoDinamico: 35.62, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
   ];
 
   constructor() { }

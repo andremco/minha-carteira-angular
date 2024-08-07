@@ -1,11 +1,23 @@
-.stock-cards-container {
+.acao-cards-container {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  padding: 16px;
+  padding: 0 16px 16px;
 }
 
-.stock-card {
+.acao-card {
   width: 350px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.sinalizar-compra{
+  color: #33cc33
+}
+
+.sinalizar-espera{
+  color: hsl(60, 100%, 44%)
+}
+
+.sinalizar-perda{
+  color: #e60000
 }
