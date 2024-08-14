@@ -14,18 +14,24 @@ import {  MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatCardModule } from "@angular/material/card";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 import { AppComponent } from './app.component';
 import { SetorComponent } from "./components/setor/setor.component";
 import { AcaoComponent } from "./components/acao/acao.component";
 import { CarteiraComponent } from "./components/carteira/carteira.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {TableListComponent} from "./components/table-list/table-list.component";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SetorComponent,
     AcaoComponent,
-    CarteiraComponent
+    CarteiraComponent,
+    DashboardComponent,
+    TableListComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +48,8 @@ import { CarteiraComponent } from "./components/carteira/carteira.component";
     MatTableModule,
     MatPaginatorModule,
     FlexLayoutModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

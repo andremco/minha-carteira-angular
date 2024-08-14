@@ -25,18 +25,25 @@
               "src/assets"
             ],
             "styles": [
-              "src/custom-theme.scss",
-              "src/styles.css"
+              "src/assets/scss/material-dashboard.scss",
+              "src/assets/scss/custom-theme.scss",
+              "src/assets/css/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+              "node_modules/chartist/dist/chartist.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "chartist"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -85,9 +92,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/assets/scss/material-dashboard.scss",
+              "src/assets/scss/custom-theme.scss",
+              "src/assets/css/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+              "node_modules/chartist/dist/chartist.js"
+            ]
           }
         }
       }
