@@ -1,14 +1,87 @@
-<div fxLayout="row" [style.padding-top]="'10px'">
-  <div fxFlex>
-    <section class="mat-typography" [style.padding-left]="'20px'">
-      <h4>Total aporte: R$ 20.000.000,20</h4>
-    </section>
-  </div>
-  <div fxFlex [style.text-align]="'center'">
-    <h4>Investimento ajustado: R$ 28.152.086,78</h4>
-  </div>
-  <div fxFlex [style.text-align]="'right'" [style.padding-right]="'50px'">
-    <h4>Lucro/Perda: R$ 8.152.086,78</h4>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">account_balance_wallet</i>
+            </div>
+            <p class="card-category">Total aporte</p>
+            <h3 class="card-title">
+              R$ 20.000.000,20
+            </h3>
+          </div>
+          <div [style.margin-bottom]="'25px'"></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">candlestick_chart</i>
+            </div>
+            <p class="card-category">Investimento ajustado</p>
+            <h3 class="card-title">
+              R$ 28.152.086,78
+            </h3>
+          </div>
+          <div [style.margin-bottom]="'25px'"></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">trending_up</i>
+              <i class="material-icons">trending_down</i>
+            </div>
+            <p class="card-category">Lucro/Perda</p>
+            <h3 class="card-title">
+              R$ 8.152.086,78
+            </h3>
+          </div>
+          <div [style.margin-bottom]="'25px'"></div>
+        </div>
+      </div>
+      <div class="col-lg-4" *ngFor="let acao of acoes">
+        <div class="card card-chart">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-12">
+                <h4 class="card-title">{{ acao.razaoSocial }}</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <p class="card-category">{{ acao.ticker }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <span>{{ acao.precoDinamico | currency:'BRL' }}</span>
+              </div>
+              <div class="col-lg-6">
+                <p class="card-category">{{ acao.quantidade }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <span>{{ acao.quantidade * acao.precoDinamico | currency: 'BRL' }}</span>
+              </div>
+              <div class="col-lg-6">
+                <span [ngClass]="acao.lucroOuPerda === 'Lucro' ? 'sinalizar-compra' : 'sinalizar-perda'">{{ acao.lucroOuPerda }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">access_time</i> campaign sent 2 days ago
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="acao-cards-container">
