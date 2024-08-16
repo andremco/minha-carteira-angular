@@ -21,3 +21,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     left: 90%;
   }
 }
+
+.tim-typo{
+  position: relative;
+  width: 100%;
+  margin-left: 15px;
+}
+.tim-typo .tim-note{
+  bottom: 5px;
+  color: #c0c1c2;
+  display: block;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  left: 0;
+  margin-left: 20px;
+  position: absolute;
+  width: 260px;
+}

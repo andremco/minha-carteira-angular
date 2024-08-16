@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-sm-4">
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
             <div class="card-icon">
@@ -9,13 +9,13 @@
             </div>
             <p class="card-category">Total aporte</p>
             <h3 class="card-title">
-              R$ 20.000.000,20
+              {{ totalAporte | currency:'BRL'  }}
             </h3>
           </div>
           <div [style.margin-bottom]="'25px'"></div>
         </div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-sm-4">
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
             <div class="card-icon">
@@ -23,96 +23,79 @@
             </div>
             <p class="card-category">Investimento ajustado</p>
             <h3 class="card-title">
-              R$ 28.152.086,78
+              {{ investAjustado | currency:'BRL'  }}
             </h3>
           </div>
           <div [style.margin-bottom]="'25px'"></div>
         </div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-sm-4">
         <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
+          <div class="card-header card-header-icon"
+               [ngClass]="lucroPerda > 0 ? 'card-header-success' : 'card-header-danger'"
+          >
             <div class="card-icon">
-              <i class="material-icons">trending_up</i>
-              <i class="material-icons">trending_down</i>
+              <i class="material-icons" *ngIf="lucroPerda > 0">trending_up</i>
+              <i class="material-icons" *ngIf="lucroPerda <= 0">trending_down</i>
             </div>
-            <p class="card-category">Lucro/Perda</p>
+            <p class="card-category" [innerHTML]="lucroPerda > 0 ? 'Lucro' : 'Perda'"></p>
             <h3 class="card-title">
-              R$ 8.152.086,78
+              {{ lucroPerda | currency:'BRL'  }}
             </h3>
           </div>
           <div [style.margin-bottom]="'25px'"></div>
         </div>
       </div>
-      <div class="col-lg-4" *ngFor="let acao of acoes">
+      <div class="tim-typo">
+        <h2>
+          Ações
+        </h2>
+      </div>
+      <div class="col-sm-4" *ngFor="let acao of acoes">
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
-              <div class="col-lg-12">
+              <div class="col-sm-12">
                 <h4 class="card-title">{{ acao.razaoSocial }}</h4>
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-12">
+              <div class="col-sm-12">
                 <p class="card-category">{{ acao.ticker }}</p>
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-sm-6">
                 <span>{{ acao.precoDinamico | currency:'BRL' }}</span>
               </div>
-              <div class="col-lg-6">
+              <div class="col-sm-6">
                 <p class="card-category">{{ acao.quantidade }}</p>
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-sm-6">
                 <span>{{ acao.quantidade * acao.precoDinamico | currency: 'BRL' }}</span>
               </div>
-              <div class="col-lg-6">
+              <div class="col-sm-6">
                 <span [ngClass]="acao.lucroOuPerda === 'Lucro' ? 'sinalizar-compra' : 'sinalizar-perda'">{{ acao.lucroOuPerda }}</span>
               </div>
             </div>
           </div>
           <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons">access_time</i> campaign sent 2 days ago
-            </div>
+              <div class="col-sm-6" [style.padding-left]="'0'">
+                <span [ngClass]="acao.comprarOuAguardar === 'Comprar' ? 'sinalizar-compra' : 'sinalizar-espera'">{{ acao.comprarOuAguardar }}</span>
+              </div>
+              <div class="col-sm-6 verMais">
+                <button mat-button color="primary">Ver +</button>
+              </div>
           </div>
         </div>
       </div>
+      <div class="tim-typo">
+        <h2>
+          Título público
+        </h2>
+      </div>
     </div>
   </div>
-</div>
-<div class="acao-cards-container">
-  <mat-card *ngFor="let acao of acoes" class="acao-card">
-    <mat-card-header>
-      <mat-card-title>{{ acao.razaoSocial }}</mat-card-title>
-      <mat-card-subtitle>{{ acao.ticker }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div fxLayout="row">
-        <div fxFlex>
-          <span>{{ acao.precoDinamico | currency:'BRL' }}</span>
-        </div>
-        <div fxFlex>
-          <span>{{ acao.quantidade }}</span>
-        </div>
-      </div>
-      <div fxLayout="row">
-        <div fxFlex>{{ acao.quantidade * acao.precoDinamico | currency: 'BRL' }}</div>
-        <div fxFlex [ngClass]="acao.lucroOuPerda === 'Lucro' ? 'sinalizar-compra' : 'sinalizar-perda'">{{ acao.lucroOuPerda }}</div>
-      </div>
-    </mat-card-content>
-    <mat-card-footer>
-      <div fxLayout="row">
-        <div fxFlex [style.margin-left]="'15px'" [style.margin-top]="'5px'">
-          <span [ngClass]="acao.comprarOuAguardar === 'Comprar' ? 'sinalizar-compra' : 'sinalizar-espera'">{{ acao.comprarOuAguardar }}</span>
-        </div>
-        <div fxFlex [style.text-align]="'right'">
-          <button [style.margin-right]="'5px'" [style.margin-bottom]="'2px'" mat-button color="primary">Ver +</button>
-        </div>
-      </div>
-    </mat-card-footer>
-  </mat-card>
 </div>

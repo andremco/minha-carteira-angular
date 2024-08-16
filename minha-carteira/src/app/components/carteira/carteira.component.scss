@@ -1,3 +1,5 @@
+@import "../../../assets/scss/core/variables/colors";
+
 .acao-cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -11,13 +13,21 @@
 }
 
 .sinalizar-compra{
-  color: #33cc33
+  padding-left: 0;
+  color: $green-300;
 }
 
 .sinalizar-espera{
-  color: hsl(60, 100%, 44%)
+  padding-left: 0;
+  color: $orange-300;
 }
 
 .sinalizar-perda{
   color: #e60000
+}
+
+.verMais{
+  display:flex;
+  justify-content: flex-end;
+  padding-right: 0;
 }

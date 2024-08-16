@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +26,7 @@ import { CarteiraComponent } from "./components/carteira/carteira.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {TableListComponent} from "./components/table-list/table-list.component";
 
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -51,7 +55,18 @@ import {TableListComponent} from "./components/table-list/table-list.component";
     MatCardModule,
     MatTooltipModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: LOCALE_ID,
+      useValue: "pt-BR"
+    },
+    /* if you don't provide the currency symbol in the pipe,
+      this is going to be the default symbol (R$) ... */
+    {
+      provide:  DEFAULT_CURRENCY_CODE,
+      useValue: 'BRL'
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
