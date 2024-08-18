@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-6 col-lg-4">
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
             <div class="card-icon">
@@ -15,7 +15,7 @@
           <div [style.margin-bottom]="'25px'"></div>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-6 col-lg-4">
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
             <div class="card-icon">
@@ -29,7 +29,7 @@
           <div [style.margin-bottom]="'25px'"></div>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-3 col-lg-4">
         <div class="card card-stats">
           <div class="card-header card-header-icon"
                [ngClass]="lucroPerda > 0 ? 'card-header-success' : 'card-header-danger'"
@@ -48,10 +48,55 @@
       </div>
       <div class="tim-typo">
         <h2>
+          Título público
+        </h2>
+      </div>
+      <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let titulo of titulosPublico">
+        <div class="card card-chart">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4 class="card-title">{{ titulo.descricao }}</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <p class="card-category">Tesouro direto</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <span>{{ titulo.precoAjustado | currency:'BRL' }}</span>
+              </div>
+              <div class="col-sm-6">
+                <p class="card-category">{{ titulo.quantidade }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <span>{{ titulo.quantidade * titulo.precoAjustado | currency: 'BRL' }}</span>
+              </div>
+              <div class="col-sm-6">
+                <span [ngClass]="titulo.lucroOuPerda === 'Lucro' ? 'sinalizar-compra' : 'sinalizar-perda'">{{ titulo.lucroOuPerda }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-sm-6" [style.padding-left]="'0'">
+              <span [ngClass]="titulo.comprarOuAguardar === 'Comprar' ? 'sinalizar-compra' : 'sinalizar-espera'">{{ titulo.comprarOuAguardar }}</span>
+            </div>
+            <div class="col-sm-6 verMais">
+              <button mat-button color="primary" (click)="openDialog()">Ver +</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tim-typo">
+        <h2>
           Ações
         </h2>
       </div>
-      <div class="col-sm-4" *ngFor="let acao of acoes">
+      <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let acao of acoes">
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
@@ -86,15 +131,10 @@
                 <span [ngClass]="acao.comprarOuAguardar === 'Comprar' ? 'sinalizar-compra' : 'sinalizar-espera'">{{ acao.comprarOuAguardar }}</span>
               </div>
               <div class="col-sm-6 verMais">
-                <button mat-button color="primary">Ver +</button>
+                <button mat-button color="primary" (click)="openDialog()">Ver +</button>
               </div>
           </div>
         </div>
-      </div>
-      <div class="tim-typo">
-        <h2>
-          Título público
-        </h2>
       </div>
     </div>
   </div>

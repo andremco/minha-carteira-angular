@@ -161,3 +161,7 @@ main {
     margin-block: 1.5rem;
   }
 }
+
+.carteira:hover{
+  cursor: pointer;
+}

@@ -7,9 +7,9 @@
       <mat-menu #menu="matMenu">
         <button mat-menu-item [routerLink]="['/setor']">Setor</button>
         <button mat-menu-item [routerLink]="['/acao']">Ação</button>
-        <button mat-menu-item [routerLink]="['/']">Título público</button>
+        <button mat-menu-item>Título público</button>
       </mat-menu>
-      <span>Minha carteira</span>
+      <span (click)="changetab()" class="carteira">Minha carteira</span>
       <span class="example-spacer"></span>
     </mat-toolbar>
   </p>
