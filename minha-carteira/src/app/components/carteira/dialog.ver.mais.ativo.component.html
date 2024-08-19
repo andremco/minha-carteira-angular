@@ -1,4 +1,27 @@
-<div class="main-content">
+<!--
+Campos editáveis ações
+Setor
+RazaoSocial
+Ticker
+Nota
+
+Campos visualização ações
+Quantidade
+Na carteira desde de (data do primeiro aporte realizado)
+
+
+Campos editáveis títulos público
+Setor
+Descricao
+PrecoAjustado
+Nota
+
+Campos visualização títulos público
+Quantidade
+Na carteira desde de (data do primeiro aporte realizado)
+
+-->
+<div class="main-content" [style.width]="'800px'">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -10,13 +33,19 @@
           <div class="card-body">
             <form>
               <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field>
-                    <input matInput placeholder="Company (disabled)" disabled value="teste">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Preço ajustado</mat-label>
+                    <input matInput value="56,21">
                   </mat-form-field>
                 </div>
+                <div class="col-md-12">
+                </div>
               </div>
-              <button mat-raised-button type="submit" class="btn pull-right" mat-dialog-close>Fechar</button>
+              <div class="pull-right">
+                <button mat-raised-button type="submit" class="btn" mat-dialog-close [style.margin-right]="'5px'">Fechar</button>
+                <button mat-raised-button type="submit" color="primary" mat-dialog-close>Editar</button>
+              </div>
               <div class="clearfix"></div>
             </form>
           </div>

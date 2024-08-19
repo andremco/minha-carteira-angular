@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {DialogVerMaisAtivoComponent} from "./dialog.ver.mais.ativo.component";
 
 export interface Acao {
@@ -32,7 +32,7 @@ export interface TituloPublico {
 @Component({
   selector: 'carteira',
   templateUrl: './carteira.component.html',
-  styleUrls: ['./carteira.component.scss']
+  styleUrls: ['./carteira.component.scss'],
 })
 export class CarteiraComponent implements OnInit {
 
