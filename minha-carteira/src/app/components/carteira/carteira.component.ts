@@ -52,9 +52,9 @@ export class CarteiraComponent implements OnInit {
   ];
 
   titulosPublico: TituloPublico[] = [
-    {id: 1, setorId: 9, setorDescricao: 'Titulo Público', descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: '10/09/2024', precoAjustado: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
-    {id: 2, setorId: 9, setorDescricao: 'Titulo Público', descricao: 'Tesouro Prefixado 2025', quantidade: 74, nota: 6, dataRegistro: '08/10/2024', precoAjustado: 37.31, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
-    {id: 3, setorId: 9, setorDescricao: 'Titulo Público', descricao: 'Tesouro Prefixado 2026', quantidade: 33, nota: 6, dataRegistro: '01/11/2024', precoAjustado: 37.73, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
+    {id: 1, setorId: 9, setorDescricao: 'Tesouro direto', descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: '10/09/2024', precoAjustado: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
+    {id: 2, setorId: 9, setorDescricao: 'Tesouro direto', descricao: 'Tesouro Prefixado 2025', quantidade: 74, nota: 6, dataRegistro: '08/10/2024', precoAjustado: 37.31, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
+    {id: 3, setorId: 9, setorDescricao: 'Tesouro direto', descricao: 'Tesouro Prefixado 2026', quantidade: 33, nota: 6, dataRegistro: '01/11/2024', precoAjustado: 37.73, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
   ]
 
   constructor() { }
@@ -62,8 +62,10 @@ export class CarteiraComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogVerMaisAtivoComponent);
+  openDialog(ativo : any) {
+    const dialogRef = this.dialog.open(DialogVerMaisAtivoComponent, {
+      data: ativo
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);

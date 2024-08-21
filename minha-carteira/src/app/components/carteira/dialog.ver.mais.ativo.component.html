@@ -26,25 +26,51 @@ Na carteira desde de (data do primeiro aporte realizado)
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header card-header-success">
+          <div class="card-header" [ngClass]="{'card-header-success': lucro, 'card-header-danger': !lucro}">
             <h4 class="card-title">Tesouro Prefixado 2025</h4>
             <p class="card-category">Título público</p>
           </div>
           <div class="card-body">
             <form>
               <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput value="Tesouro IPCA+ 2045">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-4">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
+                    <mat-label>Setor</mat-label>
+                    <mat-select [(value)]="setorId">
+                      <mat-option value="1">Tesouro direto</mat-option>
+                      <mat-option value="2">Fundo Imobiliário</mat-option>
+                      <mat-option value="3">Banco</mat-option>
+                      <mat-option value="4">Seguradora</mat-option>
+                      <mat-option value="5">Hospedagem</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
                     <mat-label>Preço ajustado</mat-label>
                     <input matInput value="56,21">
                   </mat-form-field>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-4">
+                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
+                    <mat-label>Nota</mat-label>
+                    <input matInput value="9">
+                  </mat-form-field>
                 </div>
               </div>
+              <div class="row">
+              </div>
               <div class="pull-right">
-                <button mat-raised-button type="submit" class="btn" mat-dialog-close [style.margin-right]="'5px'">Fechar</button>
-                <button mat-raised-button type="submit" color="primary" mat-dialog-close>Editar</button>
+                <button mat-raised-button mat-dialog-close [style.margin-right]="'5px'">Fechar</button>
+                <button mat-raised-button mat-dialog-close type="submit" [color]="lucro ? 'primary' : 'warn'">Editar</button>
               </div>
               <div class="clearfix"></div>
             </form>

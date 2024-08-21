@@ -61,10 +61,13 @@
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <p class="card-category">Tesouro direto</p>
+                <p [ngClass]="{
+                'sinalizar-compra': titulo.comprarOuAguardar === 'Comprar',
+                'sinalizar-espera': titulo.comprarOuAguardar === 'Aguardar'
+                }">{{ titulo.setorDescricao }}</p>
               </div>
             </div>
-            <div class="row">
+            <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
                 <span>{{ titulo.precoAjustado | currency:'BRL' }}</span>
               </div>
@@ -77,16 +80,22 @@
                 <span>{{ titulo.quantidade * titulo.precoAjustado | currency: 'BRL' }}</span>
               </div>
               <div class="col-sm-6">
-                <span [ngClass]="titulo.lucroOuPerda === 'Lucro' ? 'sinalizar-compra' : 'sinalizar-perda'">{{ titulo.lucroOuPerda }}</span>
+                <span [ngClass]="{
+                'sinalizar-compra': titulo.lucroOuPerda === 'Lucro',
+                'sinalizar-perda': titulo.lucroOuPerda === 'Perda'
+                }">{{ titulo.lucroOuPerda }}</span>
               </div>
             </div>
           </div>
           <div class="card-footer">
             <div class="col-sm-6" [style.padding-left]="'0'">
-              <span [ngClass]="titulo.comprarOuAguardar === 'Comprar' ? 'sinalizar-compra' : 'sinalizar-espera'">{{ titulo.comprarOuAguardar }}</span>
+              <span [ngClass]="{
+                'sinalizar-compra': titulo.comprarOuAguardar === 'Comprar',
+                'sinalizar-espera': titulo.comprarOuAguardar === 'Aguardar'
+                }">{{ titulo.comprarOuAguardar }}</span>
             </div>
             <div class="col-sm-6 verMais">
-              <button mat-button color="primary" (click)="openDialog()">Ver +</button>
+              <button mat-button [color]="titulo.lucroOuPerda === 'Lucro' ? 'primary' : 'warn'" (click)="openDialog(titulo)">Ver +</button>
             </div>
           </div>
         </div>
@@ -106,10 +115,13 @@
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <p class="card-category">{{ acao.ticker }}</p>
+                <p [ngClass]="{
+                'sinalizar-compra': acao.comprarOuAguardar === 'Comprar',
+                'sinalizar-espera': acao.comprarOuAguardar === 'Aguardar'
+                }">{{ acao.ticker }}</p>
               </div>
             </div>
-            <div class="row">
+            <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
                 <span>{{ acao.precoDinamico | currency:'BRL' }}</span>
               </div>
@@ -122,16 +134,22 @@
                 <span>{{ acao.quantidade * acao.precoDinamico | currency: 'BRL' }}</span>
               </div>
               <div class="col-sm-6">
-                <span [ngClass]="acao.lucroOuPerda === 'Lucro' ? 'sinalizar-compra' : 'sinalizar-perda'">{{ acao.lucroOuPerda }}</span>
+                <span [ngClass]="{
+                'sinalizar-compra': acao.lucroOuPerda === 'Lucro',
+                'sinalizar-perda': acao.lucroOuPerda === 'Perda'
+                }">{{ acao.lucroOuPerda }}</span>
               </div>
             </div>
           </div>
           <div class="card-footer">
               <div class="col-sm-6" [style.padding-left]="'0'">
-                <span [ngClass]="acao.comprarOuAguardar === 'Comprar' ? 'sinalizar-compra' : 'sinalizar-espera'">{{ acao.comprarOuAguardar }}</span>
+                <span [ngClass]="{
+                'sinalizar-compra': acao.comprarOuAguardar === 'Comprar',
+                'sinalizar-espera': acao.comprarOuAguardar === 'Aguardar'
+                }">{{ acao.comprarOuAguardar }}</span>
               </div>
               <div class="col-sm-6 verMais">
-                <button mat-button color="primary" (click)="openDialog()">Ver +</button>
+                <button mat-button [color]="acao.lucroOuPerda === 'Lucro' ? 'primary' : 'warn'" (click)="openDialog(acao)">Ver +</button>
               </div>
           </div>
         </div>

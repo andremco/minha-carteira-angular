@@ -15,11 +15,13 @@
 .sinalizar-compra{
   padding-left: 0;
   color: $green-300;
+  margin-bottom: 0;
 }
 
 .sinalizar-espera{
   padding-left: 0;
   color: $orange-300;
+  margin-bottom: 0;
 }
 
 .sinalizar-perda{
@@ -30,4 +32,8 @@
   display:flex;
   justify-content: flex-end;
   padding-right: 0;
+}
+
+.card-chart {
+  margin-top: 5px;
 }
