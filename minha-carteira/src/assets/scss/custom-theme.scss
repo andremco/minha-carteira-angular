@@ -14,12 +14,11 @@
 // hue. Available color palettes: https://material.io/design/color/
 $minha-carteira-primary: mat.define-palette(mat.$green-palette, 600);
 $minha-carteira-accent: mat.define-palette(mat.$green-palette, 200);
-$minha-carteira-basic: mat.define-palette(mat.$grey-palette, 400);
 
 $my-typography: mat.define-typography-config();
 
 // The warn palette is optional (defaults to red).
-$minha-carteira-warn: mat.define-palette(mat.$red-palette);
+$minha-carteira-warn: mat.define-palette(mat.$orange-palette, 300);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -28,7 +27,6 @@ $minha-carteira-theme: mat.define-light-theme((
     primary: $minha-carteira-primary,
     accent: $minha-carteira-accent,
     warn: $minha-carteira-warn,
-    basic: $minha-carteira-basic
   ),
   typography: mat.define-typography-config(),
   density: 0

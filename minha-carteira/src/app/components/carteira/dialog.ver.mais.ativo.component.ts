@@ -21,7 +21,7 @@ import { CommonModule } from "@angular/common"
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogVerMaisAtivoComponent {
-  public lucro : boolean = false;
+  public comprar : boolean = false;
   public ativo : any;
   public setorId : string = '0'
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
@@ -29,7 +29,7 @@ export class DialogVerMaisAtivoComponent {
   }
 
   ngOnInit() {
-    this.lucro = this.ativo?.lucroOuPerda === 'Lucro';
+    this.comprar = this.ativo?.comprarOuAguardar === 'Comprar';
     this.setorId = '5' // Banco
   }
 }

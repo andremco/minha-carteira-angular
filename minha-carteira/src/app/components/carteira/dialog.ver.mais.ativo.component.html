@@ -9,16 +9,8 @@ Campos visualização ações
 Quantidade
 Na carteira desde de (data do primeiro aporte realizado)
 
-
-Campos editáveis títulos público
-Setor
-Descricao
-PrecoAjustado
-Nota
-
 Campos visualização títulos público
 Quantidade
-Na carteira desde de (data do primeiro aporte realizado)
 
 -->
 <div class="main-content" [style.width]="'800px'">
@@ -26,23 +18,24 @@ Na carteira desde de (data do primeiro aporte realizado)
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-          <div class="card-header" [ngClass]="{'card-header-success': lucro, 'card-header-danger': !lucro}">
-            <h4 class="card-title">Tesouro Prefixado 2025</h4>
-            <p class="card-category">Título público</p>
+          <div class="card-header" [ngClass]="{'card-header-success': comprar, 'card-header-warning': !comprar}">
+            <div class="row">
+              <div class="col-md-6">
+                <h4 class="card-title">Tesouro Prefixado 2025</h4>
+                <p class="card-category">Título público</p>
+              </div>
+              <div class="col-md-6">
+                <span class="pull-right">
+                  <p class="card-category" [style.margin-top]="'50px'">Na carteira desde {{ ativo.dataRegistro | date : "MMMM y" }}</p>
+                </span>
+              </div>
+            </div>
           </div>
           <div class="card-body">
             <form>
               <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
-                    <mat-label>Descrição</mat-label>
-                    <input matInput value="Tesouro IPCA+ 2045">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
+                <div class="col-md-5">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Setor</mat-label>
                     <mat-select [(value)]="setorId">
                       <mat-option value="1">Tesouro direto</mat-option>
@@ -53,24 +46,82 @@ Na carteira desde de (data do primeiro aporte realizado)
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-md-4">
-                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
-                    <mat-label>Preço ajustado</mat-label>
-                    <input matInput value="56,21">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                  <mat-form-field [color]="lucro ? 'primary' : 'warn'">
-                    <mat-label>Nota</mat-label>
-                    <input matInput value="9">
+                <div class="col-md-7">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput value="Tesouro IPCA+ 2045">
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Preço ajustado</mat-label>
+                    <input matInput value="R$ 56,21">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Nota</mat-label>
+                    <input matInput value="9">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Quantidade</mat-label>
+                    <input matInput value="20" readonly>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
+                    <!--Preço / Quanto Falta-->
+                    <mat-label>Quantidade que Falta</mat-label>
+                    <input matInput value="10" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
+                    <!--Quantidade * Preço-->
+                    <mat-label>Tenho</mat-label>
+                    <input matInput value="R$ 750" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
+                    <!--Nota do ativo / soma de todas as notas da carteira-->
+                    <mat-label>Carteira Ideal</mat-label>
+                    <input matInput value="2,50%" readonly>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
+                    <!--Tenho - Quero-->
+                    <mat-label>Quanto que Falta</mat-label>
+                    <input matInput value="R$ 150,33" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
+                    <!--Tenho / Investimento ajustado-->
+                    <mat-label>Carteira Tenho</mat-label>
+                    <input matInput value="1,84%" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
+                    <!--Carteira Ideal * Total Aporte-->
+                    <mat-label>Quero</mat-label>
+                    <input matInput value="R$ 900,25" readonly>
+                  </mat-form-field>
+                </div>
               </div>
               <div class="pull-right">
                 <button mat-raised-button mat-dialog-close [style.margin-right]="'5px'">Fechar</button>
-                <button mat-raised-button mat-dialog-close type="submit" [color]="lucro ? 'primary' : 'warn'">Editar</button>
+                <button mat-raised-button mat-dialog-close type="submit" [color]="comprar ? 'primary' : 'warn'">Editar</button>
               </div>
               <div class="clearfix"></div>
             </form>

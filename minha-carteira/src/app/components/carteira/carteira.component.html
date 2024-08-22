@@ -95,7 +95,7 @@
                 }">{{ titulo.comprarOuAguardar }}</span>
             </div>
             <div class="col-sm-6 verMais">
-              <button mat-button [color]="titulo.lucroOuPerda === 'Lucro' ? 'primary' : 'warn'" (click)="openDialog(titulo)">Ver +</button>
+              <button mat-button [color]="titulo.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(titulo)">Ver +</button>
             </div>
           </div>
         </div>
@@ -149,7 +149,7 @@
                 }">{{ acao.comprarOuAguardar }}</span>
               </div>
               <div class="col-sm-6 verMais">
-                <button mat-button [color]="acao.lucroOuPerda === 'Lucro' ? 'primary' : 'warn'" (click)="openDialog(acao)">Ver +</button>
+                <button mat-button [color]="acao.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(acao)">Ver +</button>
               </div>
           </div>
         </div>
