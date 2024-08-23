@@ -46,113 +46,23 @@
           <div [style.margin-bottom]="'25px'"></div>
         </div>
       </div>
-      <div class="tim-typo">
-        <h2>
-          Títulos público
+      <div class="col-sm-4">
+        <h2 [style.text-align]="'center'">
+          Setores
         </h2>
+        <div id="setores-chart" style="height: 60vh"></div>
       </div>
-      <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let titulo of titulosPublico">
-        <div class="card card-chart">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-12">
-                <h4 class="card-title">{{ titulo.descricao }}</h4>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p [ngClass]="{
-                'sinalizar-compra': titulo.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': titulo.comprarOuAguardar === 'Aguardar'
-                }">{{ titulo.setorDescricao }}</p>
-              </div>
-            </div>
-            <div class="row" [style.margin-top]="'15px'">
-              <div class="col-sm-6">
-                <span>{{ titulo.precoAjustado | currency:'BRL' }}</span>
-              </div>
-              <div class="col-sm-6">
-                <p class="card-category">{{ titulo.quantidade }}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <span>{{ titulo?.quantidade! * titulo?.precoAjustado! | currency: 'BRL' }}</span>
-              </div>
-              <div class="col-sm-6">
-                <span [ngClass]="{
-                'sinalizar-compra': titulo.lucroOuPerda === 'Lucro',
-                'sinalizar-perda': titulo.lucroOuPerda === 'Perda'
-                }">{{ titulo.lucroOuPerda }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="col-sm-6" [style.padding-left]="'0'">
-              <span [ngClass]="{
-                'sinalizar-compra': titulo.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': titulo.comprarOuAguardar === 'Aguardar'
-                }">{{ titulo.comprarOuAguardar }}</span>
-            </div>
-            <div class="col-sm-6 verMais">
-              <button mat-button [color]="titulo.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(titulo, TipoAtivo.TituloPublico)">Ver +</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tim-typo">
-        <h2>
-          Ações
+      <div class="col-sm-4">
+        <h2 [style.text-align]="'center'">
+          Ativos
         </h2>
+        <div id="ativos-chart" style="height: 60vh"></div>
       </div>
-      <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let acao of acoes">
-        <div class="card card-chart">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-12">
-                <h4 class="card-title">{{ acao.razaoSocial }}</h4>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p [ngClass]="{
-                'sinalizar-compra': acao.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': acao.comprarOuAguardar === 'Aguardar'
-                }">{{ acao.ticker }}</p>
-              </div>
-            </div>
-            <div class="row" [style.margin-top]="'15px'">
-              <div class="col-sm-6">
-                <span>{{ acao.precoDinamico | currency:'BRL' }}</span>
-              </div>
-              <div class="col-sm-6">
-                <p class="card-category">{{ acao.quantidade }}</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <span>{{ acao?.quantidade! * acao?.precoDinamico! | currency: 'BRL' }}</span>
-              </div>
-              <div class="col-sm-6">
-                <span [ngClass]="{
-                'sinalizar-compra': acao.lucroOuPerda === 'Lucro',
-                'sinalizar-perda': acao.lucroOuPerda === 'Perda'
-                }">{{ acao.lucroOuPerda }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-              <div class="col-sm-6" [style.padding-left]="'0'">
-                <span [ngClass]="{
-                'sinalizar-compra': acao.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': acao.comprarOuAguardar === 'Aguardar'
-                }">{{ acao.comprarOuAguardar }}</span>
-              </div>
-              <div class="col-sm-6 verMais">
-                <button mat-button [color]="acao.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(acao, TipoAtivo.Acao)">Ver +</button>
-              </div>
-          </div>
-        </div>
+      <div class="col-sm-4">
+        <h2 [style.text-align]="'center'">
+          Aumentar posições nos setores
+        </h2>
+        <div id="quero-setores-chart" style="height: 60vh"></div>
       </div>
     </div>
   </div>

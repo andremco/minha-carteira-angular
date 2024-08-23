@@ -5,11 +5,16 @@ import { AcaoComponent } from "./components/acao/acao.component";
 import { CarteiraComponent } from "./components/carteira/carteira.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {TableListComponent} from "./components/table-list/table-list.component";
+import {AtivoComponent} from "./components/ativo/ativo.component";
 
 const routes: Routes = [
   {
     path: '',
     component: CarteiraComponent
+  },
+  {
+    path: 'ativo',
+    component: AtivoComponent
   },
   {
     path: 'setor',
