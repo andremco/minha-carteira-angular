@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from "@angular/common"
+import {TipoAtivo} from "../../models/TipoAtivo";
 
 @Component({
   selector: 'ver-mais-ativo',
@@ -22,14 +23,19 @@ import { CommonModule } from "@angular/common"
 })
 export class DialogVerMaisAtivoComponent {
   public comprar : boolean = false;
-  public ativo : any;
-  public setorId : string = '0'
+  public ativo? : any;
+  public tipoAtivo? : TipoAtivo;
+  public setorId? : string
+  public TipoAtivo = TipoAtivo;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    this.ativo = data
+    this.ativo = data.ativo
+    this.tipoAtivo = data.tipoAtivo
   }
 
   ngOnInit() {
     this.comprar = this.ativo?.comprarOuAguardar === 'Comprar';
-    this.setorId = '5' // Banco
+    this.setorId = this.ativo?.setorId?.toString()
   }
+
+
 }

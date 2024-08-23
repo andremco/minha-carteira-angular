@@ -1,18 +1,3 @@
-<!--
-Campos editáveis ações
-Setor
-RazaoSocial
-Ticker
-Nota
-
-Campos visualização ações
-Quantidade
-Na carteira desde de (data do primeiro aporte realizado)
-
-Campos visualização títulos público
-Quantidade
-
--->
 <div class="main-content" [style.width]="'800px'">
   <div class="container-fluid">
     <div class="row">
@@ -21,8 +6,8 @@ Quantidade
           <div class="card-header" [ngClass]="{'card-header-success': comprar, 'card-header-warning': !comprar}">
             <div class="row">
               <div class="col-md-6">
-                <h4 class="card-title">Tesouro Prefixado 2025</h4>
-                <p class="card-category">Título público</p>
+                <h4 class="card-title" [innerHTML]="tipoAtivo == TipoAtivo.Acao ? ativo.razaoSocial : ativo.descricao"></h4>
+                <p class="card-category">{{ ativo.setorDescricao }}</p>
               </div>
               <div class="col-md-6">
                 <span class="pull-right">
@@ -34,7 +19,7 @@ Quantidade
           <div class="card-body">
             <form>
               <div class="row">
-                <div class="col-md-5">
+                <div [ngClass]="tipoAtivo == TipoAtivo.Acao ? 'col-md-4' : 'col-md-5'">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Setor</mat-label>
                     <mat-select [(value)]="setorId">
@@ -43,33 +28,42 @@ Quantidade
                       <mat-option value="3">Banco</mat-option>
                       <mat-option value="4">Seguradora</mat-option>
                       <mat-option value="5">Hospedagem</mat-option>
+                      <mat-option value="6">Mídia</mat-option>
+                      <mat-option value="7">Aéreo</mat-option>
+                      <mat-option value="9">Construção civil</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-md-7">
+                <div [ngClass]="'col-md-2'" *ngIf="tipoAtivo == TipoAtivo.Acao">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Descrição</mat-label>
-                    <input matInput value="Tesouro IPCA+ 2045">
+                    <mat-label>Ticker</mat-label>
+                    <input matInput [value]="ativo.ticker">
+                  </mat-form-field>
+                </div>
+                <div [ngClass]="tipoAtivo == TipoAtivo.Acao ? 'col-md-6' : 'col-md-7'">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label [innerHTML]="tipoAtivo == TipoAtivo.Acao ? 'Razão social' : 'Descrição'"></mat-label>
+                    <input matInput [value]="tipoAtivo == TipoAtivo.Acao ? ativo.razaoSocial : ativo.descricao">
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Preço ajustado</mat-label>
-                    <input matInput value="R$ 56,21">
+                    <mat-label [innerHTML]="tipoAtivo == TipoAtivo.Acao ? 'Preço dinâmico' : 'Preço ajustado'"></mat-label>
+                    <input matInput [value]="tipoAtivo == TipoAtivo.Acao ? ativo.precoDinamico : ativo.precoAjustado">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Nota</mat-label>
-                    <input matInput value="9">
+                    <input matInput [value]="ativo.nota">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Quantidade</mat-label>
-                    <input matInput value="20" readonly>
+                    <input matInput [value]="ativo.quantidade" readonly>
                   </mat-form-field>
                 </div>
               </div>

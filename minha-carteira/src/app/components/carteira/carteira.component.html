@@ -77,7 +77,7 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ titulo.quantidade * titulo.precoAjustado | currency: 'BRL' }}</span>
+                <span>{{ titulo?.quantidade! * titulo?.precoAjustado! | currency: 'BRL' }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
@@ -95,7 +95,7 @@
                 }">{{ titulo.comprarOuAguardar }}</span>
             </div>
             <div class="col-sm-6 verMais">
-              <button mat-button [color]="titulo.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(titulo)">Ver +</button>
+              <button mat-button [color]="titulo.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(titulo, TipoAtivo.TituloPublico)">Ver +</button>
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ acao.quantidade * acao.precoDinamico | currency: 'BRL' }}</span>
+                <span>{{ acao?.quantidade! * acao?.precoDinamico! | currency: 'BRL' }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
@@ -149,7 +149,7 @@
                 }">{{ acao.comprarOuAguardar }}</span>
               </div>
               <div class="col-sm-6 verMais">
-                <button mat-button [color]="acao.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(acao)">Ver +</button>
+                <button mat-button [color]="acao.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(acao, TipoAtivo.Acao)">Ver +</button>
               </div>
           </div>
         </div>
