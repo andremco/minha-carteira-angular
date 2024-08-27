@@ -165,7 +165,3 @@ main {
 .carteira:hover{
   cursor: pointer;
 }
-
-.ct-label{
-  font-weight: bold !important;
-}

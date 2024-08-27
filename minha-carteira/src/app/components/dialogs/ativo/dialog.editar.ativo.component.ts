@@ -11,17 +11,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from "@angular/common"
-import {TipoAtivo} from "../../models/TipoAtivo";
+import {TipoAtivo} from "../../../models/TipoAtivo";
 
 @Component({
-  selector: 'ver-mais-ativo',
-  templateUrl: 'dialog.ver.mais.ativo.component.html',
-  styleUrls: ['./dialog.ver.mais.ativo.component.scss'],
+  selector: 'ativo',
+  templateUrl: 'dialog.editar.ativo.component.html',
+  styleUrls: ['./dialog.editar.ativo.component.scss'],
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, MatInputModule, MatFormFieldModule, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogVerMaisAtivoComponent {
+export class DialogEditarAtivoComponent {
   public comprar : boolean = false;
   public ativo? : any;
   public tipoAtivo? : TipoAtivo;

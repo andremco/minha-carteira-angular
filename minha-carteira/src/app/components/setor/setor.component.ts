@@ -1,25 +1,20 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import {DialogSalvarSetorComponent} from "./dialog.salvar.setor.component";
+import {DialogSalvarSetorComponent} from "src/app/components/dialogs/setor/dialog.salvar.setor.component";
 import {MatSort} from "@angular/material/sort";
+import {Setor} from "src/app/models/Setor";
 
-export interface Setor {
-  id: number;
-  descricao: string;
-  dataRegistro: string;
-  ativos: number;
-}
+
 
 @Component({
-  selector: 'setor',
+  selector: 'setor-teste',
   templateUrl: './setor.component.html',
   styleUrl: './setor.component.css'
 })
 export class SetorComponent implements AfterViewInit {
   readonly dialog = inject(MatDialog);
-  dataSource = new MatTableDataSource<Setor>([
+  dataSource : Setor[] = [
     {id: 1, descricao: 'Tesouro direto', dataRegistro: '10/07/2024', ativos: 10},
     {id: 2, descricao: 'Fundo Imobiliário', dataRegistro: '10/07/2024', ativos: 3},
     {id: 3, descricao: 'Banco', dataRegistro: '10/07/2024', ativos: 25},
@@ -32,12 +27,11 @@ export class SetorComponent implements AfterViewInit {
     {id: 10, descricao: 'Energia', dataRegistro: '10/07/2024', ativos: 4},
     {id: 11, descricao: 'Farmacêutica', dataRegistro: '10/07/2024', ativos: 5},
     {id: 12, descricao: 'Metalúrgica', dataRegistro: '10/07/2024', ativos: 1},
-  ]);
+  ];
   displayedColumns: string[] = ['descricao', 'dataRegistro', 'ativos', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
   }
 
   openDialog() {

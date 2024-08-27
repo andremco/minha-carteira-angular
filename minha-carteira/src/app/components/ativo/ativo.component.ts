@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, inject, OnInit} from "@angular/core";
-import {TipoAtivo} from "../../models/TipoAtivo";
-import {Acao} from "../../models/Acao";
-import {TituloPublico} from "../../models/TituloPublico";
-import {Ativo} from "../../models/Ativo";
-import {DialogVerMaisAtivoComponent} from "./dialog.ver.mais.ativo.component";
+import {TipoAtivo} from "src/app/models/TipoAtivo";
+import {Acao} from "src/app/models/Acao";
+import {TituloPublico} from "src/app/models/TituloPublico";
+import {Ativo} from "src/app/models/Ativo";
+import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -36,7 +36,7 @@ export class AtivoComponent implements OnInit {
   }
 
   openDialog(ativo : Ativo, tipoAtivo : TipoAtivo) {
-    const dialogRef = this.dialog.open(DialogVerMaisAtivoComponent, {
+    const dialogRef = this.dialog.open(DialogEditarAtivoComponent, {
       data: {
         ativo,
         tipoAtivo

@@ -1,9 +1,4 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {Acao} from "../../models/Acao";
-import {TituloPublico} from "../../models/TituloPublico";
-import {Ativo} from "../../models/Ativo";
-import {TipoAtivo} from "../../models/TipoAtivo";
 import 'chartist/dist/index.css';
 import {AnimationDefinition, easings, PieChart, PieChartOptions, ResponsiveOptions} from 'chartist';
 
