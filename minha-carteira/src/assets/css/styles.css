@@ -39,3 +39,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   position: absolute;
   width: 260px;
 }
+
+.carteira:hover{
+  cursor: pointer;
+}
+
+.btn-delete-danger{
+  --mdc-fab-small-container-color: #f44336 !important;
+  --mat-fab-small-foreground-color: white !important;
+}
+
+.btn-edit-basic{
+  --mdc-fab-small-container-color: white !important;
+  --mat-fab-small-foreground-color: black !important;
+}
+
+mat-form-field {
+  width: 100%;
+}
