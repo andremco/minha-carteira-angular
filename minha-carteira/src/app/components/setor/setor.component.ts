@@ -1,7 +1,8 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
-import {DialogSalvarSetorComponent} from "src/app/components/dialogs/setor/dialog.salvar.setor.component";
+import {DialogSetorComponent} from "src/app/components/setor/dialog.setor.component";
+import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {Setor} from "src/app/models/Setor";
@@ -34,11 +35,24 @@ export class SetorComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogSalvarSetorComponent);
+  openDialogCreateSetor() {
+    this.dialog.open(DialogSetorComponent);
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+  openDialogEditSetor(setor : Setor){
+    this.dialog.open(DialogSetorComponent, {
+      data: {
+        setor
+      }
+    });
+  }
+
+  openDialogExcluirSetor(setor: Setor){
+    this.dialog.open(DialogExcluirEntidadeComponent, {
+      data: {
+        nomeEntidade: "setor",
+        nomeAtivo: setor.descricao
+      }
     });
   }
 }

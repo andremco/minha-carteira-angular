@@ -1,0 +1,16 @@
+<div class="main-content" [style.width]="'500px'">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 mb-4">
+        <h2 mat-dialog-title>Excluir {{nomeEntidade}}</h2>
+        <mat-dialog-content>
+          Deseja excluir {{nomeAtivo}}
+        </mat-dialog-content>
+        <div class="pull-right">
+          <button mat-raised-button mat-dialog-close class="mr-1">Não</button>
+          <button mat-raised-button mat-dialog-close cdkFocusInitial class="btn-delete-danger">Sim</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -47,6 +47,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .btn-delete-danger{
   --mdc-fab-small-container-color: #f44336 !important;
   --mat-fab-small-foreground-color: white !important;
+  background-color: #f44336 !important;
+  color: white !important;
 }
 
 .btn-edit-basic{
@@ -54,6 +56,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --mat-fab-small-foreground-color: black !important;
 }
 
+.btn-create-basic{
+  --mdc-fab-container-color: white !important;
+  --mat-fab-foreground-color: #43a047 !important;
+  --mat-fab-state-layer-color: #43a047 !important;
+  --mdc-fab-small-container-color: #fff !important;
+  --mat-fab-small-foreground-color: #43a047 !important;
+  --mat-fab-small-state-layer-color: #43a047 !important;
+}
+
+.btn-edit-warn{
+  --mdc-protected-button-label-text-color: white !important;
+  --mat-protected-button-state-layer-color: white !important;
+}
+
 mat-form-field {
   width: 100%;
 }
+--#43a047

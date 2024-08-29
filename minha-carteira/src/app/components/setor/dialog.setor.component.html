@@ -11,7 +11,7 @@
               <div class="col-sm-12">
                 <mat-form-field>
                   <mat-label>Descrição do setor</mat-label>
-                  <input matInput>
+                  <input matInput [value]="setor.descricao">
                 </mat-form-field>
               </div>
             </div>
@@ -26,9 +26,6 @@
   </div>
 </div>
 <style>
-.dialog-salvar{
-  width: 400px;
-}
 .dialog-salvar form, .dialog-salvar mat-form-field{
   width: 100%;
 }

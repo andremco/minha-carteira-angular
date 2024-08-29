@@ -115,7 +115,8 @@
               </div>
               <div class="pull-right">
                 <button mat-raised-button mat-dialog-close [style.margin-right]="'5px'">Fechar</button>
-                <button mat-raised-button mat-dialog-close type="submit" [color]="comprar ? 'primary' : 'warn'">Editar</button>
+                <button mat-raised-button mat-dialog-close [class]="{'btn-edit-warn': !comprar}"
+                        type="submit" [color]="comprar ? 'primary' : 'warn'">Editar</button>
               </div>
               <div class="clearfix"></div>
             </form>
