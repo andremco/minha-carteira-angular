@@ -6,6 +6,7 @@ import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {Setor} from "src/app/models/Setor";
+import {TipoAtivo} from "../../models/TipoAtivo";
 
 @Component({
   selector: 'setor',
@@ -15,20 +16,20 @@ import {Setor} from "src/app/models/Setor";
 export class SetorComponent implements AfterViewInit {
   readonly dialog = inject(MatDialog);
   dataSource = new MatTableDataSource<Setor>([
-    {id: 1, descricao: 'Tesouro direto', dataRegistro: '10/07/2024', ativos: 10},
-    {id: 2, descricao: 'Fundo Imobiliário', dataRegistro: '10/07/2024', ativos: 3},
-    {id: 3, descricao: 'Banco', dataRegistro: '10/07/2024', ativos: 25},
-    {id: 4, descricao: 'Seguradora', dataRegistro: '10/07/2024', ativos: 5},
-    {id: 5, descricao: 'Hospedagem', dataRegistro: '10/07/2024', ativos: 6},
-    {id: 6, descricao: 'Tecnologia', dataRegistro: '10/07/2024', ativos: 6},
-    {id: 7, descricao: 'Aéreo', dataRegistro: '10/07/2024', ativos: 4},
-    {id: 8, descricao: 'Mída', dataRegistro: '10/07/2024', ativos: 9},
-    {id: 9, descricao: 'Construção civil', dataRegistro: '10/07/2024', ativos: 5},
-    {id: 10, descricao: 'Energia', dataRegistro: '10/07/2024', ativos: 4},
-    {id: 11, descricao: 'Farmacêutica', dataRegistro: '10/07/2024', ativos: 5},
-    {id: 12, descricao: 'Metalúrgica', dataRegistro: '10/07/2024', ativos: 1},
+    {id: 1, descricao: 'Tesouro direto', dataRegistro: '10/07/2024', ativos: 10, tipoAtivo: TipoAtivo.TituloPublico},
+    {id: 2, descricao: 'Fundo Imobiliário', dataRegistro: '10/07/2024', ativos: 3, tipoAtivo: TipoAtivo.FundoImobiliario},
+    {id: 3, descricao: 'Banco', dataRegistro: '10/07/2024', ativos: 25, tipoAtivo: TipoAtivo.Acao},
+    {id: 4, descricao: 'Seguradora', dataRegistro: '10/07/2024', ativos: 5, tipoAtivo: TipoAtivo.Acao},
+    {id: 5, descricao: 'Hospedagem', dataRegistro: '10/07/2024', ativos: 6, tipoAtivo: TipoAtivo.FundoImobiliario},
+    {id: 6, descricao: 'Tecnologia', dataRegistro: '10/07/2024', ativos: 6, tipoAtivo: TipoAtivo.Acao},
+    {id: 7, descricao: 'Aéreo', dataRegistro: '10/07/2024', ativos: 4, tipoAtivo: TipoAtivo.Acao},
+    {id: 8, descricao: 'Mída', dataRegistro: '10/07/2024', ativos: 9, tipoAtivo: TipoAtivo.Acao},
+    {id: 9, descricao: 'Construção civil', dataRegistro: '10/07/2024', ativos: 5, tipoAtivo: TipoAtivo.FundoImobiliario},
+    {id: 10, descricao: 'Energia', dataRegistro: '10/07/2024', ativos: 4, tipoAtivo: TipoAtivo.Acao},
+    {id: 11, descricao: 'Farmacêutica', dataRegistro: '10/07/2024', ativos: 5, tipoAtivo: TipoAtivo.Acao},
+    {id: 12, descricao: 'Metalúrgica', dataRegistro: '10/07/2024', ativos: 1, tipoAtivo: TipoAtivo.Acao},
   ]);
-  displayedColumns: string[] = ['descricao', 'dataRegistro', 'ativos', 'acoes'];
+  displayedColumns: string[] = ['descricao', 'dataRegistro', 'ativos', 'tipo', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   ngAfterViewInit() {

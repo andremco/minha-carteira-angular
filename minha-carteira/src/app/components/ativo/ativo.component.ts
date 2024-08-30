@@ -5,6 +5,7 @@ import {TituloPublico} from "src/app/models/TituloPublico";
 import {Ativo} from "src/app/models/Ativo";
 import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {FundoImobiliario} from "../../models/FundoImobiliario";
 
 @Component({
   selector: 'ativo',
@@ -18,8 +19,13 @@ export class AtivoComponent implements OnInit {
     {id: 2, setorId: 4, setorDescricao: 'Bebidas', razaoSocial: 'Ambev S.A.', ticker: 'ABEV3', quantidade: 50, nota: 8, dataRegistro: new Date('2024-07-12'), precoDinamico: 15.00, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
     {id: 3, setorId: 9, setorDescricao: 'Construção civil', razaoSocial: 'Cyrela', ticker: 'CYRE3', quantidade: 60, nota: 8, dataRegistro: new Date('2024-07-08'), precoDinamico: 20.73, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
     {id: 4, setorId: 6, setorDescricao: 'Mídia', razaoSocial: 'The Walt Disney Company Inc.', ticker: 'DISB34', quantidade: 10, nota: 7, dataRegistro: new Date('2024-07-07'), precoDinamico: 28.65, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Perda'},
-    {id: 5, setorId: 7, setorDescricao: 'Aéreo', razaoSocial: 'Embraer', ticker: 'EMBR3', quantidade: 21, nota: 8, dataRegistro: new Date('2024-07-06'), precoDinamico: 18.13, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
-    {id: 6, setorId: 2, setorDescricao: 'Fundo Imobiliário Títulos', razaoSocial: 'Patria Recebiveis Imobiliarios', ticker: 'HGCR11', quantidade: 4, nota: 7, dataRegistro: new Date('2024-07-05'), precoDinamico: 103.8, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
+    {id: 5, setorId: 7, setorDescricao: 'Aéreo', razaoSocial: 'Embraer', ticker: 'EMBR3', quantidade: 21, nota: 8, dataRegistro: new Date('2024-07-06'), precoDinamico: 18.13, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
+  ];
+
+  fiis: FundoImobiliario[] = [   // Adicione mais ações conforme necessário
+    {id: 1, setorId: 2, setorDescricao: 'Fundo Imobiliário Títulos', razaoSocial: 'Patria Recebiveis Imobiliarios', ticker: 'HGCR11', quantidade: 5, nota: 7, dataRegistro: new Date('2024-07-05'), precoDinamico: 103.8, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
+    {id: 1, setorId: 5, setorDescricao: 'Logística', razaoSocial: 'XP Log Fundo de Investimento Imobiliário', ticker: 'XPLG11', quantidade: 8, nota: 7, dataRegistro: new Date('2024-12-12'), precoDinamico: 122.7, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
+    {id: 1, setorId: 8, setorDescricao: 'Escritório', razaoSocial: 'XP Properties FII', ticker: 'XPPR11', quantidade: 12, nota: 7, dataRegistro: new Date('2024-09-09'), precoDinamico: 115.2, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'}
   ];
 
   titulosPublico: TituloPublico[] = [

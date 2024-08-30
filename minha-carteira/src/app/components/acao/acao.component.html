@@ -4,8 +4,18 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-success">
-            <h4 class="card-title ">Ações</h4>
-            <!--p class="card-category"> Here is a subtitle for this table</p>-->
+            <div class="row">
+              <div class="col-sm-6">
+                <h4 class="card-title mt-2">Ações</h4>
+              </div>
+              <div class="col-sm-6">
+                <div class="pull-right">
+                  <button (click)="openDialogCreateAcao()" mat-mini-fab class="btn-create-basic">
+                    <mat-icon>add_circle</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -32,15 +42,15 @@
                 </ng-container>
                 <ng-container matColumnDef="dataRegistro">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Data </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dataRegistro}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "MMMM y" }}</td>
                 </ng-container>
                 <ng-container matColumnDef="acoes">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Ações </th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-mini-fab class="btn-edit-basic mr-2">
+                    <button (click)="openDialogEditAcao(element)" mat-mini-fab class="btn-edit-basic mr-2">
                       <mat-icon>edit_note</mat-icon>
                     </button>
-                    <button mat-mini-fab class="btn-delete-danger">
+                    <button (click)="openDialogExcluirAcao(element)" mat-mini-fab class="btn-delete-danger">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </td>
@@ -55,11 +65,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="btn-criar">
-        <button (click)="openDialog()" mat-fab color="primary">
-          <mat-icon>add_circle</mat-icon>
-        </button>
       </div>
     </div>
   </div>

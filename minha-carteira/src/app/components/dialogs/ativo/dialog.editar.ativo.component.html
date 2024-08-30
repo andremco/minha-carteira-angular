@@ -6,7 +6,7 @@
           <div class="card-header" [ngClass]="{'card-header-success': comprar, 'card-header-warning': !comprar}">
             <div class="row">
               <div class="col-md-6">
-                <h4 class="card-title" [innerHTML]="tipoAtivo == TipoAtivo.Acao ? ativo.razaoSocial : ativo.descricao"></h4>
+                <h4 class="card-title" [innerHTML]="tipoAtivo == TipoAtivo.Acao  || tipoAtivo == TipoAtivo.FundoImobiliario ? ativo.razaoSocial : ativo.descricao"></h4>
                 <p class="card-category">{{ ativo.setorDescricao }}</p>
               </div>
               <div class="col-md-6">
@@ -18,8 +18,39 @@
           </div>
           <div class="card-body">
             <form>
-              <div class="row">
-                <div [ngClass]="tipoAtivo == TipoAtivo.Acao ? 'col-md-4' : 'col-md-5'">
+              <div class="row" *ngIf="tipoAtivo == TipoAtivo.Acao || tipoAtivo == TipoAtivo.FundoImobiliario">
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Setor</mat-label>
+                    <mat-select [(value)]="setorId">
+                      <mat-option value="1">Tesouro direto</mat-option>
+                      <mat-option value="2">Fundo Imobiliário</mat-option>
+                      <mat-option value="3">Banco</mat-option>
+                      <mat-option value="4">Seguradora</mat-option>
+                      <mat-option value="5">Hospedagem</mat-option>
+                      <mat-option value="6">Mídia</mat-option>
+                      <mat-option value="7">Aéreo</mat-option>
+                      <mat-option value="9">Construção civil</mat-option>
+                      <mat-option value="5">Logística</mat-option>
+                      <mat-option value="8">Escritório</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Ticker</mat-label>
+                    <input matInput [value]="ativo.ticker">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Razão social</mat-label>
+                    <input matInput [value]="ativo.razaoSocial">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" *ngIf="tipoAtivo == TipoAtivo.TituloPublico">
+                <div class="col-md-5">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Setor</mat-label>
                     <mat-select [(value)]="setorId">
@@ -34,24 +65,18 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div [ngClass]="'col-md-2'" *ngIf="tipoAtivo == TipoAtivo.Acao">
+                <div class="col-md-7">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Ticker</mat-label>
-                    <input matInput [value]="ativo.ticker">
-                  </mat-form-field>
-                </div>
-                <div [ngClass]="tipoAtivo == TipoAtivo.Acao ? 'col-md-6' : 'col-md-7'">
-                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label [innerHTML]="tipoAtivo == TipoAtivo.Acao ? 'Razão social' : 'Descrição'"></mat-label>
-                    <input matInput [value]="tipoAtivo == TipoAtivo.Acao ? ativo.razaoSocial : ativo.descricao">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput [value]="ativo.descricao">
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label [innerHTML]="tipoAtivo == TipoAtivo.Acao ? 'Preço dinâmico' : 'Preço ajustado'"></mat-label>
-                    <input matInput [value]="tipoAtivo == TipoAtivo.Acao ? ativo.precoDinamico : ativo.precoAjustado">
+                    <mat-label [innerHTML]="tipoAtivo == TipoAtivo.Acao  || tipoAtivo == TipoAtivo.FundoImobiliario ? 'Preço dinâmico' : 'Preço ajustado'"></mat-label>
+                    <input matInput [value]="tipoAtivo == TipoAtivo.Acao || tipoAtivo == TipoAtivo.FundoImobiliario ? ativo.precoDinamico : ativo.precoAjustado">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">

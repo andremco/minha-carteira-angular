@@ -26,6 +26,7 @@ import { CarteiraComponent } from "./components/carteira/carteira.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { TableListComponent } from "./components/table-list/table-list.component";
 import { AtivoComponent } from "./components/ativo/ativo.component";
+import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
 
 registerLocaleData(localePt);
 
@@ -37,7 +38,8 @@ registerLocaleData(localePt);
     CarteiraComponent,
     DashboardComponent,
     TableListComponent,
-    AtivoComponent
+    AtivoComponent,
+    TipoAtivoPipe
   ],
   imports: [
     BrowserModule,
