@@ -1,0 +1,65 @@
+<div class="main-content" [style.width]="'800px'">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <div class="row">
+              <div class="col-md-12">
+                <h4 class="card-title">Título Público</h4>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-4">
+                  <mat-form-field color="primary">
+                    <mat-label>Setor</mat-label>
+                    <mat-select [value]="setorId">
+                      <mat-option value="1">Tesouro direto</mat-option>
+                      <mat-option value="2">Fundo Imobiliário</mat-option>
+                      <mat-option value="3">Banco</mat-option>
+                      <mat-option value="4">Seguradora</mat-option>
+                      <mat-option value="5">Hospedagem</mat-option>
+                      <mat-option value="6">Mídia</mat-option>
+                      <mat-option value="7">Aéreo</mat-option>
+                      <mat-option value="9">Construção civil</mat-option>
+                      <mat-option value="5">Logística</mat-option>
+                      <mat-option value="8">Escritório</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field color="primary">
+                    <mat-label>Preço Ajustado</mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field color="primary">
+                    <mat-label>Nota</mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-form-field color="primary">
+                    <mat-label>Descrição</mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="pull-right">
+                <button mat-raised-button mat-dialog-close [style.margin-right]="'5px'">Fechar</button>
+                <button mat-raised-button mat-dialog-close type="submit" color="primary">Salvar</button>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

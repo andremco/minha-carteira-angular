@@ -1,0 +1,23 @@
+.legend{
+  text-align: center;
+}
+
+.square-legend{
+  display: inline-block;
+  flex-wrap: wrap;
+  width: 15px;
+  margin-right: 5px;
+  aspect-ratio: 1/1;
+}
+
+.square-tesouro-direto{
+  background: #d70206;
+}
+
+.square-acoes{
+  background: #f05b4f;
+}
+
+.square-fiis{
+  background: #f4c63d;
+}

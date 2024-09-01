@@ -46,23 +46,51 @@
           <div [style.margin-bottom]="'25px'"></div>
         </div>
       </div>
-      <div class="col-sm-4">
-        <h2 [style.text-align]="'center'">
-          Setores
-        </h2>
-        <div id="setores-chart" style="height: 60vh"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <h2 [style.text-align]="'center'">Aportes em {{ hj | date : "y" }}</h2>
+        <div class="legend">
+          <div class="square-legend square-tesouro-direto"></div>
+          <label [style.margin-right]="'10px'">Tesouro Direto</label>
+          <div class="square-legend square-acoes"></div>
+          <label [style.margin-right]="'10px'">Ações</label>
+          <div class="square-legend square-fiis"></div>
+          <label [style.margin-right]="'10px'">Fundo Imobiliário</label>
+        </div>
+        <div id="aportes-anual-chart" style="height: 60vh"></div>
       </div>
-      <div class="col-sm-4">
-        <h2 [style.text-align]="'center'">
-          Ativos
-        </h2>
+      <div class="col-sm-6">
+        <h2 [style.text-align]="'center'">Ativos</h2>
         <div id="ativos-chart" style="height: 60vh"></div>
       </div>
-      <div class="col-sm-4">
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-6">
+          <h2 [style.text-align]="'center'">
+            Setores das Ações
+          </h2>
+          <div id="setores-acoes-chart" style="height: 60vh"></div>
+        </div>
+        <div class="col-sm-6">
+          <h2 [style.text-align]="'center'">
+            Aumentar posições nas Ações
+          </h2>
+          <div id="quero-setores-acoes-chart" style="height: 60vh"></div>
+        </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-sm-6">
         <h2 [style.text-align]="'center'">
-          Aumentar posições nos setores
+          Setores dos Fundos Imobiliários
         </h2>
-        <div id="quero-setores-chart" style="height: 60vh"></div>
+        <div id="setores-fiis-chart" style="height: 60vh"></div>
+      </div>
+      <div class="col-sm-6">
+        <h2 [style.text-align]="'center'">
+          Aumentar posições nos Fundos Imobiliários
+        </h2>
+        <div id="quero-setores-fiis-chart" style="height: 60vh"></div>
       </div>
     </div>
   </div>

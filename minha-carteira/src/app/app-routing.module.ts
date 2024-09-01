@@ -6,6 +6,7 @@ import { CarteiraComponent } from "./components/carteira/carteira.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {TableListComponent} from "./components/table-list/table-list.component";
 import {AtivoComponent} from "./components/ativo/ativo.component";
+import {TituloPublicoComponent} from "./components/titulo-publico/titulo-publico.component";
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'acao',
     component: AcaoComponent
+  },
+  {
+    path: 'titulo-publico',
+    component: TituloPublicoComponent
   },
   { path: 'dashboard',      component: DashboardComponent },
   { path: 'table-list',     component: TableListComponent },
