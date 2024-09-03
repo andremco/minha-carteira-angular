@@ -28,6 +28,7 @@ import { TableListComponent } from "./components/table-list/table-list.component
 import { AtivoComponent } from "./components/ativo/ativo.component";
 import { TituloPublicoComponent } from "./components/titulo-publico/titulo-publico.component";
 import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
+import {AporteComponent} from "./components/aporte/aporte.component";
 
 registerLocaleData(localePt);
 
@@ -41,6 +42,7 @@ registerLocaleData(localePt);
     TableListComponent,
     AtivoComponent,
     TituloPublicoComponent,
+    AporteComponent,
     TipoAtivoPipe
   ],
   imports: [
