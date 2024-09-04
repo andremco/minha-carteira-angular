@@ -6,6 +6,8 @@ import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {Aporte} from "../../models/Aporte";
 import {TipoAtivo} from "../../models/TipoAtivo";
+import {DialogSetorComponent} from "../setor/dialog.setor.component";
+import {DialogExcluirEntidadeComponent} from "../dialogs/excluir/dialog.excluir.entidade.component";
 
 @Component({
   selector: 'aporte',
@@ -29,9 +31,20 @@ export class AporteComponent implements AfterViewInit{
   ngAfterViewInit(): void {
   }
 
-  openDialogEditAporte(element : Aporte) {
+  openDialogEditAporte(aporte : Aporte) {
+    this.dialog.open(DialogAporteComponent, {
+      data: {
+        aporte
+      }
+    });
   }
 
-  openDialogExcluirAporte(element : Aporte) {
+  openDialogExcluirAporte(aporte : Aporte) {
+    this.dialog.open(DialogExcluirEntidadeComponent, {
+      data: {
+        nomeEntidade: "aporte",
+        nomeAtivo: aporte.ativoDescricao
+      }
+    });
   }
 }

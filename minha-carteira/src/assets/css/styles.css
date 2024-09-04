@@ -73,3 +73,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 mat-form-field {
   width: 100%;
 }
+
+.mdc-label{
+  margin-top: 8px !important;
+}

@@ -14,6 +14,9 @@
             <form>
               <div class="row">
                 <div class="col-sm-4">
+                  <mat-slide-toggle class="mt-2" labelPosition="before">É Fundo Imobiliário?</mat-slide-toggle>
+                </div>
+                <div class="col-sm-4">
                   <mat-form-field color="primary">
                     <mat-label>Setor</mat-label>
                     <mat-select [value]="setorId">
@@ -32,19 +35,19 @@
                 </div>
                 <div class="col-sm-4">
                   <mat-form-field color="primary">
-                    <mat-label>Ticker</mat-label>
-                    <input matInput>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-4">
-                  <mat-form-field color="primary">
                     <mat-label>Nota</mat-label>
                     <input matInput>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-3">
+                  <mat-form-field color="primary">
+                    <mat-label>Ticker</mat-label>
+                    <input matInput>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-9">
                   <mat-form-field color="primary">
                     <mat-label>Razão social</mat-label>
                     <input matInput>

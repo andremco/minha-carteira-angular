@@ -1,14 +1,13 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {Acao} from "../../models/Acao";
-import {TituloPublico} from "../../models/TituloPublico";
+import {TituloPublico} from "src/app/models/TituloPublico";
 import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {DialogSalvarTituloPublicoComponent} from "./dialog.salvar.titulo-publico.component";
-import {DialogEditarAtivoComponent} from "../dialogs/ativo/dialog.editar.ativo.component";
-import {TipoAtivo} from "../../models/TipoAtivo";
-import {DialogExcluirEntidadeComponent} from "../dialogs/excluir/dialog.excluir.entidade.component";
+import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
+import {TipoAtivo} from "src/app/models/TipoAtivo";
+import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 
 @Component({
   selector: 'titulo-publico',

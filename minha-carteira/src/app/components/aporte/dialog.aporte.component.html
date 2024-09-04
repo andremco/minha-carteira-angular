@@ -2,12 +2,50 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header card-header-success">
             <h4 class="card-title">Aporte</h4>
           </div>
           <div class="card-body">
             <div class="row">
+              <div class="col-sm-6">
+                <mat-form-field color="primary">
+                  <mat-label>Tipo do Ativo</mat-label>
+                  <mat-select [value]="tipoAtivoId">
+                    <mat-option [value]="1">Ação</mat-option>
+                    <mat-option [value]="2">Título Público</mat-option>
+                    <mat-option [value]="3">Fundo Imobiliário</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field color="primary">
+                  <mat-label>Ativo</mat-label>
+                  <mat-select [value]="ativoId">
+                    <mat-option [value]="1">Banco do Brasil</mat-option>
+                    <mat-option [value]="2">Ambev S.A.</mat-option>
+                    <mat-option [value]="3">Cyrela</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <mat-form-field color="primary">
+                  <mat-label>Preço</mat-label>
+                  <input matInput [value]="aporte?.preco">
+                </mat-form-field>
+              </div>
+              <div class="col-sm-6">
+                <mat-form-field color="primary">
+                  <mat-label>Quantidade</mat-label>
+                  <input matInput [value]="aporte?.quantidade">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="pull-right">
+              <button mat-raised-button mat-dialog-close class="mr-1">Sair</button>
+              <button mat-raised-button mat-dialog-close color="primary">Salvar</button>
             </div>
           </div>
         </div>

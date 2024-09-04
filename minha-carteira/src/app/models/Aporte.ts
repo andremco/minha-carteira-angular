@@ -5,7 +5,7 @@ export interface Aporte{
   tipoAtivo?: TipoAtivo;
   ativoId?: number
   ativoDescricao? : string
-  preco?: number;
-  quantidade?: number;
+  preco: number | null;
+  quantidade: number | null;
   dataRegistro?: Date;
 }
