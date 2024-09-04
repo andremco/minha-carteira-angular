@@ -29,6 +29,9 @@ import { AtivoComponent } from "./components/ativo/ativo.component";
 import { TituloPublicoComponent } from "./components/titulo-publico/titulo-publico.component";
 import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
 import {AporteComponent} from "./components/aporte/aporte.component";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {MatDialogClose} from "@angular/material/dialog";
 
 registerLocaleData(localePt);
 
@@ -61,7 +64,10 @@ registerLocaleData(localePt);
     MatPaginatorModule,
     FlexLayoutModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatOption,
+    MatSelect,
+    MatDialogClose
   ],
   providers: [
     {

@@ -15,23 +15,23 @@ const routes: Routes = [
     component: CarteiraComponent
   },
   {
-    path: 'ativo',
+    path: 'ativos',
     component: AtivoComponent
   },
   {
-    path: 'setor',
+    path: 'setores',
     component: SetorComponent
   },
   {
-    path: 'acao',
+    path: 'acoes',
     component: AcaoComponent
   },
   {
-    path: 'titulo-publico',
+    path: 'titulos-publicos',
     component: TituloPublicoComponent
   },
   {
-    path: 'aporte',
+    path: 'aportes',
     component: AporteComponent
   },
   { path: 'dashboard',      component: DashboardComponent },

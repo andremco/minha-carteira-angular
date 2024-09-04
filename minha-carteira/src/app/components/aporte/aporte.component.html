@@ -1,12 +1,12 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        <div class="card">
+      <div class="col-sm-12">
+        <div class="card mb-2">
           <div class="card-header card-header-success">
             <div class="row">
               <div class="col-sm-6">
-                <h4 class="card-title mt-2">Aportes</h4>
+                <h4 class="card-title mt-2">Consultar</h4>
               </div>
               <div class="col-sm-6">
                 <div class="pull-right">
@@ -18,50 +18,100 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="table-responsive">
-              <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="tipoAtivo">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Tipo do Ativo </th>
-                  <td mat-cell *matCellDef="let element"> {{ element.tipoAtivo | exibirTipoAtivo }} </td>
-                </ng-container>
-                <ng-container matColumnDef="ativoDescricao">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Ativo </th>
-                  <td mat-cell *matCellDef="let element"> {{element.ativoDescricao}} </td>
-                </ng-container>
-                <ng-container matColumnDef="ticker">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Ticker </th>
-                  <td mat-cell *matCellDef="let element"> {{element.ticker ? element.ticker : '-'}} </td>
-                </ng-container>
-                <ng-container matColumnDef="preco">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Preço </th>
-                  <td mat-cell *matCellDef="let element"> {{element.preco}} </td>
-                </ng-container>
-                <ng-container matColumnDef="quantidade">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Quantidade </th>
-                  <td mat-cell *matCellDef="let element"> {{element.quantidade}} </td>
-                </ng-container>
-                <ng-container matColumnDef="dataAporte">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Data do Aporte </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "MMMM y" }}</td>
-                </ng-container>
-                <ng-container matColumnDef="acoes">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Ações </th>
-                  <td mat-cell *matCellDef="let element">
-                    <button (click)="openDialogEditAporte(element)" mat-mini-fab class="btn-edit-basic mr-2">
-                      <mat-icon>edit_note</mat-icon>
-                    </button>
-                    <button (click)="openDialogExcluirAporte(element)" mat-mini-fab class="btn-delete-danger">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
-                             showFirstLastButtons
-                             aria-label="Select page of periodic elements">
-              </mat-paginator>
+            <div class="row">
+              <div class="col-sm-3">
+                <mat-form-field color="primary">
+                  <mat-label>Tipo do Ativo</mat-label>
+                  <mat-select>
+                    <mat-option [value]="1">Ação</mat-option>
+                    <mat-option [value]="2">Título Público</mat-option>
+                    <mat-option [value]="3">Fundo Imobiliário</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3">
+                <mat-form-field color="primary">
+                  <mat-label>Ativo</mat-label>
+                  <mat-select>
+                    <mat-option [value]="1">Banco do Brasil</mat-option>
+                    <mat-option [value]="2">Ambev S.A.</mat-option>
+                    <mat-option [value]="3">Cyrela</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3">
+                <mat-form-field color="primary">
+                  <mat-label>De</mat-label>
+                  <input matInput value="01/01/2024">
+                </mat-form-field>
+              </div>
+              <div class="col-sm-3">
+                <mat-form-field color="primary">
+                  <mat-label>Até</mat-label>
+                  <input matInput value="01/12/2024">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="pull-right">
+                  <button mat-raised-button mat-dialog-close class="mr-1">Limpar</button>
+                  <button mat-raised-button mat-dialog-close color="primary">Consultar</button>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-12 ml-2">
+                <h2>Aportes</h2>
+              </div>
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="tipoAtivo">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Tipo do Ativo </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.tipoAtivo | exibirTipoAtivo }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ativoDescricao">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Ativo </th>
+                      <td mat-cell *matCellDef="let element"> {{element.ativoDescricao}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ticker">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Ticker </th>
+                      <td mat-cell *matCellDef="let element"> {{element.ticker ? element.ticker : '-'}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="preco">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Preço </th>
+                      <td mat-cell *matCellDef="let element"> {{element.preco}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="quantidade">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Quantidade </th>
+                      <td mat-cell *matCellDef="let element"> {{element.quantidade}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="dataAporte">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Data do Aporte </th>
+                      <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "MMMM y" }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="acoes">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Ações </th>
+                      <td mat-cell *matCellDef="let element">
+                        <button (click)="openDialogEditAporte(element)" mat-mini-fab class="btn-edit-basic mr-2">
+                          <mat-icon>edit_note</mat-icon>
+                        </button>
+                        <button (click)="openDialogExcluirAporte(element)" mat-mini-fab class="btn-delete-danger">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
+                                 showFirstLastButtons
+                                 aria-label="Select page of periodic elements">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
