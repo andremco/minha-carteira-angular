@@ -6,8 +6,8 @@ import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {DialogExcluirEntidadeComponent} from "../dialogs/excluir/dialog.excluir.entidade.component";
 import {DialogEditarAtivoComponent} from "../dialogs/ativo/dialog.editar.ativo.component";
-import {TipoAtivo} from "src/app/models/TipoAtivo";
-import {Acao} from "src/app/models/Acao";
+import {TipoAtivo} from "src/models/TipoAtivo";
+import {Acao} from "src/models/Acao";
 
 @Component({
   selector: 'acao',

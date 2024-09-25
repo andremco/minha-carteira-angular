@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, inject, OnInit} from "@angular/core";
-import {TipoAtivo} from "src/app/models/TipoAtivo";
-import {Acao} from "src/app/models/Acao";
-import {TituloPublico} from "src/app/models/TituloPublico";
-import {Ativo} from "src/app/models/Ativo";
+import {TipoAtivo} from "src/models/TipoAtivo";
+import {Acao} from "src/models/Acao";
+import {TituloPublico} from "src/models/TituloPublico";
+import {Ativo} from "src/models/Ativo";
 import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {MatDialog, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {FundoImobiliario} from "../../models/FundoImobiliario";
+import {FundoImobiliario} from "../../../models/FundoImobiliario";
 
 @Component({
   selector: 'ativo',

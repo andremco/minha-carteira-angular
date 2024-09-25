@@ -5,8 +5,9 @@ import {DialogSetorComponent} from "src/app/components/setor/dialog.setor.compon
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {Setor} from "src/app/models/Setor";
-import {TipoAtivo} from "../../models/TipoAtivo";
+import {Setor} from "src/models/setor/Setor";
+import {TipoAtivo} from "src/models/TipoAtivo";
+import {SetorService} from "src/services/SetorService";
 
 @Component({
   selector: 'setor',
@@ -32,6 +33,10 @@ export class SetorComponent implements AfterViewInit {
   displayedColumns: string[] = ['descricao', 'dataRegistro', 'ativos', 'tipo', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
+
+  constructor(private service : SetorService) {
+  }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
@@ -55,5 +60,9 @@ export class SetorComponent implements AfterViewInit {
         nomeAtivo: setor.descricao
       }
     });
+  }
+
+  pageHandler(event:any){
+    debugger
   }
 }

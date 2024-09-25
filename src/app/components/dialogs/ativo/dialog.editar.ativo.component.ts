@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from "@angular/common"
-import {TipoAtivo} from "../../../models/TipoAtivo";
+import {TipoAtivo} from "../../../../models/TipoAtivo";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 @Component({

@@ -1,4 +1,4 @@
-import {TipoAtivo} from "./TipoAtivo";
+import {TipoAtivo} from "../TipoAtivo";
 
 export interface Setor {
   id?: number;

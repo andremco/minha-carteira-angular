@@ -8,7 +8,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {DatePipe, NgIf} from "@angular/common";
-import {TituloPublico} from "../../models/TituloPublico";
+import {TituloPublico} from "../../../models/TituloPublico";
 
 @Component({
   selector: 'salvar-titulo-publico',
