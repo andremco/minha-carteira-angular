@@ -42,7 +42,7 @@ export class SetorComponent implements AfterViewInit {
   }
 
   openDialogCreateSetor() {
-    this.dialog.open(DialogSetorComponent);
+    this.dialog.open(DialogSetorComponent, {});
   }
 
   openDialogEditSetor(setor : Setor){

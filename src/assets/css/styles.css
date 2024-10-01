@@ -77,3 +77,24 @@ mat-form-field {
 .mdc-label{
   margin-top: 8px !important;
 }
+
+.mat-mdc-form-field-error {
+  color: #f44336 !important;
+}
+
+.mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-floating-label,
+.mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-floating-label--float-above{
+  color: #f44336 !important;
+}
+
+.mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+  border-bottom-color: #f44336 !important;
+}
+
+.mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-line-ripple::after{
+  border-bottom-color: #f44336 !important;
+}
+
+.mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  caret-color: #f44336 !important;
+}

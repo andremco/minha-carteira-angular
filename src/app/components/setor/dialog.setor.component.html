@@ -6,19 +6,20 @@
           <div class="card-header card-header-success">
             <h4 class="card-title">Setor</h4>
           </div>
-          <div class="card-body">
+          <div class="card-body" [formGroup]="setorForm">
             <div class="row">
               <div class="col-sm-12">
                 <mat-form-field>
                   <mat-label>Descrição do setor</mat-label>
-                  <input matInput [(ngModel)]="setor.descricao">
+                  <input matInput required formControlName="descricao">
+                  <mat-error *ngIf="descricao?.invalid && (descricao?.dirty || descricao?.touched)">{{descricaoErrorMessage()}}</mat-error>
                 </mat-form-field>
               </div>
             </div>
             <div class="pull-right">
               <button mat-raised-button mat-dialog-close class="mr-1">Sair</button>
-              <button mat-raised-button color="primary" [disabled]="loading" (click)="salvar()">
-                <mat-spinner *ngIf="loading"></mat-spinner>
+              <button mat-raised-button color="primary" [disabled]="loading || setorForm?.invalid" (click)="salvar()">
+                <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
                 <span *ngIf="!loading">Salvar</span>
               </button>
             </div>
