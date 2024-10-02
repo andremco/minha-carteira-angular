@@ -98,3 +98,7 @@ mat-form-field {
 .mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__input {
   caret-color: #f44336 !important;
 }
+
+.toast-top-center {
+  margin-top: 20px !important;
+}

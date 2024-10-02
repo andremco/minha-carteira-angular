@@ -9,6 +9,9 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {SetorService} from "src/services/SetorService";
 import {SalvarSetor} from "src/models/setor/SalvarSetor";
 import {CommonModule} from "@angular/common";
+import { ToastrService } from 'ngx-toastr';
+import {HttpErrorResponse} from "@angular/common/http";
+import {EditarSetor} from "../../../models/setor/EditarSetor";
 
 @Component({
   selector: 'dialog-setor',
@@ -21,12 +24,15 @@ export class DialogSetorComponent implements OnInit{
   public setor: Setor = {}
   public setorForm: FormGroup = new FormGroup('');
   loading: boolean = false;
+  ehEditar: boolean = false;
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: any,
     private readonly service : SetorService,
-    private readonly changeDetectorRef: ChangeDetectorRef) {
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private toastr: ToastrService) {
     if (data && data.setor)
       this.setor = data.setor
+    this.ehEditar = this.setor.id != undefined;
   }
 
   ngOnInit() {
@@ -54,20 +60,52 @@ export class DialogSetorComponent implements OnInit{
 
   salvar(){
     this.loading = true;
-    var request : SalvarSetor = {
-      descricao: this.setor.descricao
+    var salvarReq : SalvarSetor = {
+      descricao: this.descricao?.value
     }
-    this.service.salvar(request).subscribe(
-      {
-        next: (response) => {
-            this.loading = false;
-            this.changeDetectorRef.detectChanges();
-        },
-        error: (error) => {
-          this.loading = false;
-          this.changeDetectorRef.detectChanges();
-        }
+    this.service.salvar(salvarReq).subscribe({
+        next: (setor : Setor) => this.success(setor),
+        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
       }
     )
+  }
+
+  editar(){
+    this.loading = true;
+    var editarReq : EditarSetor = {
+      id: this.setor.id,
+      descricao: this.descricao?.value
+    }
+    this.service.editar(editarReq).subscribe({
+        next: (setor : Setor) => this.success(setor),
+        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
+      }
+    )
+  }
+
+  success(setor : Setor) {
+    this.loading = false;
+    this.toastr.success('Registro salvo com sucesso!', '', {
+      timeOut: 8000,
+      enableHtml: true,
+      closeButton: true,
+      positionClass: 'toast-top-center'
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+  error(errorResponse : HttpErrorResponse){
+    this.loading = false;
+    if (errorResponse?.error && errorResponse?.error.success === false &&
+      errorResponse?.error.message.length > 0)
+    {
+      var messages = errorResponse?.error.message.join('<br>');
+      this.toastr.error(messages, '', {
+        timeOut: 8000,
+        enableHtml: true,
+        closeButton: true,
+        positionClass: 'toast-top-center'
+      });
+    }
+    this.changeDetectorRef.detectChanges();
   }
 }

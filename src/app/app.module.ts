@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import localePt from '@angular/common/locales/pt';
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -18,6 +18,10 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatCardModule } from "@angular/material/card";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatSelectModule } from "@angular/material/select";
+import { MatDialogModule } from "@angular/material/dialog";
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { SetorComponent } from "./components/setor/setor.component";
@@ -27,11 +31,10 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { TableListComponent } from "./components/table-list/table-list.component";
 import { AtivoComponent } from "./components/ativo/ativo.component";
 import { TituloPublicoComponent } from "./components/titulo-publico/titulo-publico.component";
-import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
 import {AporteComponent} from "./components/aporte/aporte.component";
-import {MatOption} from "@angular/material/autocomplete";
-import {MatSelect} from "@angular/material/select";
-import {MatDialogClose} from "@angular/material/dialog";
+
+import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
+
 
 registerLocaleData(localePt);
 
@@ -49,6 +52,7 @@ registerLocaleData(localePt);
     TipoAtivoPipe
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -65,9 +69,10 @@ registerLocaleData(localePt);
     FlexLayoutModule,
     MatCardModule,
     MatTooltipModule,
-    MatOption,
-    MatSelect,
-    MatDialogClose
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDialogModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     {
