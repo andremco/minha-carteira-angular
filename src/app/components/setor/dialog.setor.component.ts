@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {AbstractControl, FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatLabel, MatError} from "@angular/material/form-field";
@@ -12,6 +12,7 @@ import {CommonModule} from "@angular/common";
 import { ToastrService } from 'ngx-toastr';
 import {HttpErrorResponse} from "@angular/common/http";
 import {EditarSetor} from "../../../models/setor/EditarSetor";
+import {ResponseApi} from "../../../models/ResponseApi";
 
 @Component({
   selector: 'dialog-setor',
@@ -26,10 +27,11 @@ export class DialogSetorComponent implements OnInit{
   loading: boolean = false;
   ehEditar: boolean = false;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public readonly data: any,
+    private readonly ref: MatDialogRef<DialogSetorComponent>,
+    @Inject(MAT_DIALOG_DATA) private readonly data: any,
     private readonly service : SetorService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private toastr: ToastrService) {
+    private readonly toastr: ToastrService) {
     if (data && data.setor)
       this.setor = data.setor
     this.ehEditar = this.setor.id != undefined;
@@ -64,7 +66,7 @@ export class DialogSetorComponent implements OnInit{
       descricao: this.descricao?.value
     }
     this.service.salvar(salvarReq).subscribe({
-        next: (setor : Setor) => this.success(setor),
+        next: (setor : ResponseApi<Setor>) => this.success(setor),
         error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
       }
     )
@@ -77,13 +79,13 @@ export class DialogSetorComponent implements OnInit{
       descricao: this.descricao?.value
     }
     this.service.editar(editarReq).subscribe({
-        next: (setor : Setor) => this.success(setor),
+        next: (setor : ResponseApi<Setor>) => this.success(setor),
         error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
       }
     )
   }
 
-  success(setor : Setor) {
+  success(setor : ResponseApi<Setor>) {
     this.loading = false;
     this.toastr.success('Registro salvo com sucesso!', '', {
       timeOut: 8000,
@@ -91,6 +93,7 @@ export class DialogSetorComponent implements OnInit{
       closeButton: true,
       positionClass: 'toast-top-center'
     });
+    this.ref.close();
     this.changeDetectorRef.detectChanges();
   }
   error(errorResponse : HttpErrorResponse){
