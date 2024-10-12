@@ -31,4 +31,8 @@ export class SetorService{
       {headers: {'pagina':pagina.toString(),'tamanho':tamanho.toString()}}
     );
   }
+
+  deletar(id:Number){
+    return this.http.delete<ResponseApi<Setor>>(this.apiUrl + '/setor/' + id);
+  }
 }

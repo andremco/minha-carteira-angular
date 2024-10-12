@@ -11,6 +11,7 @@ import {SetorService} from "src/services/SetorService";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Paginado} from "../../../models/Paginado";
 import {ResponseApi} from "../../../models/ResponseApi";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'setor',
@@ -21,30 +22,35 @@ export class SetorComponent implements AfterViewInit, OnInit {
   readonly dialog = inject(MatDialog);
   loading: boolean = false;
   dataSource = new MatTableDataSource<Setor>();
-  totalDataSource : number = 0;
-  setores : Setor[] = [];
   displayedColumns: string[] = ['descricao', 'dataRegistro', 'numAtivos', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 
-  constructor(private service : SetorService, private cdr: ChangeDetectorRef) {
+  constructor(private service : SetorService,
+              private cdr: ChangeDetectorRef,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.carregarSetores(0, 10);
   }
 
   ngAfterViewInit() {
+    this.carregarSetores(0, 10);
   }
 
   openDialogCreateSetor() {
-    this.dialog.open(DialogSetorComponent, {});
+    this.dialog.open(DialogSetorComponent, {
+      data: {
+        carregarSetores: this.carregarSetores.bind(this)
+      }
+    });
   }
 
   openDialogEditSetor(setor : Setor){
     this.dialog.open(DialogSetorComponent, {
       data: {
-        setor
+        setor,
+        carregarSetores: this.carregarSetores.bind(this)
       }
     });
   }
@@ -52,10 +58,35 @@ export class SetorComponent implements AfterViewInit, OnInit {
   openDialogExcluirSetor(setor: Setor){
     this.dialog.open(DialogExcluirEntidadeComponent, {
       data: {
-        nomeEntidade: "setor",
-        nomeAtivo: setor.descricao
+        nomeEntidade: setor.descricao,
+        idEntidade: setor.id,
+        deletar: this.deletar.bind(this)
       }
     });
+  }
+
+  deletar(id:Number){
+    this.service.deletar(id).subscribe({
+      next: (responseApi:ResponseApi<Setor>) => {
+        this.dialog.closeAll();
+        this.carregarSetores(0, 10);
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        if (errorResponse?.error && errorResponse?.error.success === false &&
+          errorResponse?.error.message.length > 0)
+        {
+          var messages = errorResponse?.error.message.join('<br>');
+          this.toastr.error(messages, '', {
+            timeOut: 8000,
+            enableHtml: true,
+            closeButton: true,
+            positionClass: 'toast-top-center',
+          });
+        }
+        this.dialog.closeAll();
+      }
+    })
+    this.cdr.detectChanges();
   }
 
   carregarSetores(pagina:number, tamanho:number){
@@ -73,6 +104,7 @@ export class SetorComponent implements AfterViewInit, OnInit {
         console.log(errorResponse);
       }
     })
+    this.cdr.detectChanges();
   }
 
   pageHandler(event:PageEvent){

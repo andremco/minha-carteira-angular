@@ -4,7 +4,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
-  MatDialogContent, MatDialogModule,
+  MatDialogContent, MatDialogModule, MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
@@ -23,13 +23,17 @@ import {CommonModule} from "@angular/common";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogExcluirEntidadeComponent implements OnInit{
-  public nomeEntidade: string = ""
-  public nomeAtivo: string = ""
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  nomeEntidade: string = "";
+  idEntidade: Number = 0;
+  deletar: Function = (id:Number) => {};
+  constructor(@Inject(MAT_DIALOG_DATA) data: any)
+  {
     if (data && data.nomeEntidade)
       this.nomeEntidade = data.nomeEntidade
-    if (data && data.nomeAtivo)
-      this.nomeAtivo = data.nomeAtivo
+    if(data && data.idEntidade)
+      this.idEntidade = data.idEntidade
+    if (data && data.deletar != undefined)
+      this.deletar = data.deletar;
   }
   ngOnInit(): void {
   }

@@ -22,18 +22,21 @@ import {ResponseApi} from "../../../models/ResponseApi";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogSetorComponent implements OnInit{
-  public setor: Setor = {}
-  public setorForm: FormGroup = new FormGroup('');
+  setor: Setor = {};
+  setorForm: FormGroup = new FormGroup('');
   loading: boolean = false;
   ehEditar: boolean = false;
+  carregarSetores: Function = (pagina:Number, tamanho:Number) => {};
   constructor(
     private readonly ref: MatDialogRef<DialogSetorComponent>,
-    @Inject(MAT_DIALOG_DATA) private readonly data: any,
+    @Inject(MAT_DIALOG_DATA) data: { setor: Setor, carregarSetores: Function},
     private readonly service : SetorService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
     private readonly toastr: ToastrService) {
     if (data && data.setor)
       this.setor = data.setor
+    if (data && data.carregarSetores != undefined)
+      this.carregarSetores = data.carregarSetores
     this.ehEditar = this.setor.id != undefined;
   }
 
@@ -87,14 +90,15 @@ export class DialogSetorComponent implements OnInit{
 
   success(setor : ResponseApi<Setor>) {
     this.loading = false;
-    this.toastr.success('Registro salvo com sucesso!', '', {
+    this.toastr.info('Registro salvo com sucesso!', '', {
       timeOut: 8000,
       enableHtml: true,
       closeButton: true,
       positionClass: 'toast-top-center'
     });
+    this.carregarSetores(0, 10);
     this.ref.close();
-    this.changeDetectorRef.detectChanges();
+    this.cdr.detectChanges();
   }
   error(errorResponse : HttpErrorResponse){
     this.loading = false;
@@ -106,9 +110,9 @@ export class DialogSetorComponent implements OnInit{
         timeOut: 8000,
         enableHtml: true,
         closeButton: true,
-        positionClass: 'toast-top-center'
+        positionClass: 'toast-top-center',
       });
     }
-    this.changeDetectorRef.detectChanges();
+    this.cdr.detectChanges();
   }
 }
