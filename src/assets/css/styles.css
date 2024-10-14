@@ -100,7 +100,7 @@ mat-form-field {
 }
 
 .toast-top-center {
-  margin-top: 20px !important;
+  margin-top: 35px !important;
 }
 
 .loader {
@@ -125,4 +125,8 @@ mat-form-field {
 }
 @keyframes l3 {
   50% {left:100%;transform: translateX(calc(-100% - 4px))}
+}
+
+.toast-success{
+  background-color: #81c784 !important;
 }

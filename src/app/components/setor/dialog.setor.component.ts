@@ -90,7 +90,7 @@ export class DialogSetorComponent implements OnInit{
 
   success(setor : ResponseApi<Setor>) {
     this.loading = false;
-    this.toastr.info('Registro salvo com sucesso!', '', {
+    this.toastr.success('Registro salvo com sucesso!', '', {
       timeOut: 8000,
       enableHtml: true,
       closeButton: true,
