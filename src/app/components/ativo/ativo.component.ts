@@ -15,18 +15,17 @@ import {FundoImobiliario} from "../../../models/FundoImobiliario";
 export class AtivoComponent implements OnInit {
 
   acoes: Acao[] = [   // Adicione mais ações conforme necessário
-    {id: 1, setorId: 3, setorDescricao: 'Banco', razaoSocial: 'Banco do Brasil', ticker: 'BBS3', quantidade: 100, nota: 9, dataRegistro: new Date('2024-06-02'), precoDinamico: 35.62, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
-    {id: 2, setorId: 4, setorDescricao: 'Bebidas', razaoSocial: 'Ambev S.A.', ticker: 'ABEV3', quantidade: 50, nota: 8, dataRegistro: new Date('2024-07-12'), precoDinamico: 15.00, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
-    {id: 3, setorId: 9, setorDescricao: 'Construção civil', razaoSocial: 'Cyrela', ticker: 'CYRE3', quantidade: 60, nota: 8, dataRegistro: new Date('2024-07-08'), precoDinamico: 20.73, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
-    {id: 4, setorId: 6, setorDescricao: 'Mídia', razaoSocial: 'The Walt Disney Company Inc.', ticker: 'DISB34', quantidade: 10, nota: 7, dataRegistro: new Date('2024-07-07'), precoDinamico: 28.65, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Perda'},
-    {id: 5, setorId: 7, setorDescricao: 'Aéreo', razaoSocial: 'Embraer', ticker: 'EMBR3', quantidade: 21, nota: 8, dataRegistro: new Date('2024-07-06'), precoDinamico: 18.13, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
+    {id: 1, setorId: 3, ehFIIs: false, setorDescricao: 'Banco', razaoSocial: 'Banco do Brasil', ticker: 'BBS3', quantidade: 100, nota: 9, dataRegistro: new Date('2024-06-02'), precoDinamico: 35.62, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
+    {id: 2, setorId: 4, ehFIIs: false, setorDescricao: 'Bebidas', razaoSocial: 'Ambev S.A.', ticker: 'ABEV3', quantidade: 50, nota: 8, dataRegistro: new Date('2024-07-12'), precoDinamico: 15.00, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
+    {id: 3, setorId: 9, ehFIIs: false, setorDescricao: 'Construção civil', razaoSocial: 'Cyrela', ticker: 'CYRE3', quantidade: 60, nota: 8, dataRegistro: new Date('2024-07-08'), precoDinamico: 20.73, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
+    {id: 4, setorId: 6, ehFIIs: false, setorDescricao: 'Mídia', razaoSocial: 'The Walt Disney Company Inc.', ticker: 'DISB34', quantidade: 10, nota: 7, dataRegistro: new Date('2024-07-07'), precoDinamico: 28.65, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Perda'},
+    {id: 5, setorId: 7, ehFIIs: false, setorDescricao: 'Aéreo', razaoSocial: 'Embraer', ticker: 'EMBR3', quantidade: 21, nota: 8, dataRegistro: new Date('2024-07-06'), precoDinamico: 18.13, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
+    {id: 1, setorId: 2, ehFIIs: true, setorDescricao: 'Fundo Imobiliário Títulos', razaoSocial: 'Patria Recebiveis Imobiliarios', ticker: 'HGCR11', quantidade: 5, nota: 7, dataRegistro: new Date('2024-07-05'), precoDinamico: 103.8, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
+    {id: 1, setorId: 5, ehFIIs: true, setorDescricao: 'Logística', razaoSocial: 'XP Log Fundo de Investimento Imobiliário', ticker: 'XPLG11', quantidade: 8, nota: 7, dataRegistro: new Date('2024-12-12'), precoDinamico: 122.7, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
+    {id: 1, setorId: 8, ehFIIs: true, setorDescricao: 'Escritório', razaoSocial: 'XP Properties FII', ticker: 'XPPR11', quantidade: 12, nota: 7, dataRegistro: new Date('2024-09-09'), precoDinamico: 115.2, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'}
   ];
 
-  fiis: FundoImobiliario[] = [   // Adicione mais ações conforme necessário
-    {id: 1, setorId: 2, setorDescricao: 'Fundo Imobiliário Títulos', razaoSocial: 'Patria Recebiveis Imobiliarios', ticker: 'HGCR11', quantidade: 5, nota: 7, dataRegistro: new Date('2024-07-05'), precoDinamico: 103.8, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
-    {id: 1, setorId: 5, setorDescricao: 'Logística', razaoSocial: 'XP Log Fundo de Investimento Imobiliário', ticker: 'XPLG11', quantidade: 8, nota: 7, dataRegistro: new Date('2024-12-12'), precoDinamico: 122.7, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'},
-    {id: 1, setorId: 8, setorDescricao: 'Escritório', razaoSocial: 'XP Properties FII', ticker: 'XPPR11', quantidade: 12, nota: 7, dataRegistro: new Date('2024-09-09'), precoDinamico: 115.2, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Perda'}
-  ];
+  fiis: Acao[] = <Acao[]>this.acoes.find(a => a.ehFIIs === true)
 
   titulosPublico: TituloPublico[] = [
     {id: 1, setorId: 1, setorDescricao: 'Tesouro direto', descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: new Date('2024-10-12'), precoAjustado: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
