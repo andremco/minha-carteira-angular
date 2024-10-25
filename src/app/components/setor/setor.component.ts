@@ -6,11 +6,10 @@ import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {Setor} from "src/models/setor/Setor";
-import {TipoAtivo} from "src/models/TipoAtivo";
 import {SetorService} from "src/services/SetorService";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Paginado} from "../../../models/Paginado";
-import {ResponseApi} from "../../../models/ResponseApi";
+import {Paginado} from "src/models/Paginado";
+import {ResponseApi} from "src/models/ResponseApi";
 import {ToastrService} from "ngx-toastr";
 
 @Component({

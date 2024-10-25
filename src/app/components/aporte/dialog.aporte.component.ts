@@ -4,16 +4,17 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {Aporte} from "src/models/Aporte";
+import {Aporte} from "src/models/aporte/Aporte";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'dialog-aporte',
   templateUrl: 'dialog.aporte.component.html',
   styleUrls: ['./dialog.aporte.component.scss'],
   standalone: true,
-    imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect, NgClass],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogAporteComponent implements OnInit{
@@ -23,14 +24,12 @@ export class DialogAporteComponent implements OnInit{
   };
   public tipoAtivoId: number = 1;
   public ativoId: number = 1;
+  public ehAcao: boolean = false;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     if (data && data.aporte)
       this.aporte = data.aporte
   }
   ngOnInit(): void {
-    if (this.aporte.tipoAtivo)
-      this.tipoAtivoId = this.aporte.tipoAtivo.valueOf()
-    if (this.aporte.ativoId)
-      this.ativoId = this.aporte.ativoId
+      this.ehAcao = <boolean>(this.aporte.acaoId && !this.aporte.tituloPublicoId);
   }
 }

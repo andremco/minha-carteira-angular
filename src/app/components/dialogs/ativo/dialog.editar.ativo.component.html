@@ -6,7 +6,7 @@
           <div class="card-header" [ngClass]="{'card-header-success': comprar, 'card-header-warning': !comprar}">
             <div class="row">
               <div class="col-md-6">
-                <h4 class="card-title" [innerHTML]="tipoAtivo == TipoAtivo.Acao  || tipoAtivo == TipoAtivo.FundoImobiliario ? ativo.razaoSocial : ativo.descricao"></h4>
+                <h4 class="card-title" [innerHTML]="ehAcao ? ativo.razaoSocial : ativo.descricao"></h4>
                 <p class="card-category">{{ ativo.setorDescricao }}</p>
               </div>
               <div class="col-md-6">
@@ -18,7 +18,7 @@
           </div>
           <div class="card-body">
             <form>
-              <div class="row" *ngIf="tipoAtivo == TipoAtivo.Acao || tipoAtivo == TipoAtivo.FundoImobiliario">
+              <div class="row" *ngIf="ehAcao">
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Setor</mat-label>
@@ -49,7 +49,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row" *ngIf="tipoAtivo == TipoAtivo.TituloPublico">
+              <div class="row" *ngIf="ehAcao">
                 <div class="col-md-5">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Setor</mat-label>
@@ -75,8 +75,8 @@
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label [innerHTML]="tipoAtivo == TipoAtivo.Acao  || tipoAtivo == TipoAtivo.FundoImobiliario ? 'Preço dinâmico' : 'Preço ajustado'"></mat-label>
-                    <input matInput [value]="tipoAtivo == TipoAtivo.Acao || tipoAtivo == TipoAtivo.FundoImobiliario ? ativo.precoDinamico : ativo.precoAjustado">
+                    <mat-label [innerHTML]="ehAcao ? 'Preço dinâmico' : 'Preço ajustado'"></mat-label>
+                    <input matInput [value]="ehAcao ? ativo.precoDinamico : ativo.precoAjustado">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
-                    <!--Carteira Ideal * Total Aporte-->
+                    <!--Carteira Ideal * Total aporte-->
                     <mat-label>Quero</mat-label>
                     <input matInput value="R$ 900,25" readonly>
                   </mat-form-field>

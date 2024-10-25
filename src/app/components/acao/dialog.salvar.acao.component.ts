@@ -7,7 +7,7 @@ import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
-import {Acao} from "src/models/Acao";
+import {Acao} from "src/models/acao/Acao";
 import {DatePipe, NgIf} from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 

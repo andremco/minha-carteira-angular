@@ -6,8 +6,7 @@ import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {DialogExcluirEntidadeComponent} from "../dialogs/excluir/dialog.excluir.entidade.component";
 import {DialogEditarAtivoComponent} from "../dialogs/ativo/dialog.editar.ativo.component";
-import {TipoAtivo} from "src/models/TipoAtivo";
-import {Acao} from "src/models/Acao";
+import {Acao} from "src/models/acao/Acao";
 
 @Component({
   selector: 'acao',
@@ -38,8 +37,7 @@ export class AcaoComponent implements AfterViewInit {
   openDialogEditAcao(acao : Acao) {
     const dialogRef = this.dialog.open(DialogEditarAtivoComponent, {
       data: {
-        ativo: acao,
-        tipoAtivo: TipoAtivo.Acao
+        ativo: acao
       }
     });
 

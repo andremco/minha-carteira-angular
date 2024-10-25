@@ -10,8 +10,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CommonModule } from "@angular/common"
-import {TipoAtivo} from "../../../../models/TipoAtivo";
+import { CommonModule } from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 @Component({
@@ -25,12 +24,11 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 export class DialogEditarAtivoComponent {
   public comprar : boolean = false;
   public ativo? : any;
-  public tipoAtivo? : TipoAtivo;
+  public ehAcao? : boolean;
   public setorId? : string;
-  public TipoAtivo = TipoAtivo;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.ativo = data.ativo
-    this.tipoAtivo = data.tipoAtivo
+    this.ehAcao = (data.ativo && data.ativo.categoriaId)
   }
 
   ngOnInit() {

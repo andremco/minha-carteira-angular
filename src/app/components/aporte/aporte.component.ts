@@ -4,9 +4,7 @@ import {DialogAporteComponent} from "./dialog.aporte.component";
 import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {Aporte} from "../../../models/Aporte";
-import {TipoAtivo} from "../../../models/TipoAtivo";
-import {DialogSetorComponent} from "../setor/dialog.setor.component";
+import {Aporte} from "src/models/aporte/Aporte";
 import {DialogExcluirEntidadeComponent} from "../dialogs/excluir/dialog.excluir.entidade.component";
 
 @Component({
@@ -17,9 +15,9 @@ import {DialogExcluirEntidadeComponent} from "../dialogs/excluir/dialog.excluir.
 export class AporteComponent implements AfterViewInit{
   readonly dialog = inject(MatDialog);
   dataSource = new MatTableDataSource<Aporte>([
-    {id: 1, tipoAtivo: TipoAtivo.Acao, ativoId: 1, ativoDescricao: 'Banco do Brasil', preco: 35, quantidade: 100, dataRegistro: new Date('2024-06-02')},
-    {id: 2, tipoAtivo: TipoAtivo.Acao, ativoId: 2, ativoDescricao: 'Ambev S.A.', preco: 20, quantidade: 50, dataRegistro: new Date('2024-07-12')},
-    {id: 3, tipoAtivo: TipoAtivo.Acao, ativoId: 3, ativoDescricao: 'Cyrela', preco: 6.5, quantidade: 60, dataRegistro: new Date('2024-07-08')}
+    {id: 1, acaoId: 1, razaoSocial: 'Banco do Brasil', preco: 35, quantidade: 100, dataRegistro: new Date('2024-06-02')},
+    {id: 2, acaoId: 2, razaoSocial: 'Ambev S.A.', preco: 20, quantidade: 50, dataRegistro: new Date('2024-07-12')},
+    {id: 3, acaoId: 3, razaoSocial: 'Cyrela', preco: 6.5, quantidade: 60, dataRegistro: new Date('2024-07-08')}
   ]);
   displayedColumns: string[] = ['tipoAtivo', 'ativoDescricao', 'ticker', 'preco', 'quantidade', 'dataAporte', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
@@ -43,7 +41,7 @@ export class AporteComponent implements AfterViewInit{
     this.dialog.open(DialogExcluirEntidadeComponent, {
       data: {
         nomeEntidade: "aporte",
-        nomeAtivo: aporte.ativoDescricao
+        nomeAtivo: aporte.acaoId && !aporte.tituloPublicoId ? aporte.razaoSocial : aporte.descricao
       }
     });
   }
