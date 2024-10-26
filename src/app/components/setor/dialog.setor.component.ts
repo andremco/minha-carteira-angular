@@ -55,10 +55,10 @@ export class DialogSetorComponent implements OnInit{
 
   descricaoErrorMessage() : string {
     if (this.descricao?.hasError('required')) {
-      return "Campo descrição é obrigatório";
+      return "Obrigatório";
     }
     if (this.descricao?.hasError('maxlength')) {
-      return "Campo descrição é permitido até 60 caracteres";
+      return "Até 60 caracteres";
     }
     return "";
   }

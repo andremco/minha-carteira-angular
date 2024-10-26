@@ -11,32 +11,35 @@
             </div>
           </div>
           <div class="card-body">
-            <form>
-              <div class="row">
-                <div class="col-sm-4">
-                  <mat-slide-toggle class="mt-2" labelPosition="before">É Fundo Imobiliário?</mat-slide-toggle>
-                </div>
+            <form [formGroup]="acaoForm">
+              <div class="row mb-2">
                 <div class="col-sm-4">
                   <mat-form-field color="primary">
-                    <mat-label>Setor</mat-label>
-                    <mat-select [value]="setorId">
-                      <mat-option value="1">Tesouro direto</mat-option>
-                      <mat-option value="2">Fundo Imobiliário</mat-option>
-                      <mat-option value="3">Banco</mat-option>
-                      <mat-option value="4">Seguradora</mat-option>
-                      <mat-option value="5">Hospedagem</mat-option>
-                      <mat-option value="6">Mídia</mat-option>
-                      <mat-option value="7">Aéreo</mat-option>
-                      <mat-option value="9">Construção civil</mat-option>
-                      <mat-option value="5">Logística</mat-option>
-                      <mat-option value="8">Escritório</mat-option>
+                    <mat-label>Categoria</mat-label>
+                    <mat-select required formControlName="categoria">
+                      <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+                        {{ categoria.descricao }}
+                      </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="categoria?.invalid && (categoria?.dirty || categoria?.touched)">{{categoriaErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-5">
+                  <mat-form-field color="primary">
+                    <mat-label>Setor</mat-label>
+                    <mat-select required formControlName="setor">
+                      <mat-option *ngFor="let setor of setores" [value]="setor.id">
+                        {{ setor.descricao }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="setor?.invalid && (setor?.dirty || setor?.touched)">{{setorErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3">
                   <mat-form-field color="primary">
                     <mat-label>Nota</mat-label>
-                    <input matInput>
+                    <input matInput required formControlName="nota">
+                    <mat-error *ngIf="nota?.invalid && (nota?.dirty || nota?.touched)">{{notaErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -44,13 +47,15 @@
                 <div class="col-sm-3">
                   <mat-form-field color="primary">
                     <mat-label>Ticker</mat-label>
-                    <input matInput>
+                    <input matInput required formControlName="ticker">
+                    <mat-error *ngIf="ticker?.invalid && (ticker?.dirty || ticker?.touched)">{{tickerErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-9">
                   <mat-form-field color="primary">
                     <mat-label>Razão social</mat-label>
-                    <input matInput>
+                    <input matInput required formControlName="razaoSocial">
+                    <mat-error *ngIf="razaoSocial?.invalid && (razaoSocial?.dirty || razaoSocial?.touched)">{{razaoSocialErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
               </div>

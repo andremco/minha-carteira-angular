@@ -99,6 +99,11 @@ mat-form-field {
   caret-color: #f44336 !important;
 }
 
+.mat-mdc-form-field .mat-mdc-select.mat-mdc-select-invalid .mat-mdc-select-arrow,
+.mat-form-field-invalid:not(.mat-form-field-disabled) .mat-mdc-form-field-infix::after{
+  color: #f44336 !important;
+}
+
 .toast-top-center {
   margin-top: 35px !important;
 }
