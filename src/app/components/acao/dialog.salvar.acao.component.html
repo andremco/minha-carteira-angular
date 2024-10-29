@@ -60,8 +60,11 @@
                 </div>
               </div>
               <div class="pull-right">
-                <button mat-raised-button mat-dialog-close [style.margin-right]="'5px'">Fechar</button>
-                <button mat-raised-button mat-dialog-close type="submit" color="primary">Salvar</button>
+                <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
+                <button mat-raised-button color="primary" [disabled]="loading || acaoForm?.invalid" (click)="salvar()">
+                  <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
+                  <span *ngIf="!loading">Salvar</span>
+                </button>
               </div>
               <div class="clearfix"></div>
             </form>

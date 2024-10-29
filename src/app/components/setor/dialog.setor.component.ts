@@ -11,8 +11,10 @@ import {SalvarSetor} from "src/models/setor/SalvarSetor";
 import {CommonModule} from "@angular/common";
 import { ToastrService } from 'ngx-toastr';
 import {HttpErrorResponse} from "@angular/common/http";
-import {EditarSetor} from "../../../models/setor/EditarSetor";
-import {ResponseApi} from "../../../models/ResponseApi";
+import {EditarSetor} from "src/models/setor/EditarSetor";
+import {ResponseApi} from "src/models/ResponseApi";
+import {MESSAGE} from "src/message/message"
+import {DialogBaseComponent} from "../dialog.base.component";
 
 @Component({
   selector: 'dialog-setor',
@@ -21,18 +23,19 @@ import {ResponseApi} from "../../../models/ResponseApi";
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatProgressSpinner, CommonModule, MatError, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogSetorComponent implements OnInit{
+export class DialogSetorComponent extends DialogBaseComponent implements OnInit{
   setor: Setor = {};
   setorForm: FormGroup = new FormGroup('');
   loading: boolean = false;
   ehEditar: boolean = false;
-  carregarSetores: Function = (pagina:Number, tamanho:Number) => {};
+  private carregarSetores: Function = (pagina:Number, tamanho:Number) => {};
   constructor(
     private readonly ref: MatDialogRef<DialogSetorComponent>,
-    @Inject(MAT_DIALOG_DATA) data: { setor: Setor, carregarSetores: Function},
+    @Inject(MAT_DIALOG_DATA) private data: { setor: Setor, carregarSetores: Function},
     private readonly service : SetorService,
     private readonly cdr: ChangeDetectorRef,
-    private readonly toastr: ToastrService) {
+    public override toastr: ToastrService) {
+    super(toastr);
     if (data && data.setor)
       this.setor = data.setor
     if (data && data.carregarSetores != undefined)
@@ -55,12 +58,23 @@ export class DialogSetorComponent implements OnInit{
 
   descricaoErrorMessage() : string {
     if (this.descricao?.hasError('required')) {
-      return "Obrigatório";
+      return MESSAGE.OBRIGATORIO;
     }
     if (this.descricao?.hasError('maxlength')) {
-      return "Até 60 caracteres";
+      return MESSAGE.ATE_60_CHARS;
     }
-    return "";
+    return MESSAGE.VAZIO;
+  }
+
+  updateDialogSuccess = ()=> {
+    this.loading = false;
+    this.carregarSetores(0, 10);
+    this.ref.close();
+    this.cdr.detectChanges();
+  }
+  updateDialogError = ()=> {
+    this.loading = false;
+    this.cdr.detectChanges();
   }
 
   salvar(){
@@ -68,9 +82,10 @@ export class DialogSetorComponent implements OnInit{
     var salvarReq : SalvarSetor = {
       descricao: this.descricao?.value
     }
+
     this.service.salvar(salvarReq).subscribe({
-        next: (setor : ResponseApi<Setor>) => this.success(setor),
-        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
+        next: (setor : ResponseApi<Setor>) => this.success(this.updateDialogSuccess),
+        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)
       }
     )
   }
@@ -82,37 +97,9 @@ export class DialogSetorComponent implements OnInit{
       descricao: this.descricao?.value
     }
     this.service.editar(editarReq).subscribe({
-        next: (setor : ResponseApi<Setor>) => this.success(setor),
-        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
+        next: (setor : ResponseApi<Setor>) => this.success(this.updateDialogSuccess),
+        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)
       }
     )
-  }
-
-  success(setor : ResponseApi<Setor>) {
-    this.loading = false;
-    this.toastr.success('Registro salvo com sucesso!', '', {
-      timeOut: 8000,
-      enableHtml: true,
-      closeButton: true,
-      positionClass: 'toast-top-center'
-    });
-    this.carregarSetores(0, 10);
-    this.ref.close();
-    this.cdr.detectChanges();
-  }
-  error(errorResponse : HttpErrorResponse){
-    this.loading = false;
-    if (errorResponse?.error && errorResponse?.error.success === false &&
-      errorResponse?.error.message.length > 0)
-    {
-      var messages = errorResponse?.error.message.join('<br>');
-      this.toastr.error(messages, '', {
-        timeOut: 8000,
-        enableHtml: true,
-        closeButton: true,
-        positionClass: 'toast-top-center',
-      });
-    }
-    this.cdr.detectChanges();
   }
 }

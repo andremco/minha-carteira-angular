@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from "@angular/core";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
@@ -14,31 +14,45 @@ import {DominioService} from "src/services/DominioService";
 import {ResponseApi} from "src/models/ResponseApi";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Dominio} from "src/models/Dominio";
-import {Categoria} from "../../../models/acao/Categoria";
+import {Categoria} from "src/models/acao/Categoria";
+import {AcaoService} from "src/services/AcaoService";
+import {DialogBaseComponent} from "../dialog.base.component";
+import {ToastrService} from "ngx-toastr";
+import {SalvarAcao} from "src/models/acao/SalvarAcao";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MESSAGE} from "src/message/message";
 
 @Component({
   selector: 'salvar-acao',
   templateUrl: 'dialog.salvar.acao.component.html',
   styleUrls: ['./dialog.salvar.acao.component.scss'],
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogSalvarAcaoComponent implements OnInit {
+export class DialogSalvarAcaoComponent extends DialogBaseComponent implements OnInit {
   acao: Acao = {
-    categoria: Categoria.Acao
+    categoriaId: Categoria.Acao.valueOf()
   };
   acaoForm: FormGroup = new FormGroup('');
   loading: boolean = false;
   categorias? : Dominio[] = [];
   setores? : Dominio[] = [];
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private service : DominioService) {
+  private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
+  constructor(private readonly ref: MatDialogRef<DialogSalvarAcaoComponent>,
+              private readonly dominioService : DominioService,
+              private readonly acaoService : AcaoService,
+              private readonly cdr: ChangeDetectorRef,
+              @Inject(MAT_DIALOG_DATA) private data: { carregarAcoes: Function},
+              public override toastr: ToastrService) {
+    super(toastr);
+    if (data && data.carregarAcoes != undefined)
+      this.carregarAcoes = data.carregarAcoes
   }
 
   ngOnInit(): void {
     this.acaoForm = new FormGroup({
-      categoria: new FormControl(this.acao.categoria, [
+      categoria: new FormControl(this.acao.categoriaId, [
         Validators.required
       ]),
       setor: new FormControl(this.acao.setorId, [
@@ -84,7 +98,7 @@ export class DialogSalvarAcaoComponent implements OnInit {
   }
 
   carregarCategorias(){
-    this.service.get('categorias').subscribe({
+    this.dominioService.get('categorias').subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
         this.categorias = response.data;
       },
@@ -95,7 +109,7 @@ export class DialogSalvarAcaoComponent implements OnInit {
   }
 
   carregarSetores(){
-    this.service.get('setores').subscribe({
+    this.dominioService.get('setores').subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
         this.setores = response.data;
       },
@@ -105,49 +119,77 @@ export class DialogSalvarAcaoComponent implements OnInit {
     })
   }
 
+  salvar(){
+    this.loading = true;
+    if(this.acaoForm.valid){
+      var salvarReq: SalvarAcao = {
+        razaoSocial: this.razaoSocial?.value,
+        setorId: this.setor?.value,
+        categoriaId: this.categoria?.value,
+        ticker: this.ticker?.value,
+        nota: this.nota?.value
+      }
+      var updateDialogSuccess = ()=>{
+        this.loading = false;
+        this.carregarAcoes(0, 10);
+        this.ref.close();
+        this.cdr.detectChanges();
+      }
+      var updateDialogError = ()=>{
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+      this.acaoService.salvar(salvarReq).subscribe({
+          next: () => this.success(updateDialogSuccess),
+          error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
+        }
+      );
+    }
+  }
+
   categoriaErrorMessage() : string {
     if (this.categoria?.hasError('required')) {
-      return "Obrigatório";
+      return MESSAGE.OBRIGATORIO;
     }
-    return "";
+    return MESSAGE.VAZIO;
   }
 
   setorErrorMessage() : string {
     if (this.setor?.hasError('required')) {
-      return "Obrigatório";
+      return MESSAGE.OBRIGATORIO;
     }
-    return "";
+    return MESSAGE.VAZIO;
   }
 
   notaErrorMessage() : string {
     if (this.nota?.hasError('required')) {
-      return "Obrigatório";
+      return MESSAGE.OBRIGATORIO;
     }
     if (this.nota?.hasError('pattern') ||
       this.nota?.hasError('max') ||
       this.nota?.hasError('min') ) {
-      return "Valor de 0 a 10";
+      return MESSAGE.VALOR_0_10;
     }
-    return "";
+    return MESSAGE.VAZIO;
   }
 
   tickerErrorMessage() : string {
     if (this.ticker?.hasError('required')) {
-      return "Obrigatório";
+      return MESSAGE.OBRIGATORIO;
     }
     if (this.ticker?.hasError('maxlength')) {
-      return "Até 10 caracteres";
+      return MESSAGE.ATE_10_CHARS;
     }
-    return "";
+    return MESSAGE.VAZIO;
   }
 
   razaoSocialErrorMessage() : string {
     if (this.razaoSocial?.hasError('required')) {
-      return "Obrigatório";
+      return MESSAGE.OBRIGATORIO;
     }
     if (this.razaoSocial?.hasError('maxlength')) {
-      return "Até 100 caracteres";
+      return MESSAGE.ATE_100_CHARS;
     }
-    return "";
+    return MESSAGE.VAZIO;
   }
 }

@@ -25,9 +25,9 @@ export class SetorComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 
-  constructor(private service : SetorService,
-              private cdr: ChangeDetectorRef,
-              private toastr: ToastrService) {
+  constructor(private readonly service : SetorService,
+              private readonly cdr: ChangeDetectorRef,
+              private readonly toastr: ToastrService) {
   }
 
   ngOnInit(): void {

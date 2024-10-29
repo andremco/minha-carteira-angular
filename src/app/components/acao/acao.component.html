@@ -19,7 +19,8 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table mat-table [dataSource]="dataSource">
+              <div *ngIf="loading" class="loader"></div>
+              <table *ngIf="!loading" mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="razaoSocial">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Razão social </th>
                   <td mat-cell *matCellDef="let element"> {{element.razaoSocial}} </td>
@@ -42,7 +43,7 @@
                 </ng-container>
                 <ng-container matColumnDef="dataRegistro">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Data </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "MMMM y" }}</td>
+                  <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "dd/MM/yyyy HH:mm" }}</td>
                 </ng-container>
                 <ng-container matColumnDef="acoes">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Ações </th>
@@ -60,7 +61,9 @@
               </table>
               <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
                              showFirstLastButtons
-                             aria-label="Select page of periodic elements">
+                             aria-label="Select page of periodic elements"
+                             (page)="pageHandler($event)"
+              >
               </mat-paginator>
             </div>
           </div>

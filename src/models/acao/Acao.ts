@@ -1,9 +1,9 @@
-import {Ativo} from "../Ativo";
-import {Categoria} from "./Categoria";
+import {Ativo} from "src/models/Ativo";
 
 export interface Acao extends Ativo {
   razaoSocial? : string;
-  categoria?: Categoria;
+  categoriaId?: number;
+  categoriaDescricao?: string;
   ticker? : string;
   precoDinamico?: number;
 }
