@@ -47,14 +47,14 @@
                 <div class="col-sm-3">
                   <mat-form-field color="primary">
                     <mat-label>Ticker</mat-label>
-                    <input matInput required formControlName="ticker">
+                    <input matInput required formControlName="ticker" #inputBox (input)="buscarAcaoPorTicker(inputBox.value)">
                     <mat-error *ngIf="ticker?.invalid && (ticker?.dirty || ticker?.touched)">{{tickerErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-9">
                   <mat-form-field color="primary">
                     <mat-label>Razão social</mat-label>
-                    <input matInput required formControlName="razaoSocial">
+                    <input matInput required formControlName="razaoSocial" [readonly]="true">
                     <mat-error *ngIf="razaoSocial?.invalid && (razaoSocial?.dirty || razaoSocial?.touched)">{{razaoSocialErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>

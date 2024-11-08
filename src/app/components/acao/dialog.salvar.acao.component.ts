@@ -21,6 +21,8 @@ import {ToastrService} from "ngx-toastr";
 import {SalvarAcao} from "src/models/acao/SalvarAcao";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MESSAGE} from "src/message/message";
+import {TickerService} from "../../../services/TickerService";
+import {Ticker} from "../../../models/Ticker";
 
 @Component({
   selector: 'salvar-acao',
@@ -42,6 +44,7 @@ export class DialogSalvarAcaoComponent extends DialogBaseComponent implements On
   constructor(private readonly ref: MatDialogRef<DialogSalvarAcaoComponent>,
               private readonly dominioService : DominioService,
               private readonly acaoService : AcaoService,
+              private readonly tickerService : TickerService,
               private readonly cdr: ChangeDetectorRef,
               @Inject(MAT_DIALOG_DATA) private data: { carregarAcoes: Function},
               public override toastr: ToastrService) {
@@ -72,7 +75,13 @@ export class DialogSalvarAcaoComponent extends DialogBaseComponent implements On
         Validators.required,
         Validators.maxLength(100)
       ])
-    })
+    });
+    // Escuta mudanças no valor e transforma em maiúsculas
+    this.acaoForm.get('ticker')?.valueChanges.subscribe(value => {
+      if (value !== value.toUpperCase()) {
+        this.acaoForm.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
+      }
+    });
     this.carregarCategorias();
     this.carregarSetores();
   }
@@ -145,6 +154,19 @@ export class DialogSalvarAcaoComponent extends DialogBaseComponent implements On
         }
       );
     }
+  }
+
+  buscarAcaoPorTicker(value: string){
+    if (value && value.length >= 5){
+      this.tickerService.obter(value).subscribe({
+        next: (response:ResponseApi<Ticker>) => {
+          this.acaoForm.get('razaoSocial')?.setValue(response.data?.razaoSocial)
+        },
+        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
+      })
+    }
+    else
+      this.acaoForm.get('razaoSocial')?.setValue("")
   }
 
   categoriaErrorMessage() : string {

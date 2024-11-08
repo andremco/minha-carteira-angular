@@ -13,25 +13,18 @@ import {ResponseApi} from "../models/ResponseApi";
 })
 export class SetorService{
   private apiUrl = environment.apiUrl;
-
-  constructor(private http: HttpClient) {
-    console.log(this.apiUrl)
-  }
-
+  constructor(private http: HttpClient) {}
   salvar(request : SalvarSetor) : Observable<ResponseApi<Setor>>{
     return this.http.post<ResponseApi<Setor>>(this.apiUrl + '/setor', request);
   }
-
   editar(request : EditarSetor) : Observable<ResponseApi<Setor>>{
     return this.http.put<ResponseApi<Setor>>(this.apiUrl + '/setor', request);
   }
-
   filtrar(pagina:Number, tamanho:Number) : Observable<ResponseApi<Paginado<Setor>>>{
     return this.http.get<ResponseApi<Paginado<Setor>>>(this.apiUrl + '/setor/filtrar',
       {headers: {'pagina':pagina.toString(),'tamanho':tamanho.toString()}}
     );
   }
-
   deletar(id:Number){
     return this.http.delete<ResponseApi<Setor>>(this.apiUrl + '/setor/' + id);
   }

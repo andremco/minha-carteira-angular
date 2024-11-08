@@ -13,9 +13,7 @@ import {Paginado} from "../models/Paginado";
 })
 export class AcaoService{
   private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {
-    console.log(this.apiUrl)
-  }
+  constructor(private http: HttpClient) {}
   salvar(request : SalvarAcao) : Observable<ResponseApi<Acao>>{
     return this.http.post<ResponseApi<Acao>>(this.apiUrl + '/acao', request);
   }
