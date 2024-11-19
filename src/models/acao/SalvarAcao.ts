@@ -1,3 +1,6 @@
 import {Acao} from "./Acao";
 
-export interface SalvarAcao extends Acao{}
+export interface SalvarAcao extends Acao{
+  setorId: number,
+  categoriaId: number,
+}

@@ -1,5 +1,4 @@
-export enum Categoria {
-  Acao = 1,
-  FundoImobiliario = 2,
-  BDR = 3,
+import {Dominio} from "../Dominio";
+
+export interface Categoria extends Dominio {
 }

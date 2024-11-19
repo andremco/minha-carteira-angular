@@ -17,9 +17,9 @@ export class TituloPublicoComponent implements OnInit, AfterViewInit{
 
   readonly dialog = inject(MatDialog);
   dataSource = new MatTableDataSource<TituloPublico>([
-    {id: 1, setorId: 1, setorDescricao: 'Tesouro direto', descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: new Date('2024-10-12'), precoAjustado: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
-    {id: 2, setorId: 1, setorDescricao: 'Tesouro direto', descricao: 'Tesouro Prefixado 2025', quantidade: 74, nota: 6, dataRegistro: new Date('2024-10-09'), precoAjustado: 37.31, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
-    {id: 3, setorId: 1, setorDescricao: 'Tesouro direto', descricao: 'Tesouro Prefixado 2026', quantidade: 33, nota: 6, dataRegistro: new Date('2024-10-08'), precoAjustado: 37.73, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
+    {id: 1, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: new Date('2024-10-12'), precoAjustado: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
+    {id: 2, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2025', quantidade: 74, nota: 6, dataRegistro: new Date('2024-10-09'), precoAjustado: 37.31, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
+    {id: 3, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2026', quantidade: 33, nota: 6, dataRegistro: new Date('2024-10-08'), precoAjustado: 37.73, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
   ]);
   displayedColumns: string[] = ['descricao', 'setorDescricao', 'precoAjustado', 'quantidade', 'nota', 'dataRegistro', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);

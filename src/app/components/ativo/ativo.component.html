@@ -19,7 +19,7 @@
                 <p [ngClass]="{
                 'sinalizar-compra': titulo.comprarOuAguardar === 'Comprar',
                 'sinalizar-espera': titulo.comprarOuAguardar === 'Aguardar'
-                }">{{ titulo.setorDescricao }}</p>
+                }">{{ titulo.setor?.descricao }}</p>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">
