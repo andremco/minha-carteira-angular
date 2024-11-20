@@ -28,12 +28,12 @@ export class DialogEditarAtivoComponent {
   public setorId? : string;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.ativo = data.ativo
-    this.ehAcao = (data.ativo && data.ativo.categoriaId)
+    this.ehAcao = (data.ativo && data.ativo.categoria)
   }
 
   ngOnInit() {
     this.comprar = this.ativo?.comprarOuAguardar === 'Comprar';
-    this.setorId = this.ativo?.setorId?.toString()
+    this.setorId = this.ativo?.setor?.id?.toString()
   }
 
 
