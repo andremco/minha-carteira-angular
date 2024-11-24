@@ -55,6 +55,32 @@ export class DialogSalvarAcaoComponent extends DialogBaseComponent implements On
   }
 
   ngOnInit(): void {
+    this.inicializarAcaoForm();
+    this.carregarCategorias();
+    this.carregarSetores();
+  }
+
+  get categoria() : AbstractControl<any, any> | null{
+    return this.acaoForm.get('categoria');
+  }
+
+  get setor() : AbstractControl<any, any> | null{
+    return this.acaoForm.get('setor');
+  }
+
+  get nota() : AbstractControl<any, any> | null{
+    return this.acaoForm.get('nota');
+  }
+
+  get ticker() : AbstractControl<any, any> | null{
+    return this.acaoForm.get('ticker');
+  }
+
+  get razaoSocial() : AbstractControl<any, any> | null{
+    return this.acaoForm.get('razaoSocial');
+  }
+
+  inicializarAcaoForm(){
     this.acaoForm = new FormGroup({
       categoria: new FormControl(this.acao.categoria?.id, [
         Validators.required
@@ -83,28 +109,6 @@ export class DialogSalvarAcaoComponent extends DialogBaseComponent implements On
         this.acaoForm.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
       }
     });
-    this.carregarCategorias();
-    this.carregarSetores();
-  }
-
-  get categoria() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('categoria');
-  }
-
-  get setor() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('setor');
-  }
-
-  get nota() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('nota');
-  }
-
-  get ticker() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('ticker');
-  }
-
-  get razaoSocial() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('razaoSocial');
   }
 
   carregarCategorias(){
