@@ -17,7 +17,8 @@
             </div>
           </div>
           <div class="card-body">
-            <form [formGroup]="ativoForm">
+            <div *ngIf="loading" [class]="comprar ? 'loader' : 'loader-warn'"></div>
+            <form *ngIf="!loading" [formGroup]="ativoForm">
               <div class="row" *ngIf="ehAcao">
                 <div class="col-sm-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
@@ -148,9 +149,13 @@
                 </div>
               </div>
               <div class="pull-right">
-                <button mat-raised-button mat-dialog-close class="mr-2">Fechar</button>
-                <button mat-raised-button mat-dialog-close [class]="{'btn-edit-warn': !comprar}"
-                        type="submit" [color]="comprar ? 'primary' : 'warn'">Editar</button>
+                <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
+                <button mat-raised-button [class]="{'btn-edit-warn': !comprar}"
+                        [disabled]="btnLoading || ativoForm?.invalid" (click)="editar()"
+                        [color]="comprar ? 'primary' : 'warn'">
+                    <mat-spinner *ngIf="btnLoading" [style.width]="'30px'"></mat-spinner>
+                    <span *ngIf="!btnLoading">Editar</span>
+                </button>
               </div>
               <div class="clearfix"></div>
             </form>

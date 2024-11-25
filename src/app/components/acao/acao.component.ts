@@ -40,14 +40,11 @@ export class AcaoComponent implements AfterViewInit {
   }
 
   openDialogEditAcao(acao : Acao) {
-    const dialogRef = this.dialog.open(DialogEditarAtivoComponent, {
+    this.dialog.open(DialogEditarAtivoComponent, {
       data: {
-        ativo: acao
+        ativo: acao,
+        carregarAcoes: this.carregarAcoes.bind(this)
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -74,7 +71,7 @@ export class AcaoComponent implements AfterViewInit {
         this.loading = false;
         console.log(errorResponse);
       }
-    })
+    });
     this.cdr.detectChanges();
   }
 

@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, Inject, OnInit} from "@angular/core";
-import { MatDialogModule } from "@angular/material/dialog";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from "@angular/core";
+import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
@@ -24,31 +24,40 @@ import {Ticker} from "../../../../models/Ticker";
 import {TickerService} from "../../../../services/TickerService";
 import {DialogBaseComponent} from "../../dialog.base.component";
 import {ToastrService} from "ngx-toastr";
+import {SalvarAcao} from "../../../../models/acao/SalvarAcao";
+import {EditarAcao} from "../../../../models/acao/EditarAcao";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'ativo',
   templateUrl: 'dialog.editar.ativo.component.html',
   styleUrls: ['./dialog.editar.ativo.component.scss'],
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, MatInputModule, MatFormFieldModule, CommonModule, MatSlideToggle, ReactiveFormsModule],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, MatInputModule, MatFormFieldModule, CommonModule, MatSlideToggle, ReactiveFormsModule, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogEditarAtivoComponent extends DialogBaseComponent implements OnInit {
   public comprar : boolean = false;
   public ativo? : any;
   public ehAcao? : boolean;
-  public setorId? : string;
-  ativoForm: FormGroup = new FormGroup('');
-  categorias? : Dominio[] = [];
-  setores? : Dominio[] = [];
+  public loading: boolean = false;
+  public btnLoading: boolean = false;
+  public ativoForm: FormGroup = new FormGroup('');
+  public categorias? : Dominio[] = [];
+  public setores? : Dominio[] = [];
+  private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
   constructor(private readonly service : AcaoService,
               private readonly dominioService : DominioService,
               private readonly tickerService : TickerService,
+              private readonly cdr: ChangeDetectorRef,
               @Inject(MAT_DIALOG_DATA) public data: any,
+              private readonly ref: MatDialogRef<DialogEditarAtivoComponent>,
               public override toastr: ToastrService) {
     super(toastr);
     this.ativo = data.ativo
     this.ehAcao = (data.ativo && data.ativo.categoria)
+    if (data && data.carregarAcoes != undefined)
+      this.carregarAcoes = data.carregarAcoes
   }
 
   ngOnInit() {
@@ -88,6 +97,7 @@ export class DialogEditarAtivoComponent extends DialogBaseComponent implements O
           this.ativoForm.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
         }
       });
+      this.comprar = true;
     }
   }
 
@@ -151,20 +161,49 @@ export class DialogEditarAtivoComponent extends DialogBaseComponent implements O
   }
 
   detalharAcao(id: number){
+    this.loading = true;
     this.service.obter(id).subscribe({
       next: (response :ResponseApi<Acao>) => {
         this.ativo = response.data;
-        this.ativo.carteiraIdealPorcento = this.ativo.carteiraIdealPorcento ?
-          this.formatarPorcento(this.ativo.carteiraIdealPorcento) : 0;
-        this.ativo.carteiraTenhoPorcento = this.ativo.carteiraTenhoPorcento ?
-          this.formatarPorcento(this.ativo.carteiraTenhoPorcento) : 0;
         this.comprar = response.data?.comprarOuAguardar === 'Comprar';
-        this.setorId = response.data?.setor?.id?.toString()
+        this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (errorResponse : HttpErrorResponse) => {
+        this.loading = false;
         console.log(errorResponse);
+        this.cdr.detectChanges();
       }
-    })
+    });
+  }
+
+  editar(){
+    this.btnLoading = true;
+    if(this.ativoForm.valid){
+      var editarReq: EditarAcao = {
+        id: this.ativo.id,
+        razaoSocial: this.razaoSocial?.value,
+        setorId: this.setor?.value,
+        categoriaId: this.categoria?.value,
+        ticker: this.ticker?.value,
+        nota: this.nota?.value
+      }
+      var updateDialogSuccess = ()=>{
+        this.btnLoading = false;
+        this.carregarAcoes(0, 10);
+        this.ref.close();
+        this.cdr.detectChanges();
+      }
+      var updateDialogError = ()=>{
+        this.btnLoading = false;
+        this.cdr.detectChanges();
+      }
+      this.service.editar(editarReq).subscribe({
+          next: () => this.success(updateDialogSuccess),
+          error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
+        }
+      );
+    }
   }
 
   categoriaErrorMessage() : string {
