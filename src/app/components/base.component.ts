@@ -8,7 +8,7 @@ import {ToastrService} from 'ngx-toastr';
   template: '',
   standalone: true,
 })
-export class DialogBaseComponent {
+export class BaseComponent {
   constructor(public toastr: ToastrService) {
   }
   success(callback: Function = () => {}) {

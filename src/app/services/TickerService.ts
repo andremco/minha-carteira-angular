@@ -1,9 +1,8 @@
-import {environment} from "../environments/environment";
+import {environment} from "src/environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ResponseApi} from "../models/ResponseApi";
-import {Dominio} from "../models/Dominio";
-import {Ticker} from "../models/Ticker";
+import {ResponseApi} from "src/models/ResponseApi";
+import {Ticker} from "src/models/Ticker";
 import {Injectable} from "@angular/core";
 
 @Injectable({

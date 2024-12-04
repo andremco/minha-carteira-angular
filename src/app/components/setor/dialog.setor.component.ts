@@ -6,15 +6,15 @@ import {MatFormField, MatLabel, MatError} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {Setor} from "src/models/setor/Setor";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {SetorService} from "src/services/SetorService";
+import {SetorService} from "src/app/services/SetorService";
 import {SalvarSetor} from "src/models/setor/SalvarSetor";
 import {CommonModule} from "@angular/common";
 import { ToastrService } from 'ngx-toastr';
 import {HttpErrorResponse} from "@angular/common/http";
 import {EditarSetor} from "src/models/setor/EditarSetor";
 import {ResponseApi} from "src/models/ResponseApi";
-import {MESSAGE} from "src/message/message"
-import {DialogBaseComponent} from "../dialog.base.component";
+import {MESSAGE} from "src/app/message/message"
+import {BaseComponent} from "../base.component";
 
 @Component({
   selector: 'dialog-setor',
@@ -23,7 +23,7 @@ import {DialogBaseComponent} from "../dialog.base.component";
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatProgressSpinner, CommonModule, MatError, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogSetorComponent extends DialogBaseComponent implements OnInit{
+export class DialogSetorComponent extends BaseComponent implements OnInit{
   setor: Setor = {};
   setorForm: FormGroup = new FormGroup('');
   loading: boolean = false;

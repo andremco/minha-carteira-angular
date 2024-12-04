@@ -7,24 +7,27 @@ import {MatSort} from "@angular/material/sort";
 import {DialogSalvarTituloPublicoComponent} from "./dialog.salvar.titulo-publico.component";
 import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
+import {BaseComponent} from "../base.component";
+import {AcaoService} from "../../services/AcaoService";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'titulo-publico',
   templateUrl: './titulo-publico.component.html',
   styleUrls: ['./titulo-publico.component.scss'],
 })
-export class TituloPublicoComponent implements OnInit, AfterViewInit{
+export class TituloPublicoComponent extends BaseComponent implements OnInit, AfterViewInit{
 
-  readonly dialog = inject(MatDialog);
-  dataSource = new MatTableDataSource<TituloPublico>([
-    {id: 1, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: new Date('2024-10-12'), precoAjustado: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
-    {id: 2, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2025', quantidade: 74, nota: 6, dataRegistro: new Date('2024-10-09'), precoAjustado: 37.31, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
-    {id: 3, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2026', quantidade: 33, nota: 6, dataRegistro: new Date('2024-10-08'), precoAjustado: 37.73, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
-  ]);
+  private readonly dialog = inject(MatDialog);
+  public loading: boolean = false;
+  dataSource = new MatTableDataSource<TituloPublico>();
   displayedColumns: string[] = ['descricao', 'setorDescricao', 'precoAjustado', 'quantidade', 'nota', 'dataRegistro', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
-
+  constructor(private readonly cdr: ChangeDetectorRef,
+              public override toastr: ToastrService) {
+    super(toastr);
+  }
   ngOnInit(): void {
   }
 

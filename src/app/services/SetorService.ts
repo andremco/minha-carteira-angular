@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import {SalvarSetor} from "../models/setor/SalvarSetor";
-import {Setor} from "../models/setor/Setor";
+import {SalvarSetor} from "../../models/setor/SalvarSetor";
+import {Setor} from "../../models/setor/Setor";
 import {Observable} from "rxjs";
-import {EditarSetor} from "../models/setor/EditarSetor";
-import {Paginado} from "../models/Paginado";
-import {ResponseApi} from "../models/ResponseApi";
+import {EditarSetor} from "../../models/setor/EditarSetor";
+import {Paginado} from "../../models/Paginado";
+import {ResponseApi} from "../../models/ResponseApi";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class SetorService{
       {headers: {'pagina':pagina.toString(),'tamanho':tamanho.toString()}}
     );
   }
-  deletar(id:Number){
+  deletar(id:Number) : Observable<ResponseApi<Setor>>{
     return this.http.delete<ResponseApi<Setor>>(this.apiUrl + '/setor/' + id);
   }
 }

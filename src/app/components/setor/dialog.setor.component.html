@@ -18,7 +18,7 @@
             </div>
             <div class="pull-right">
               <button mat-raised-button mat-dialog-close class="mr-1">Sair</button>
-              <button mat-raised-button color="primary" [disabled]="loading || setorForm?.invalid" (click)="!this.ehEditar ? salvar() : editar()">
+              <button mat-raised-button color="primary" [disabled]="loading || setorForm.invalid" (click)="!this.ehEditar ? salvar() : editar()">
                 <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
                 <span *ngIf="!loading">Salvar</span>
               </button>

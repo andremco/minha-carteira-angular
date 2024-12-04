@@ -151,7 +151,7 @@
               <div class="pull-right">
                 <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
                 <button mat-raised-button [class]="{'btn-edit-warn': !comprar}"
-                        [disabled]="btnLoading || ativoForm?.invalid" (click)="editar()"
+                        [disabled]="btnLoading || ativoForm.invalid" (click)="editar()"
                         [color]="comprar ? 'primary' : 'warn'">
                     <mat-spinner *ngIf="btnLoading" [style.width]="'30px'"></mat-spinner>
                     <span *ngIf="!btnLoading">Editar</span>

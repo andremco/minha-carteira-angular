@@ -10,20 +10,19 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {Acao} from "src/models/acao/Acao";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {DominioService} from "src/services/DominioService";
+import {DominioService} from "src/app/services/DominioService";
 import {ResponseApi} from "src/models/ResponseApi";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Dominio} from "src/models/Dominio";
-import {Categoria} from "src/models/acao/Categoria";
-import {AcaoService} from "src/services/AcaoService";
-import {DialogBaseComponent} from "../dialog.base.component";
+import {AcaoService} from "src/app/services/AcaoService";
+import {BaseComponent} from "../base.component";
 import {ToastrService} from "ngx-toastr";
 import {SalvarAcao} from "src/models/acao/SalvarAcao";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {MESSAGE} from "src/message/message";
-import {TickerService} from "../../../services/TickerService";
-import {Ticker} from "../../../models/Ticker";
-import {CategoriaEnum} from "../../../models/acao/CategoriaEnum";
+import {MESSAGE} from "src/app/message/message";
+import {TickerService} from "src/app/services/TickerService";
+import {Ticker} from "src/models/Ticker";
+import {CategoriaEnum} from "src/models/acao/CategoriaEnum";
 
 @Component({
   selector: 'salvar-acao',
@@ -33,7 +32,7 @@ import {CategoriaEnum} from "../../../models/acao/CategoriaEnum";
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogSalvarAcaoComponent extends DialogBaseComponent implements OnInit {
+export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
   acao: Acao = {
     categoria: { id: CategoriaEnum.Acao.valueOf() }
   };

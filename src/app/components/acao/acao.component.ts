@@ -11,14 +11,16 @@ import {ResponseApi} from "src/models/ResponseApi";
 import {Paginado} from "src/models/Paginado";
 import {Setor} from "src/models/setor/Setor";
 import {HttpErrorResponse} from "@angular/common/http";
-import {AcaoService} from "src/services/AcaoService";
+import {AcaoService} from "src/app/services/AcaoService";
+import {BaseComponent} from "../base.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'acao',
   templateUrl: './acao.component.html',
   styleUrl: './acao.component.css'
 })
-export class AcaoComponent implements AfterViewInit {
+export class AcaoComponent extends BaseComponent implements AfterViewInit {
   private readonly dialog = inject(MatDialog);
   public loading: boolean = false;
   dataSource = new MatTableDataSource<Acao>();
@@ -26,7 +28,9 @@ export class AcaoComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   constructor(private readonly service : AcaoService,
-              private readonly cdr: ChangeDetectorRef) {
+              private readonly cdr: ChangeDetectorRef,
+              public override toastr: ToastrService) {
+    super(toastr);
   }
   ngAfterViewInit() {
     this.carregarAcoes(0, 10);
@@ -51,10 +55,22 @@ export class AcaoComponent implements AfterViewInit {
   openDialogExcluirAcao(acao: Acao){
     this.dialog.open(DialogExcluirEntidadeComponent, {
       data: {
-        nomeEntidade: "ação",
-        nomeAtivo: acao.razaoSocial
+        nomeEntidade: acao.razaoSocial,
+        idEntidade: acao.id,
+        deletar: this.deletar.bind(this)
       }
     });
+  }
+
+  deletar(id:Number){
+    this.service.deletar(id).subscribe({
+      next: (responseApi:ResponseApi<Acao>) => {
+        this.dialog.closeAll();
+        this.carregarAcoes(0, 10);
+      },
+      error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, () => this.dialog.closeAll())
+    })
+    this.cdr.detectChanges();
   }
 
   carregarAcoes(pagina:number, tamanho:number){

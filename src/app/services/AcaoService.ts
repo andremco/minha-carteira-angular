@@ -3,11 +3,10 @@ import {environment} from "src/environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ResponseApi} from "src/models/ResponseApi";
-import {Setor} from "src/models/setor/Setor";
 import {SalvarAcao} from "src/models/acao/SalvarAcao";
 import {Acao} from "src/models/acao/Acao";
-import {Paginado} from "../models/Paginado";
-import {EditarAcao} from "../models/acao/EditarAcao";
+import {Paginado} from "src/models/Paginado";
+import {EditarAcao} from "src/models/acao/EditarAcao";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +27,8 @@ export class AcaoService{
     return this.http.get<ResponseApi<Paginado<Acao>>>(this.apiUrl + '/acao/filtrar',
       {headers: {'pagina':pagina.toString(),'tamanho':tamanho.toString()}}
     );
+  }
+  deletar(id:Number) : Observable<ResponseApi<Acao>>{
+    return this.http.delete<ResponseApi<Acao>>(this.apiUrl + '/acao/' + id);
   }
 }

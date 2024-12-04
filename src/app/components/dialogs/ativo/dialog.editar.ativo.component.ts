@@ -12,16 +12,16 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {AcaoService} from "src/services/AcaoService";
+import {AcaoService} from "src/app/services/AcaoService";
 import {ResponseApi} from "src/models/ResponseApi";
 import {Acao} from "src/models/acao/Acao";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Dominio} from "src/models/Dominio";
-import {DominioService} from "src/services/DominioService";
-import {MESSAGE} from "src/message/message";
+import {DominioService} from "src/app/services/DominioService";
+import {MESSAGE} from "src/app/message/message";
 import {Ticker} from "src/models/Ticker";
-import {TickerService} from "src/services/TickerService";
-import {DialogBaseComponent} from "src/app/components/dialog.base.component";
+import {TickerService} from "src/app/services/TickerService";
+import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
 import {EditarAcao} from "src/models/acao/EditarAcao";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
@@ -34,7 +34,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, MatInputModule, MatFormFieldModule, CommonModule, MatSlideToggle, ReactiveFormsModule, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogEditarAtivoComponent extends DialogBaseComponent implements OnInit {
+export class DialogEditarAtivoComponent extends BaseComponent implements OnInit {
   public comprar : boolean = false;
   public ativo? : any;
   public ehAcao? : boolean;

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData, CommonModule } from '@angular/common';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { getPtBrPaginatorIntl } from './custom-paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -85,6 +87,10 @@ registerLocaleData(localePt);
       provide:  DEFAULT_CURRENCY_CODE,
       useValue: 'BRL'
     },
+    {
+      provide: MatPaginatorIntl,
+      useValue: getPtBrPaginatorIntl()
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -6,18 +6,19 @@ import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {Setor} from "src/models/setor/Setor";
-import {SetorService} from "src/services/SetorService";
+import {SetorService} from "src/app/services/SetorService";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Paginado} from "src/models/Paginado";
 import {ResponseApi} from "src/models/ResponseApi";
 import {ToastrService} from "ngx-toastr";
+import {BaseComponent} from "../base.component";
 
 @Component({
   selector: 'setor',
   templateUrl: './setor.component.html',
   styleUrl: './setor.component.css'
 })
-export class SetorComponent implements AfterViewInit, OnInit {
+export class SetorComponent extends BaseComponent implements AfterViewInit, OnInit {
   readonly dialog = inject(MatDialog);
   loading: boolean = false;
   dataSource = new MatTableDataSource<Setor>();
@@ -27,7 +28,8 @@ export class SetorComponent implements AfterViewInit, OnInit {
 
   constructor(private readonly service : SetorService,
               private readonly cdr: ChangeDetectorRef,
-              private readonly toastr: ToastrService) {
+              public override toastr: ToastrService) {
+    super(toastr);
   }
 
   ngOnInit(): void {
@@ -70,20 +72,7 @@ export class SetorComponent implements AfterViewInit, OnInit {
         this.dialog.closeAll();
         this.carregarSetores(0, 10);
       },
-      error: (errorResponse : HttpErrorResponse) => {
-        if (errorResponse?.error && errorResponse?.error.success === false &&
-          errorResponse?.error.message.length > 0)
-        {
-          var messages = errorResponse?.error.message.join('<br>');
-          this.toastr.error(messages, '', {
-            timeOut: 8000,
-            enableHtml: true,
-            closeButton: true,
-            positionClass: 'toast-top-center',
-          });
-        }
-        this.dialog.closeAll();
-      }
+      error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, () => this.dialog.closeAll())
     })
     this.cdr.detectChanges();
   }

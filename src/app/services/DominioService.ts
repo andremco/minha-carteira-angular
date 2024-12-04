@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
-import {environment} from "../environments/environment";
+import {environment} from "src/environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ResponseApi} from "../models/ResponseApi";
-import {Dominio} from "../models/Dominio";
+import {ResponseApi} from "src/models/ResponseApi";
+import {Dominio} from "src/models/Dominio";
 
 @Injectable({
   providedIn: 'root'
