@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {MatPaginator, MatPaginatorIntl, PageEvent} from '@angular/material/paginator';
-import {DialogSetorComponent} from "src/app/components/setor/dialog.setor.component";
+import {DialogSetorComponent} from "src/app/components/dialogs/setor/dialog.setor.component";
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";

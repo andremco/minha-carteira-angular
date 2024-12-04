@@ -62,7 +62,7 @@
               <div *ngIf="!loading && dataSource.data.length === 0">
                 <p class="text-center">Nenhum resultado encontrado!</p>
               </div>
-              <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons></mat-paginator>
+              <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons (page)="pageHandler($event)"></mat-paginator>
             </div>
           </div>
         </div>

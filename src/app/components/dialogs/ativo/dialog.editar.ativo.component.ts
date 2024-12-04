@@ -29,7 +29,6 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 @Component({
   selector: 'ativo',
   templateUrl: 'dialog.editar.ativo.component.html',
-  styleUrls: ['./dialog.editar.ativo.component.scss'],
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, MatInputModule, MatFormFieldModule, CommonModule, MatSlideToggle, ReactiveFormsModule, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,5 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild} from "@angular/core";
-import { DialogSalvarAcaoComponent } from "./dialog.salvar.acao.component";
+import { DialogSalvarAcaoComponent } from "../dialogs/acao/dialog.salvar.acao.component";
 import { MatDialog } from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/paginator";

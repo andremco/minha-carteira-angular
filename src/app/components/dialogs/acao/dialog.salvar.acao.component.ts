@@ -26,8 +26,7 @@ import {CategoriaEnum} from "src/app/models/acao/CategoriaEnum";
 
 @Component({
   selector: 'salvar-acao',
-  templateUrl: 'dialog.salvar.acao.component.html',
-  styleUrls: ['./dialog.salvar.acao.component.scss'],
+  templateUrl: './dialog.salvar.acao.component.html',
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,

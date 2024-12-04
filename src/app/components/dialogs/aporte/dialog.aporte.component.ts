@@ -7,14 +7,14 @@ import {MatInput} from "@angular/material/input";
 import {Aporte} from "src/app/models/aporte/Aporte";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
-import {NgClass} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 
 @Component({
   selector: 'dialog-aporte',
   templateUrl: 'dialog.aporte.component.html',
   styleUrls: ['./dialog.aporte.component.scss'],
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect, NgClass],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect, NgClass, NgIf],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogAporteComponent implements OnInit{

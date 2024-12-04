@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
-import {DialogAporteComponent} from "./dialog.aporte.component";
+import {DialogAporteComponent} from "../dialogs/aporte/dialog.aporte.component";
 import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
@@ -9,8 +9,7 @@ import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir
 
 @Component({
   selector: 'aporte',
-  templateUrl: './aporte.component.html',
-  styleUrl: './aporte.component.scss'
+  templateUrl: './aporte.component.html'
 })
 export class AporteComponent implements AfterViewInit{
   readonly dialog = inject(MatDialog);
