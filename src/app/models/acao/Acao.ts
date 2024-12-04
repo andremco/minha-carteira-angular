@@ -1,4 +1,4 @@
-import {Ativo} from "src/models/Ativo";
+import {Ativo} from "src/app/models/Ativo";
 import {Categoria} from "./Categoria";
 
 export interface Acao extends Ativo {
