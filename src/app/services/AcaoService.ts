@@ -2,11 +2,11 @@ import {Injectable} from "@angular/core";
 import {environment} from "src/environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ResponseApi} from "src/models/ResponseApi";
-import {SalvarAcao} from "src/models/acao/SalvarAcao";
-import {Acao} from "src/models/acao/Acao";
-import {Paginado} from "src/models/Paginado";
-import {EditarAcao} from "src/models/acao/EditarAcao";
+import {ResponseApi} from "src/app/models/ResponseApi";
+import {SalvarAcao} from "src/app/models/acao/SalvarAcao";
+import {Acao} from "src/app/models/acao/Acao";
+import {Paginado} from "src/app/models/Paginado";
+import {EditarAcao} from "src/app/models/acao/EditarAcao";
 
 @Injectable({
   providedIn: 'root'

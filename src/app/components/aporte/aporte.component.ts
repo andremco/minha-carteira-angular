@@ -4,8 +4,8 @@ import {DialogAporteComponent} from "./dialog.aporte.component";
 import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {Aporte} from "src/models/aporte/Aporte";
-import {DialogExcluirEntidadeComponent} from "../dialogs/excluir/dialog.excluir.entidade.component";
+import {Aporte} from "src/app/models/aporte/Aporte";
+import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 
 @Component({
   selector: 'aporte',

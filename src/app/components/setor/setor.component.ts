@@ -5,13 +5,13 @@ import {DialogSetorComponent} from "src/app/components/setor/dialog.setor.compon
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {Setor} from "src/models/setor/Setor";
+import {Setor} from "src/app/models/setor/Setor";
 import {SetorService} from "src/app/services/SetorService";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Paginado} from "src/models/Paginado";
-import {ResponseApi} from "src/models/ResponseApi";
+import {Paginado} from "src/app/models/Paginado";
+import {ResponseApi} from "src/app/models/ResponseApi";
 import {ToastrService} from "ngx-toastr";
-import {BaseComponent} from "../base.component";
+import {BaseComponent} from "src/app/components/base.component";
 
 @Component({
   selector: 'setor',

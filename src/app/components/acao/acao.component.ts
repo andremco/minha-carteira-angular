@@ -6,13 +6,12 @@ import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/pagin
 import {MatSort} from "@angular/material/sort";
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
-import {Acao} from "src/models/acao/Acao";
-import {ResponseApi} from "src/models/ResponseApi";
-import {Paginado} from "src/models/Paginado";
-import {Setor} from "src/models/setor/Setor";
+import {Acao} from "src/app/models/acao/Acao";
+import {ResponseApi} from "src/app/models/ResponseApi";
+import {Paginado} from "src/app/models/Paginado";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AcaoService} from "src/app/services/AcaoService";
-import {BaseComponent} from "../base.component";
+import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
 
 @Component({

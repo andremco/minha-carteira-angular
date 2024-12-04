@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import {SalvarSetor} from "../../models/setor/SalvarSetor";
-import {Setor} from "../../models/setor/Setor";
+import {SalvarSetor} from "src/app/models/setor/SalvarSetor";
+import {Setor} from "src/app/models/setor/Setor";
 import {Observable} from "rxjs";
-import {EditarSetor} from "../../models/setor/EditarSetor";
-import {Paginado} from "../../models/Paginado";
-import {ResponseApi} from "../../models/ResponseApi";
+import {EditarSetor} from "src/app/models/setor/EditarSetor";
+import {Paginado} from "src/app/models/Paginado";
+import {ResponseApi} from "src/app/models/ResponseApi";
 
 @Injectable({
   providedIn: 'root'

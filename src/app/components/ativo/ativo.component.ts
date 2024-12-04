@@ -1,10 +1,10 @@
 import {Component, inject, OnInit} from "@angular/core";
-import {Acao} from "src/models/acao/Acao";
-import {TituloPublico} from "src/models/titulo-publico/TituloPublico";
-import {Ativo} from "src/models/Ativo";
+import {Acao} from "src/app/models/acao/Acao";
+import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
+import {Ativo} from "src/app/models/Ativo";
 import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {MatDialog} from "@angular/material/dialog";
-import {CategoriaEnum} from "src/models/acao/CategoriaEnum";
+import {CategoriaEnum} from "src/app/models/acao/CategoriaEnum";
 
 @Component({
   selector: 'ativo',

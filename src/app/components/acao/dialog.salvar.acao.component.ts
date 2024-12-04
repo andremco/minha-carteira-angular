@@ -7,22 +7,22 @@ import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
-import {Acao} from "src/models/acao/Acao";
+import {Acao} from "src/app/models/acao/Acao";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {DominioService} from "src/app/services/DominioService";
-import {ResponseApi} from "src/models/ResponseApi";
+import {ResponseApi} from "src/app/models/ResponseApi";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Dominio} from "src/models/Dominio";
+import {Dominio} from "src/app/models/Dominio";
 import {AcaoService} from "src/app/services/AcaoService";
-import {BaseComponent} from "../base.component";
+import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
-import {SalvarAcao} from "src/models/acao/SalvarAcao";
+import {SalvarAcao} from "src/app/models/acao/SalvarAcao";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MESSAGE} from "src/app/message/message";
 import {TickerService} from "src/app/services/TickerService";
-import {Ticker} from "src/models/Ticker";
-import {CategoriaEnum} from "src/models/acao/CategoriaEnum";
+import {Ticker} from "src/app/models/Ticker";
+import {CategoriaEnum} from "src/app/models/acao/CategoriaEnum";
 
 @Component({
   selector: 'salvar-acao',

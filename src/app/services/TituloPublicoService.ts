@@ -2,11 +2,11 @@ import {Injectable} from "@angular/core";
 import {environment} from "src/environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ResponseApi} from "src/models/ResponseApi";
-import {Paginado} from "src/models/Paginado";
-import {SalvarTituloPublico} from "src/models/titulo-publico/SalvarTituloPublico";
-import {TituloPublico} from "src/models/titulo-publico/TituloPublico";
-import {EditarTituloPublico} from "src/models/titulo-publico/EditarTituloPublico";
+import {ResponseApi} from "src/app/models/ResponseApi";
+import {Paginado} from "src/app/models/Paginado";
+import {SalvarTituloPublico} from "src/app/models/titulo-publico/SalvarTituloPublico";
+import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
+import {EditarTituloPublico} from "src/app/models/titulo-publico/EditarTituloPublico";
 
 @Injectable({
   providedIn: 'root'

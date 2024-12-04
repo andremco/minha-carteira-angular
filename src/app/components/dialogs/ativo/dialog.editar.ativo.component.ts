@@ -13,17 +13,17 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AcaoService} from "src/app/services/AcaoService";
-import {ResponseApi} from "src/models/ResponseApi";
-import {Acao} from "src/models/acao/Acao";
+import {ResponseApi} from "src/app/models/ResponseApi";
+import {Acao} from "src/app/models/acao/Acao";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Dominio} from "src/models/Dominio";
+import {Dominio} from "src/app/models/Dominio";
 import {DominioService} from "src/app/services/DominioService";
 import {MESSAGE} from "src/app/message/message";
-import {Ticker} from "src/models/Ticker";
+import {Ticker} from "src/app/models/Ticker";
 import {TickerService} from "src/app/services/TickerService";
 import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
-import {EditarAcao} from "src/models/acao/EditarAcao";
+import {EditarAcao} from "src/app/models/acao/EditarAcao";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({

@@ -4,17 +4,17 @@ import {MatButtonModule} from "@angular/material/button";
 import {AbstractControl, FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatLabel, MatError} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {Setor} from "src/models/setor/Setor";
+import {Setor} from "src/app/models/setor/Setor";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {SetorService} from "src/app/services/SetorService";
-import {SalvarSetor} from "src/models/setor/SalvarSetor";
+import {SalvarSetor} from "src/app/models/setor/SalvarSetor";
 import {CommonModule} from "@angular/common";
 import { ToastrService } from 'ngx-toastr';
 import {HttpErrorResponse} from "@angular/common/http";
-import {EditarSetor} from "src/models/setor/EditarSetor";
-import {ResponseApi} from "src/models/ResponseApi";
+import {EditarSetor} from "src/app/models/setor/EditarSetor";
+import {ResponseApi} from "src/app/models/ResponseApi";
 import {MESSAGE} from "src/app/message/message"
-import {BaseComponent} from "../base.component";
+import {BaseComponent} from "src/app/components/base.component";
 
 @Component({
   selector: 'dialog-setor',
