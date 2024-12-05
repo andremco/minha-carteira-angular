@@ -5,16 +5,14 @@ import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
 import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {DialogSalvarTituloPublicoComponent} from "../dialogs/titulo-publico/dialog.salvar.titulo-publico.component";
-import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
-import {ResponseApi} from "../../models/ResponseApi";
-import {Paginado} from "../../models/Paginado";
-import {Acao} from "../../models/acao/Acao";
+import {ResponseApi} from "src/app/models/ResponseApi";
+import {Paginado} from "src/app/models/Paginado";
 import {HttpErrorResponse} from "@angular/common/http";
-import {AcaoService} from "../../services/AcaoService";
-import {TituloPublicoService} from "../../services/TituloPublicoService";
+import {TituloPublicoService} from "src/app/services/TituloPublicoService";
+import {DialogEditarAtivoComponent} from "../dialogs/ativo/dialog.editar.ativo.component";
 
 @Component({
   selector: 'titulo-publico',
@@ -57,35 +55,44 @@ export class TituloPublicoComponent extends BaseComponent implements OnInit, Aft
     this.cdr.detectChanges();
   }
 
+  deletar(id:Number){
+    this.service.deletar(id).subscribe({
+      next: (responseApi:ResponseApi<TituloPublico>) => {
+        this.dialog.closeAll();
+        this.carregarTitulosPublico(0, 10);
+      },
+      error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, () => this.dialog.closeAll())
+    })
+    this.cdr.detectChanges();
+  }
+
   pageHandler(event:PageEvent){
     this.carregarTitulosPublico(event.pageIndex, event.pageSize);
   }
 
   openDialogCreateTitulo() {
-    const dialogRef = this.dialog.open(DialogSalvarTituloPublicoComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+    this.dialog.open(DialogSalvarTituloPublicoComponent, {
+      data: {
+        carregarTitulosPublico: this.carregarTitulosPublico.bind(this)
+      }
     });
   }
 
   openDialogEditTitulo(titulo : TituloPublico) {
-    const dialogRef = this.dialog.open(DialogEditarAtivoComponent, {
+    this.dialog.open(DialogEditarAtivoComponent, {
       data: {
-        ativo: titulo
+        ativo: titulo,
+        carregarTitulosPublico: this.carregarTitulosPublico.bind(this)
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
   openDialogExcluirTitulo(titulo : TituloPublico) {
     this.dialog.open(DialogExcluirEntidadeComponent, {
       data: {
-        nomeEntidade: "titulo público",
-        nomeAtivo: titulo.descricao
+        nomeEntidade: titulo.descricao,
+        idEntidade: titulo.id,
+        deletar: this.deletar.bind(this)
       }
     });
   }

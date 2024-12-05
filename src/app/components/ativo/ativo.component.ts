@@ -27,9 +27,9 @@ export class AtivoComponent implements OnInit {
   fiis: Acao[] = <Acao[]>this.acoes.find(a => a.categoria === undefined)
 
   titulosPublico: TituloPublico[] = [
-    {id: 1, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: new Date('2024-10-12'), precoAjustado: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
-    {id: 2, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2025', quantidade: 74, nota: 6, dataRegistro: new Date('2024-10-09'), precoAjustado: 37.31, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
-    {id: 3, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2026', quantidade: 33, nota: 6, dataRegistro: new Date('2024-10-08'), precoAjustado: 37.73, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
+    {id: 1, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro IPCA+ 2045', quantidade: 163, nota: 6, dataRegistro: new Date('2024-10-12'), precoInicial: 30.98, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'},
+    {id: 2, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2025', quantidade: 74, nota: 6, dataRegistro: new Date('2024-10-09'), precoInicial: 37.31, comprarOuAguardar: 'Comprar', lucroOuPerda: 'Lucro'},
+    {id: 3, setor: { id: 1, descricao: 'Tesouro direto'}, descricao: 'Tesouro Prefixado 2026', quantidade: 33, nota: 6, dataRegistro: new Date('2024-10-08'), precoInicial: 37.73, comprarOuAguardar: 'Aguardar', lucroOuPerda: 'Lucro'}
   ];
 
   readonly dialog = inject(MatDialog);

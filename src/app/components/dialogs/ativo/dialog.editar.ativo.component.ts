@@ -25,6 +25,9 @@ import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
 import {EditarAcao} from "src/app/models/acao/EditarAcao";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {TituloPublicoService} from "../../../services/TituloPublicoService";
+import {TituloPublico} from "../../../models/titulo-publico/TituloPublico";
+import {EditarTituloPublico} from "../../../models/titulo-publico/EditarTituloPublico";
 
 @Component({
   selector: 'ativo',
@@ -43,7 +46,9 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   public categorias? : Dominio[] = [];
   public setores? : Dominio[] = [];
   private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
-  constructor(private readonly service : AcaoService,
+  private carregarTitulosPublico: Function = (pagina:Number, tamanho:Number) => {};
+  constructor(private readonly acaoService : AcaoService,
+              private readonly tituloPublicoService: TituloPublicoService,
               private readonly dominioService : DominioService,
               private readonly tickerService : TickerService,
               private readonly cdr: ChangeDetectorRef,
@@ -54,14 +59,19 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     this.ativo = data.ativo
     this.ehAcao = (data.ativo && data.ativo.categoria)
     if (data && data.carregarAcoes != undefined)
-      this.carregarAcoes = data.carregarAcoes
+      this.carregarAcoes = data.carregarAcoes;
+    if (data && data.carregarTitulosPublico != undefined)
+      this.carregarTitulosPublico = data.carregarTitulosPublico;
   }
 
   ngOnInit() {
     this.inicializarAtivoForm();
     this.carregarCategorias();
     this.carregarSetores();
-    this.detalharAcao(this.ativo.id);
+    if (this.ehAcao)
+      this.detalharAcao(this.ativo.id);
+    else
+      this.detalharTituloPublico(this.ativo.id);
   }
 
   inicializarAtivoForm(){
@@ -94,12 +104,36 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
           this.ativoForm.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
         }
       });
-      this.comprar = true;
     }
+    else{
+      this.ativoForm = new FormGroup({
+        setor: new FormControl(this.ativo.setor?.id, [
+          Validators.required
+        ]),
+        precoInicial: new FormControl(this.ativo.precoInicial, [
+          Validators.required
+        ]),
+        nota: new FormControl(this.ativo.nota, [
+          Validators.required,
+          Validators.pattern('^[0-9]*$'),
+          Validators.min(0),
+          Validators.max(10)
+        ]),
+        descricao: new FormControl(this.ativo.descricao, [
+          Validators.required,
+          Validators.maxLength(100)
+        ])
+      });
+    }
+    this.comprar = true;
   }
 
   get razaoSocial() : AbstractControl<any, any> | null{
     return this.ativoForm.get('razaoSocial');
+  }
+
+  get descricao() : AbstractControl<any, any> | null{
+    return this.ativoForm.get('descricao');
   }
 
   get categoria() : AbstractControl<any, any> | null{
@@ -110,12 +144,12 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     return this.ativoForm.get('setor');
   }
 
-  get descricao() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('descricao');
-  }
-
   get ticker() : AbstractControl<any, any> | null{
     return this.ativoForm.get('ticker');
+  }
+
+  get precoInicial() : AbstractControl<any, any> | null{
+    return this.ativoForm.get('precoInicial');
   }
 
   get nota() : AbstractControl<any, any> | null{
@@ -159,8 +193,25 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
 
   detalharAcao(id: number){
     this.loading = true;
-    this.service.obter(id).subscribe({
+    this.acaoService.obter(id).subscribe({
       next: (response :ResponseApi<Acao>) => {
+        this.ativo = response.data;
+        this.comprar = response.data?.comprarOuAguardar === 'Comprar';
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        this.loading = false;
+        console.log(errorResponse);
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  detalharTituloPublico(id: number){
+    this.loading = true;
+    this.tituloPublicoService.obter(id).subscribe({
+      next: (response :ResponseApi<TituloPublico>) => {
         this.ativo = response.data;
         this.comprar = response.data?.comprarOuAguardar === 'Comprar';
         this.loading = false;
@@ -177,29 +228,49 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   editar(){
     this.btnLoading = true;
     if(this.ativoForm.valid){
-      var editarReq: EditarAcao = {
-        id: this.ativo.id,
-        razaoSocial: this.razaoSocial?.value,
-        setorId: this.setor?.value,
-        categoriaId: this.categoria?.value,
-        ticker: this.ticker?.value,
-        nota: this.nota?.value
-      }
-      var updateDialogSuccess = ()=>{
+      var updateDialogSuccess = ()=> {
         this.btnLoading = false;
-        this.carregarAcoes(0, 10);
+        if(this.ehAcao)
+          this.carregarAcoes(0, 10);
+        else
+          this.carregarTitulosPublico(0,10);
         this.ref.close();
         this.cdr.detectChanges();
       }
-      var updateDialogError = ()=>{
+      var updateDialogError = ()=> {
         this.btnLoading = false;
         this.cdr.detectChanges();
       }
-      this.service.editar(editarReq).subscribe({
-          next: () => this.success(updateDialogSuccess),
-          error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
+      var editarReq: {}
+      if(this.ehAcao){
+        editarReq = {
+          id: this.ativo.id,
+          razaoSocial: this.razaoSocial?.value,
+          setorId: this.setor?.value,
+          categoriaId: this.categoria?.value,
+          ticker: this.ticker?.value,
+          nota: this.nota?.value
         }
-      );
+        this.acaoService.editar(<EditarAcao>editarReq).subscribe({
+            next: () => this.success(updateDialogSuccess),
+            error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
+          }
+        );
+      }
+      else{
+        editarReq = {
+          id: this.ativo.id,
+          descricao: this.descricao?.value,
+          setorId: this.setor?.value,
+          precoInicial: this.converterRealToDouble(this.precoInicial?.value),
+          nota: this.nota?.value
+        }
+        this.tituloPublicoService.editar(<EditarTituloPublico>editarReq).subscribe({
+            next: () => this.success(updateDialogSuccess),
+            error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
+          }
+        );
+      }
     }
   }
 
@@ -237,6 +308,13 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     return MESSAGE.VAZIO;
   }
 
+  precoInicialErrorMessage() : string {
+    if (this.precoInicial?.hasError('required')) {
+      return MESSAGE.OBRIGATORIO;
+    }
+    return MESSAGE.VAZIO;
+  }
+
   notaErrorMessage() : string {
     if (this.nota?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
@@ -265,8 +343,4 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
       maximumFractionDigits: 2
     }).format(valor) + "%"
   }
-
-  detalharTituloPublico(id: number){
-  }
-
 }

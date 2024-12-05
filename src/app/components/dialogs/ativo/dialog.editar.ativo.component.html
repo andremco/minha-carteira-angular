@@ -89,8 +89,9 @@
                   </div>
                   <div *ngIf="!ehAcao">
                     <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                      <mat-label>Preço ajustado</mat-label>
-                      <input matInput required formControlName="precoDinamico" [readonly]="true">
+                      <mat-label>Preço inicial</mat-label>
+                      <input matInput required formControlName="precoInicial" #inputBox (blur)="onPrecoInicialBlur(ativoForm, inputBox.value)">
+                      <mat-error *ngIf="precoInicial?.invalid && (precoInicial?.dirty || precoInicial?.touched)">{{precoInicialErrorMessage()}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -143,7 +144,7 @@
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Quero</mat-label>
+                    <mat-label>Ideal / Quero</mat-label>
                     <input matInput [value]="ativo.quantoQueroTotal" readonly>
                   </mat-form-field>
                 </div>

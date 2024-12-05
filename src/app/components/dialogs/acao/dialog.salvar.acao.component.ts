@@ -49,7 +49,7 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
               public override toastr: ToastrService) {
     super(toastr);
     if (data && data.carregarAcoes != undefined)
-      this.carregarAcoes = data.carregarAcoes
+      this.carregarAcoes = data.carregarAcoes;
   }
 
   ngOnInit(): void {

@@ -24,7 +24,7 @@
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ titulo.precoAjustado | currency:'BRL' }}</span>
+                <span>{{ titulo.precoInicial | currency:'BRL' }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ titulo.quantidade }}</p>
@@ -32,7 +32,7 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ titulo?.quantidade! * titulo?.precoAjustado! | currency: 'BRL' }}</span>
+                <span>{{ titulo?.quantidade! * titulo?.precoInicial! | currency: 'BRL' }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{

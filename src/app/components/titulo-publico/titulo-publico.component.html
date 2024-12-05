@@ -27,11 +27,11 @@
                 </ng-container>
                 <ng-container matColumnDef="setorDescricao">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Setor </th>
-                  <td mat-cell *matCellDef="let element"> {{element.setorDescricao}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.setor.descricao}} </td>
                 </ng-container>
                 <ng-container matColumnDef="precoAjustado">
-                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Ticker </th>
-                  <td mat-cell *matCellDef="let element"> {{element.precoAjustado}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text-gray"> Preço inicial </th>
+                  <td mat-cell *matCellDef="let element"> {{element.precoInicial}} </td>
                 </ng-container>
                 <ng-container matColumnDef="quantidade">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Quantidade </th>
@@ -43,7 +43,7 @@
                 </ng-container>
                 <ng-container matColumnDef="dataRegistro">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Data </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "MMMM y" }}</td>
+                  <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "dd/MM/yyyy HH:mm" }}</td>
                 </ng-container>
                 <ng-container matColumnDef="acoes">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Ações </th>
@@ -51,7 +51,7 @@
                     <button (click)="openDialogEditTitulo(element)" mat-mini-fab class="btn-edit-basic mr-2">
                       <mat-icon>edit_note</mat-icon>
                     </button>
-                    <button (click)="openDialogEditTitulo(element)" mat-mini-fab class="btn-delete-danger">
+                    <button *ngIf="element.quantidade == 0" (click)="openDialogExcluirTitulo(element)" mat-mini-fab class="btn-delete-danger">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </td>
