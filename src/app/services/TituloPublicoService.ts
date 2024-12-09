@@ -23,10 +23,13 @@ export class TituloPublicoService{
   obter(idTituloPublico : number) : Observable<ResponseApi<TituloPublico>>{
     return this.http.get<ResponseApi<TituloPublico>>(this.apiUrl + '/tituloPublico/' + idTituloPublico);
   }
-  filtrar(pagina:Number, tamanho:Number) : Observable<ResponseApi<Paginado<TituloPublico>>>{
-    return this.http.get<ResponseApi<Paginado<TituloPublico>>>(this.apiUrl + '/tituloPublico/filtrar',
-      {headers: {'pagina':pagina.toString(),'tamanho':tamanho.toString()}}
-    );
+  filtrar(pagina:Number, tamanho:Number, descricao?: String) : Observable<ResponseApi<Paginado<TituloPublico>>>{
+    const headers = {
+      pagina: pagina.toString(),
+      tamanho: tamanho.toString(),
+      ...(descricao !== undefined && { descricao: descricao.toString() }),
+    };
+    return this.http.get<ResponseApi<Paginado<TituloPublico>>>(this.apiUrl + '/tituloPublico/filtrar', { headers });
   }
   deletar(id:Number) : Observable<ResponseApi<TituloPublico>>{
     return this.http.delete<ResponseApi<TituloPublico>>(this.apiUrl + '/tituloPublico/' + id);

@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="card-body">
-            <form [formGroup]="tituloForm">
+            <form [formGroup]="formGroup">
               <div class="row">
                 <div class="col-sm-4">
                   <mat-form-field color="primary">
@@ -27,7 +27,7 @@
                 <div class="col-sm-4">
                   <mat-form-field color="primary">
                     <mat-label>Preço inicial</mat-label>
-                    <input matInput required formControlName="precoInicial" #inputBox (blur)="onPrecoInicialBlur(tituloForm, inputBox.value)">
+                    <input matInput required formControlName="precoInicial" #inputBox (blur)="onPrecoInputBlur(inputBox.value, 'precoInicial')">
                     <mat-error *ngIf="precoInicial?.invalid && (precoInicial?.dirty || precoInicial?.touched)">{{precoInicialErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
@@ -50,7 +50,7 @@
               </div>
               <div class="pull-right">
                 <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
-                <button mat-raised-button color="primary" [disabled]="loading || tituloForm.invalid" (click)="salvar()">
+                <button mat-raised-button color="primary" [disabled]="loading || formGroup.invalid" (click)="salvar()">
                   <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
                   <span *ngIf="!loading">Salvar</span>
                 </button>

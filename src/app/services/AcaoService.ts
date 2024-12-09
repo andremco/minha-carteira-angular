@@ -23,10 +23,13 @@ export class AcaoService{
   obter(idAcao : number) : Observable<ResponseApi<Acao>>{
     return this.http.get<ResponseApi<Acao>>(this.apiUrl + '/acao/' + idAcao);
   }
-  filtrar(pagina:Number, tamanho:Number) : Observable<ResponseApi<Paginado<Acao>>>{
-    return this.http.get<ResponseApi<Paginado<Acao>>>(this.apiUrl + '/acao/filtrar',
-      {headers: {'pagina':pagina.toString(),'tamanho':tamanho.toString()}}
-    );
+  filtrar(pagina:Number, tamanho:Number, razaoSocial?: String) : Observable<ResponseApi<Paginado<Acao>>>{
+    const headers = {
+      pagina: pagina.toString(),
+      tamanho: tamanho.toString(),
+      ...(razaoSocial !== undefined && { razaoSocial: razaoSocial.toString() }),
+    };
+    return this.http.get<ResponseApi<Paginado<Acao>>>(this.apiUrl + '/acao/filtrar', { headers })
   }
   deletar(id:Number) : Observable<ResponseApi<Acao>>{
     return this.http.delete<ResponseApi<Acao>>(this.apiUrl + '/acao/' + id);

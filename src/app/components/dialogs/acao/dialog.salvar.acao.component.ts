@@ -22,7 +22,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MESSAGE} from "src/app/message/message";
 import {TickerService} from "src/app/services/TickerService";
 import {Ticker} from "src/app/models/Ticker";
-import {CategoriaEnum} from "src/app/models/acao/CategoriaEnum";
+import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
 
 @Component({
   selector: 'salvar-acao',
@@ -33,7 +33,7 @@ import {CategoriaEnum} from "src/app/models/acao/CategoriaEnum";
 })
 export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
   acao: Acao = {
-    categoria: { id: CategoriaEnum.Acao.valueOf() }
+    categoria: { id: TipoAtivoEnum.Acao.valueOf() }
   };
   acaoForm: FormGroup = new FormGroup('');
   loading: boolean = false;

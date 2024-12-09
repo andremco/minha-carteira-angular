@@ -18,7 +18,7 @@
           </div>
           <div class="card-body">
             <div *ngIf="loading" [class]="comprar ? 'loader' : 'loader-warn'"></div>
-            <form *ngIf="!loading" [formGroup]="ativoForm">
+            <form *ngIf="!loading" [formGroup]="formGroup">
               <div class="row" *ngIf="ehAcao">
                 <div class="col-sm-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
@@ -90,7 +90,7 @@
                   <div *ngIf="!ehAcao">
                     <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                       <mat-label>Preço inicial</mat-label>
-                      <input matInput required formControlName="precoInicial" #inputBox (blur)="onPrecoInicialBlur(ativoForm, inputBox.value)">
+                      <input matInput required formControlName="precoInicial" #inputBox (blur)="onPrecoInputBlur(inputBox.value, 'precoInicial')">
                       <mat-error *ngIf="precoInicial?.invalid && (precoInicial?.dirty || precoInicial?.touched)">{{precoInicialErrorMessage()}}</mat-error>
                     </mat-form-field>
                   </div>
@@ -152,7 +152,7 @@
               <div class="pull-right">
                 <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
                 <button mat-raised-button [class]="{'btn-edit-warn': !comprar}"
-                        [disabled]="btnLoading || ativoForm.invalid" (click)="editar()"
+                        [disabled]="btnLoading || formGroup.invalid" (click)="editar()"
                         [color]="comprar ? 'primary' : 'warn'">
                     <mat-spinner *ngIf="btnLoading" [style.width]="'30px'"></mat-spinner>
                     <span *ngIf="!btnLoading">Editar</span>

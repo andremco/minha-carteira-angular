@@ -9,6 +9,7 @@ import {FormGroup} from "@angular/forms";
   standalone: true,
 })
 export class BaseComponent {
+  formGroup : FormGroup = new FormGroup('');
   constructor(public toastr: ToastrService) {
   }
   success(callback: Function = () => {}) {
@@ -34,7 +35,7 @@ export class BaseComponent {
       callback();
     }
   }
-  onPrecoInicialBlur(formGroup: FormGroup, value : string){
+  onPrecoInputBlur(value : string, nameFieldControl: String){
     // Remove caracteres não numéricos, exceto vírgulas
     const numericValue = value.replace(/[^\d,]/g, '');
 
@@ -45,7 +46,7 @@ export class BaseComponent {
     const numeric = parseFloat(formattedValue) || 0;
 
     // Atualiza o valor no campo (exibindo o formato de moeda)
-    formGroup.get('precoInicial')?.setValue(numeric.toLocaleString('pt-BR', {
+    this.formGroup.get(nameFieldControl.toString())?.setValue(numeric.toLocaleString('pt-BR', {
       style: 'currency',
       currency: 'BRL'
     }), { emitEvent: false });

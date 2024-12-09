@@ -42,7 +42,6 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   public ehAcao? : boolean;
   public loading: boolean = false;
   public btnLoading: boolean = false;
-  public ativoForm: FormGroup = new FormGroup('');
   public categorias? : Dominio[] = [];
   public setores? : Dominio[] = [];
   private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
@@ -76,7 +75,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
 
   inicializarAtivoForm(){
     if (this.ehAcao){
-      this.ativoForm = new FormGroup({
+      this.formGroup = new FormGroup({
         categoria: new FormControl(this.ativo.categoria?.id, [
           Validators.required
         ]),
@@ -99,14 +98,14 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
         ])
       });
       // Escuta mudanças no valor e transforma em maiúsculas
-      this.ativoForm.get('ticker')?.valueChanges.subscribe(value => {
+      this.formGroup.get('ticker')?.valueChanges.subscribe(value => {
         if (value !== value.toUpperCase()) {
-          this.ativoForm.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
+          this.formGroup.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
         }
       });
     }
     else{
-      this.ativoForm = new FormGroup({
+      this.formGroup = new FormGroup({
         setor: new FormControl(this.ativo.setor?.id, [
           Validators.required
         ]),
@@ -129,44 +128,44 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   }
 
   get razaoSocial() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('razaoSocial');
+    return this.formGroup.get('razaoSocial');
   }
 
   get descricao() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('descricao');
+    return this.formGroup.get('descricao');
   }
 
   get categoria() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('categoria');
+    return this.formGroup.get('categoria');
   }
 
   get setor() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('setor');
+    return this.formGroup.get('setor');
   }
 
   get ticker() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('ticker');
+    return this.formGroup.get('ticker');
   }
 
   get precoInicial() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('precoInicial');
+    return this.formGroup.get('precoInicial');
   }
 
   get nota() : AbstractControl<any, any> | null{
-    return this.ativoForm.get('nota');
+    return this.formGroup.get('nota');
   }
 
   buscarAcaoPorTicker(value: string){
     if (value && value.length >= 5){
       this.tickerService.obter(value).subscribe({
         next: (response:ResponseApi<Ticker>) => {
-          this.ativoForm.get('razaoSocial')?.setValue(response.data?.razaoSocial)
+          this.formGroup.get('razaoSocial')?.setValue(response.data?.razaoSocial)
         },
         error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
       })
     }
     else
-      this.ativoForm.get('razaoSocial')?.setValue("")
+      this.formGroup.get('razaoSocial')?.setValue("")
   }
 
   carregarCategorias(){
@@ -227,7 +226,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
 
   editar(){
     this.btnLoading = true;
-    if(this.ativoForm.valid){
+    if(this.formGroup.valid){
       var updateDialogSuccess = ()=> {
         this.btnLoading = false;
         if(this.ehAcao)
@@ -335,12 +334,5 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
       return MESSAGE.ATE_100_CHARS;
     }
     return MESSAGE.VAZIO;
-  }
-
-  formatarPorcento(valor : number) : String {
-    return new Intl.NumberFormat('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(valor) + "%"
   }
 }

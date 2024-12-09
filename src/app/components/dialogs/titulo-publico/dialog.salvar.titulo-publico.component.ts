@@ -30,7 +30,6 @@ import {SalvarTituloPublico} from "src/app/models/titulo-publico/SalvarTituloPub
 })
 export class DialogSalvarTituloPublicoComponent extends BaseComponent implements OnInit {
   tituloPublico : TituloPublico = {};
-  tituloForm: FormGroup = new FormGroup('');
   public setorId? : number;
   loading: boolean = false;
   setores? : Dominio[] = [];
@@ -52,7 +51,7 @@ export class DialogSalvarTituloPublicoComponent extends BaseComponent implements
   }
 
   inicializarTituloForm(){
-    this.tituloForm = new FormGroup({
+    this.formGroup = new FormGroup({
       setor: new FormControl(this.tituloPublico.setor?.id, [
         Validators.required
       ]),
@@ -85,7 +84,7 @@ export class DialogSalvarTituloPublicoComponent extends BaseComponent implements
 
   salvar(){
     this.loading = true;
-    if(this.tituloForm.valid){
+    if(this.formGroup.valid){
       var salvarReq: SalvarTituloPublico = {
         descricao: this.descricao?.value,
         setorId: this.setor?.value,
@@ -111,19 +110,19 @@ export class DialogSalvarTituloPublicoComponent extends BaseComponent implements
   }
 
   get setor() : AbstractControl<any, any> | null{
-    return this.tituloForm.get('setor');
+    return this.formGroup.get('setor');
   }
 
   get precoInicial() : AbstractControl<any, any> | null{
-    return this.tituloForm.get('precoInicial');
+    return this.formGroup.get('precoInicial');
   }
 
   get nota() : AbstractControl<any, any> | null{
-    return this.tituloForm.get('nota');
+    return this.formGroup.get('nota');
   }
 
   get descricao() : AbstractControl<any, any> | null{
-    return this.tituloForm.get('descricao');
+    return this.formGroup.get('descricao');
   }
 
   setorErrorMessage() : string {

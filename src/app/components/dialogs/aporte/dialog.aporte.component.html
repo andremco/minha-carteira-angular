@@ -1,4 +1,4 @@
-<div class="main-content" [style.width]="'500px'">
+<div class="main-content" [style.width]="'600px'">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -7,46 +7,71 @@
             <h4 class="card-title">Aporte</h4>
           </div>
           <div class="card-body">
-            <div class="row">
-              <div class="col-sm-6" *ngIf="ehAcao">
-                <mat-form-field color="primary">
-                  <mat-label>Categoria</mat-label>
-                  <mat-select [value]="tipoAtivoId">
-                    <mat-option [value]="1">Ação</mat-option>
-                    <mat-option [value]="2">Título Público</mat-option>
-                    <mat-option [value]="3">BDR</mat-option>
-                  </mat-select>
-                </mat-form-field>
+            <form [formGroup]="formGroup">
+              <div class="row">
+                <div class="col-sm-6">
+                  <mat-form-field color="primary">
+                    <mat-label>Tipo do ativo</mat-label>
+                    <mat-select [value]="tipoAtivoId" (selectionChange)="onSelectChangeTipoAtivoId($event)">
+                      <mat-option [value]="1">Ação</mat-option>
+                      <mat-option [value]="2">Título Público</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field color="primary">
+                    <mat-label>Movimentação</mat-label>
+                    <mat-select [value]="movimentacao">
+                      <mat-option [value]="'c'">Compra</mat-option>
+                      <mat-option [value]="'v'">Venda</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </div>
-              <div [ngClass]="ehAcao ? 'col-sm-6' : 'col-sm-12'">
-                <mat-form-field color="primary">
-                  <mat-label>Ativo</mat-label>
-                  <mat-select [value]="ativoId">
-                    <mat-option [value]="1">Banco do Brasil</mat-option>
-                    <mat-option [value]="2">Ambev S.A.</mat-option>
-                    <mat-option [value]="3">Cyrela</mat-option>
-                  </mat-select>
-                </mat-form-field>
+              <div class="row">
+                <div class="col-sm-12">
+                  <mat-form-field color="primary" appearance="fill">
+                    <mat-select required formControlName="ativo" placeholder="Ativo" #singleSelect>
+                      <mat-option>
+                        <ngx-mat-select-search
+                          [formControl]="pesquisarAtivo"
+                          placeholderLabel="Pesquisar ativo..."
+                          noEntriesFoundLabel="Nenhum registro encontrado">
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let ativo of ativos" [value]="ativo.id">
+                        {{ ehAcao ? ativo.razaoSocial : ativo.descricao }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="ativo?.invalid && (ativo?.dirty || ativo?.touched)">{{ativoErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <mat-form-field color="primary">
-                  <mat-label>Preço</mat-label>
-                  <input matInput [value]="aporte.preco">
-                </mat-form-field>
+              <div class="row">
+                <div class="col-sm-6">
+                  <mat-form-field color="primary">
+                    <mat-label>Preço</mat-label>
+                    <input matInput required formControlName="preco" #inputBox (blur)="onPrecoInputBlur(inputBox.value, 'preco')">
+                    <mat-error *ngIf="preco?.invalid && (preco?.dirty || preco?.touched)">{{precoErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field color="primary">
+                    <mat-label>Quantidade</mat-label>
+                    <input matInput required formControlName="quantidade">
+                    <mat-error *ngIf="quantidade?.invalid && (quantidade?.dirty || quantidade?.touched)">{{quantidadeErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
               </div>
-              <div class="col-sm-6">
-                <mat-form-field color="primary">
-                  <mat-label>Quantidade</mat-label>
-                  <input matInput [value]="aporte.quantidade">
-                </mat-form-field>
+              <div class="pull-right">
+                <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
+                <button mat-raised-button color="primary" [disabled]="loading || formGroup.invalid" (click)="salvar()">
+                  <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
+                  <span *ngIf="!loading">Salvar</span>
+                </button>
               </div>
-            </div>
-            <div class="pull-right">
-              <button mat-raised-button mat-dialog-close class="mr-1">Sair</button>
-              <button mat-raised-button mat-dialog-close color="primary">Salvar</button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
