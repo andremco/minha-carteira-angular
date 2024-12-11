@@ -36,6 +36,8 @@ import { TituloPublicoComponent } from "./components/titulo-publico/titulo-publi
 import { AporteComponent } from "./components/aporte/aporte.component";
 
 import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
+import {NomeAtivoPipe} from "./pipe/NomeAtivoPipe";
+import {TickerPipe} from "./pipe/TickerPipe";
 
 
 registerLocaleData(localePt);
@@ -51,7 +53,9 @@ registerLocaleData(localePt);
     AtivoComponent,
     TituloPublicoComponent,
     AporteComponent,
-    TipoAtivoPipe
+    TipoAtivoPipe,
+    NomeAtivoPipe,
+    TickerPipe
   ],
   imports: [
     CommonModule,

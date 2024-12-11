@@ -23,6 +23,7 @@ import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {SalvarAporte} from "src/app/models/aporte/SalvarAporte";
 import {AporteService} from "src/app/services/AporteService";
+import {MovimentacaoEnum} from "../../../models/enums/MovimentacaoEnum";
 
 @Component({
   selector: 'dialog-aporte',
@@ -33,16 +34,17 @@ import {AporteService} from "src/app/services/AporteService";
 })
 export class DialogAporteComponent extends BaseComponent implements OnInit{
   public aporte: Aporte = {
+    movimentacao : MovimentacaoEnum.Compra,
     quantidade : null,
     preco : null
   };
   public tipoAtivoId: TipoAtivoEnum = 1;
-  public movimentacao: string = "c";
   public ehAcao: boolean = true;
   public ativoId?: number;
   public ativos? : any[] = [];
   public pesquisarAtivo: FormControl = new FormControl<String>('');
   public loading: boolean = false;
+  private carregarAportes: Function = (pagina:Number, tamanho:Number) => {};
   constructor(private readonly acaoService : AcaoService,
               private readonly tituloPublicoService: TituloPublicoService,
               private readonly aporteService: AporteService,
@@ -52,7 +54,9 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
               public override toastr: ToastrService) {
     super(toastr);
     if (data && data.aporte)
-      this.aporte = data.aporte
+      this.aporte = data.aporte;
+    if (data && data.carregarAportes != undefined)
+      this.carregarAportes = data.carregarAportes;
   }
   ngOnInit(): void {
     this.inicializarAtivoForm();
@@ -75,11 +79,16 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         Validators.pattern('^[0-9]*$'),
         Validators.min(1)
       ]),
+      movimentacao: new FormControl(this.aporte.movimentacao)
     });
   }
 
   get ativo() : AbstractControl<any, any> | null{
     return this.formGroup.get('ativo');
+  }
+
+  get movimentacao() : AbstractControl<any, any> | null{
+    return this.formGroup.get('movimentacao');
   }
 
   get preco() : AbstractControl<any, any> | null{
@@ -138,6 +147,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.acaoService.filtrar(0, 10, razaoSocial).subscribe({
       next: (response:ResponseApi<Paginado<Acao>>) => {
         this.ativos = response.data?.itens;
+        this.ativoId = undefined;
         this.formGroup.get('ativo')?.setValue(undefined);
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -150,6 +160,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.tituloPublicoService.filtrar(0, 10, descricao).subscribe({
       next: (response:ResponseApi<Paginado<TituloPublico>>) => {
         this.ativos = response.data?.itens;
+        this.ativoId = undefined;
         this.formGroup.get('ativo')?.setValue(undefined);
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -164,15 +175,16 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
       var salvarReq: SalvarAporte = {
         preco: this.converterRealToDouble(this.preco?.value),
         quantidade: this.quantidade?.value,
-        movimentacao: this.movimentacao
+        movimentacao: this.movimentacao?.value
       }
+      debugger
       if (this.ehAcao)
         salvarReq.acaoId = this.ativo?.value
       else
         salvarReq.tituloPublicoId = this.ativo?.value
-      console.log(salvarReq)
       var updateDialogSuccess = ()=>{
         this.loading = false;
+        this.carregarAportes(0,10);
         this.ref.close();
         this.cdr.detectChanges();
       }
@@ -180,6 +192,11 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         this.loading = false;
         this.cdr.detectChanges();
       }
+      this.aporteService.salvar(salvarReq).subscribe({
+        next: () => this.success(updateDialogSuccess),
+        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
+        }
+      );
     }
   }
 }

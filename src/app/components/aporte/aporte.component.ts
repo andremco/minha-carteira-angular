@@ -1,31 +1,46 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, ViewChild} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogAporteComponent} from "../dialogs/aporte/dialog.aporte.component";
-import {MatPaginator, MatPaginatorIntl} from "@angular/material/paginator";
+import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {Aporte} from "src/app/models/aporte/Aporte";
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
+import {ResponseApi} from "../../models/ResponseApi";
+import {Paginado} from "../../models/Paginado";
+import {Acao} from "../../models/acao/Acao";
+import {HttpErrorResponse} from "@angular/common/http";
+import {BaseComponent} from "../base.component";
+import {AcaoService} from "../../services/AcaoService";
+import {ToastrService} from "ngx-toastr";
+import {AporteService} from "../../services/AporteService";
 
 @Component({
   selector: 'aporte',
   templateUrl: './aporte.component.html'
 })
-export class AporteComponent implements AfterViewInit{
+export class AporteComponent extends BaseComponent implements AfterViewInit{
   readonly dialog = inject(MatDialog);
-  dataSource = new MatTableDataSource<Aporte>([
-    {id: 1, acaoId: 1, razaoSocial: 'Banco do Brasil', preco: 35, quantidade: 100, dataRegistro: new Date('2024-06-02')},
-    {id: 2, acaoId: 2, razaoSocial: 'Ambev S.A.', preco: 20, quantidade: 50, dataRegistro: new Date('2024-07-12')},
-    {id: 3, acaoId: 3, razaoSocial: 'Cyrela', preco: 6.5, quantidade: 60, dataRegistro: new Date('2024-07-08')}
-  ]);
-  displayedColumns: string[] = ['tipoAtivo', 'ativoDescricao', 'ticker', 'preco', 'quantidade', 'dataAporte', 'acoes'];
+  public loading: boolean = false;
+  dataSource = new MatTableDataSource<Aporte>();
+  displayedColumns: string[] = ['tipoAtivo', 'ativo', 'ticker', 'movimentacao', 'preco', 'quantidade', 'dataAporte', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
-  openDialogCreateAporte() {
-    this.dialog.open(DialogAporteComponent);
+  constructor(private readonly service : AporteService,
+              private readonly cdr: ChangeDetectorRef,
+              public override toastr: ToastrService) {
+    super(toastr);
+  }
+  ngAfterViewInit(): void {
+    this.carregarAportes(0, 10);
   }
 
-  ngAfterViewInit(): void {
+  openDialogCreateAporte() {
+    this.dialog.open(DialogAporteComponent, {
+      data: {
+        carregarAportes: this.carregarAportes.bind(this)
+      }
+    });
   }
 
   openDialogEditAporte(aporte : Aporte) {
@@ -43,5 +58,27 @@ export class AporteComponent implements AfterViewInit{
         nomeAtivo: aporte.acaoId && !aporte.tituloPublicoId ? aporte.razaoSocial : aporte.descricao
       }
     });
+  }
+
+  carregarAportes(pagina:number, tamanho:number){
+    this.loading = true;
+    this.service.filtrar(pagina, tamanho).subscribe({
+      next: (responseApi:ResponseApi<Paginado<Aporte>>) => {
+        this.paginator.pageIndex = pagina;
+        this.paginator.pageSize = tamanho;
+        this.paginator.length = <number>responseApi.data?.total;
+        this.dataSource.data = <Aporte[]>responseApi.data?.itens;
+        this.loading = false;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        this.loading = false;
+        console.log(errorResponse);
+      }
+    });
+    this.cdr.detectChanges();
+  }
+
+  pageHandler(event:PageEvent){
+    this.carregarAportes(event.pageIndex, event.pageSize);
   }
 }

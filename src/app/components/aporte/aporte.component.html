@@ -69,15 +69,19 @@
                   <table mat-table [dataSource]="dataSource">
                     <ng-container matColumnDef="tipoAtivo">
                       <th mat-header-cell *matHeaderCellDef class="text-gray"> Tipo do Ativo </th>
-                      <td mat-cell *matCellDef="let element"> {{ element.tipoAtivo | exibirTipoAtivo }} </td>
+                      <td mat-cell *matCellDef="let element"> {{ element | exibirTipoAtivo }} </td>
                     </ng-container>
-                    <ng-container matColumnDef="ativoDescricao">
+                    <ng-container matColumnDef="ativo">
                       <th mat-header-cell *matHeaderCellDef class="text-gray"> Ativo </th>
-                      <td mat-cell *matCellDef="let element"> {{element.ativoDescricao}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element | exibirNomeAtivo }} </td>
                     </ng-container>
                     <ng-container matColumnDef="ticker">
                       <th mat-header-cell *matHeaderCellDef class="text-gray"> Ticker </th>
-                      <td mat-cell *matCellDef="let element"> {{element.ticker ? element.ticker : '-'}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element | exibirTicker}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="movimentacao">
+                      <th mat-header-cell *matHeaderCellDef class="text-gray"> Movimentação </th>
+                      <td mat-cell *matCellDef="let element"> {{element.movimentacao}} </td>
                     </ng-container>
                     <ng-container matColumnDef="preco">
                       <th mat-header-cell *matHeaderCellDef class="text-gray"> Preço </th>
@@ -89,7 +93,7 @@
                     </ng-container>
                     <ng-container matColumnDef="dataAporte">
                       <th mat-header-cell *matHeaderCellDef class="text-gray"> Data do Aporte </th>
-                      <td mat-cell *matCellDef="let element"> {{element.dataRegistro | date : "MMMM y" }}</td>
+                      <td mat-cell *matCellDef="let element"> {{ element.dataRegistro | date : "dd/MM/yyyy HH:mm" }}</td>
                     </ng-container>
                     <ng-container matColumnDef="acoes">
                       <th mat-header-cell *matHeaderCellDef class="text-gray"> Ações </th>
@@ -105,10 +109,10 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
-                  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]"
-                                 showFirstLastButtons
-                                 aria-label="Select page of periodic elements">
-                  </mat-paginator>
+                  <div *ngIf="!loading && dataSource.data.length === 0">
+                    <p class="text-gray text-center">Nenhum resultado encontrado!</p>
+                  </div>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" showFirstLastButtons (page)="pageHandler($event)"></mat-paginator>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
 export enum MovimentacaoEnum {
-  Compra = "c",
-  Venda = "v"
+  Compra = "C",
+  Venda = "V"
 }
