@@ -4,10 +4,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {Aporte} from "src/app/models/aporte/Aporte";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect, MatSelectChange} from "@angular/material/select";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {CommonModule, NgClass, NgForOf, NgIf} from "@angular/common";
 import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
 import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
@@ -23,24 +22,31 @@ import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {SalvarAporte} from "src/app/models/aporte/SalvarAporte";
 import {AporteService} from "src/app/services/AporteService";
-import {MovimentacaoEnum} from "../../../models/enums/MovimentacaoEnum";
+import {MovimentacaoEnum} from "src/app/models/enums/MovimentacaoEnum";
+import {Aporte} from "src/app/models/aporte/Aporte";
+import {TipoAtivoEnumPipe} from "src/app/pipe/TipoAtivoEnumPipe";
+import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
 
 @Component({
   selector: 'dialog-aporte',
   templateUrl: 'dialog.aporte.component.html',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect, NgClass, NgIf, ReactiveFormsModule, MatError, NgForOf, NgxMatSelectSearchModule, MatProgressSpinner],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect, NgClass, NgIf, ReactiveFormsModule, MatError, NgForOf, NgxMatSelectSearchModule, MatProgressSpinner, CommonModule, TipoAtivoEnumPipe, MovimentacaoEnumPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogAporteComponent extends BaseComponent implements OnInit{
   public aporte: Aporte = {
-    movimentacao : MovimentacaoEnum.Compra,
-    quantidade : null,
-    preco : null
+   movimentacao : MovimentacaoEnum.Compra.toString()
   };
-  public tipoAtivoId: TipoAtivoEnum = 1;
-  public ehAcao: boolean = true;
-  public ativoId?: number;
+  public tiposAtivos: TipoAtivoEnum[] = [
+    TipoAtivoEnum.Acao,
+    TipoAtivoEnum.TituloPublico
+  ];
+  public movimentacoes: MovimentacaoEnum[] = [
+    MovimentacaoEnum.Compra,
+    MovimentacaoEnum.Venda
+  ];
+  public tipoAtivo: TipoAtivoEnum = TipoAtivoEnum.Acao;
   public ativos? : any[] = [];
   public pesquisarAtivo: FormControl = new FormControl<String>('');
   public loading: boolean = false;
@@ -60,7 +66,6 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   }
   ngOnInit(): void {
     this.inicializarAtivoForm();
-    this.ehAcao = this.tipoAtivoId == TipoAtivoEnum.Acao;
     this.pesquisarAtivo.valueChanges.subscribe(() => {
       this.filtrarAtivos()
     })
@@ -68,7 +73,11 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
 
   inicializarAtivoForm(): void{
     this.formGroup = new FormGroup({
-      ativo: new FormControl(this.ativoId, [
+      tipoAtivo: new FormControl(this.tipoAtivo),
+      movimentacao: new FormControl(this.aporte.movimentacao),
+      ativo: new FormControl(this.tipoAtivo == TipoAtivoEnum.Acao ?
+        this.aporte.acaoId :
+        this.aporte.tituloPublicoId, [
         Validators.required
       ]),
       preco: new FormControl(this.aporte.preco, [
@@ -78,8 +87,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         Validators.required,
         Validators.pattern('^[0-9]*$'),
         Validators.min(1)
-      ]),
-      movimentacao: new FormControl(this.aporte.movimentacao)
+      ])
     });
   }
 
@@ -127,16 +135,15 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   }
 
   onSelectChangeTipoAtivoId(event: MatSelectChange){
-    this.ehAcao = (event.value == TipoAtivoEnum.Acao);
+    this.tipoAtivo = (event.value == TipoAtivoEnum.Acao) ? TipoAtivoEnum.Acao : TipoAtivoEnum.TituloPublico;
     this.ativos = [];
-    this.ativoId = undefined;
     this.formGroup.get('ativo')?.setValue(undefined);
   }
 
   filtrarAtivos(){
     let ativo = this.pesquisarAtivo.value;
     if (ativo && ativo.length >= 5){
-      if (this.ehAcao)
+      if (this.tipoAtivo == TipoAtivoEnum.Acao)
         this.carregarAcoes(ativo)
       else
         this.carregarTitulosPublico(ativo)
@@ -147,7 +154,6 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.acaoService.filtrar(0, 10, razaoSocial).subscribe({
       next: (response:ResponseApi<Paginado<Acao>>) => {
         this.ativos = response.data?.itens;
-        this.ativoId = undefined;
         this.formGroup.get('ativo')?.setValue(undefined);
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -160,7 +166,6 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.tituloPublicoService.filtrar(0, 10, descricao).subscribe({
       next: (response:ResponseApi<Paginado<TituloPublico>>) => {
         this.ativos = response.data?.itens;
-        this.ativoId = undefined;
         this.formGroup.get('ativo')?.setValue(undefined);
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -177,8 +182,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         quantidade: this.quantidade?.value,
         movimentacao: this.movimentacao?.value
       }
-      debugger
-      if (this.ehAcao)
+      if (this.tipoAtivo == TipoAtivoEnum.Acao)
         salvarReq.acaoId = this.ativo?.value
       else
         salvarReq.tituloPublicoId = this.ativo?.value
@@ -199,4 +203,6 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
       );
     }
   }
+
+  protected readonly TipoAtivoEnum = TipoAtivoEnum;
 }

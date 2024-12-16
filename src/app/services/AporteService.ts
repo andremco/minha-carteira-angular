@@ -22,10 +22,14 @@ export class AporteService{
   editar(request : EditarAporte) : Observable<ResponseApi<Aporte>>{
     return this.http.put<ResponseApi<Aporte>>(this.apiUrl + '/aporte', request);
   }
-  filtrar(pagina:Number, tamanho:Number) : Observable<ResponseApi<Paginado<Aporte>>>{
+  filtrar(pagina:Number, tamanho:Number, tipoAtivo?: Number, ativoId?: Number, dataInicio?: string, dataFim?: string) : Observable<ResponseApi<Paginado<Aporte>>>{
     const headers = {
       pagina: pagina.toString(),
-      tamanho: tamanho.toString()
+      tamanho: tamanho.toString(),
+      ...(tipoAtivo !== undefined && { tipoAtivo: tipoAtivo.toString() }),
+      ...(ativoId !== undefined && { ativoId: ativoId.toString() }),
+      ...(dataInicio !== undefined && { dataInicio: dataInicio.toString() }),
+      ...(dataFim !== undefined && { dataFim: dataFim.toString() }),
     };
     return this.http.get<ResponseApi<Paginado<Aporte>>>(this.apiUrl + '/aporte/filtrar', { headers })
   }

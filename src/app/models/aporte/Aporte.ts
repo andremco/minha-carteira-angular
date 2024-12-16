@@ -4,8 +4,8 @@ export interface Aporte{
   razaoSocial? : string;
   tituloPublicoId?: number;
   descricao?: string;
-  preco: number | null;
-  quantidade: number | null;
+  preco?: number;
+  quantidade?: number;
   movimentacao?: string;
   dataRegistro?: Date;
 }
