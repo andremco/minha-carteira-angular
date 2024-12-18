@@ -156,9 +156,15 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
     });
   }
 
-  carregarAportes(pagina:number, tamanho:number, pesquisarReq?: PesquisarAporte){
+  carregarAportes(pagina:number, tamanho:number){
     this.loading = true;
     this.btnLoading = true;
+    var pesquisarReq: PesquisarAporte = {
+      tipoAtivo: this.tipoAtivo?.value,
+      ativoId: this.ativo?.value,
+      dataInicio: this.dataInicio?.value?.toLocaleDateString("pt-BR"),
+      dataFim: this.dataFim?.value?.toLocaleDateString("pt-BR")
+    }
     this.aporteService.filtrar(pagina, tamanho, pesquisarReq).subscribe({
       next: (responseApi:ResponseApi<Paginado<Aporte>>) => {
         this.paginator.pageIndex = pagina;
@@ -178,13 +184,7 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   }
 
   pageHandler(event:PageEvent){
-    var pesquisarReq: PesquisarAporte = {
-      tipoAtivo: this.tipoAtivo?.value,
-      ativoId: this.ativo?.value,
-      dataInicio: this.dataInicio?.value?.toLocaleDateString("pt-BR"),
-      dataFim: this.dataFim?.value?.toLocaleDateString("pt-BR")
-    }
-    this.carregarAportes(event.pageIndex, event.pageSize, pesquisarReq);
+    this.carregarAportes(event.pageIndex, event.pageSize);
   }
 
   limpar(){
@@ -211,13 +211,7 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   consultar(){
     this.btnLoading = true;
     this.loading = true;
-    var pesquisarReq: PesquisarAporte = {
-      tipoAtivo: this.tipoAtivo?.value,
-      ativoId: this.ativo?.value,
-      dataInicio: this.dataInicio?.value?.toLocaleDateString("pt-BR"),
-      dataFim: this.dataFim?.value?.toLocaleDateString("pt-BR")
-    }
-    this.carregarAportes(0, 10, pesquisarReq);
+    this.carregarAportes(0, 10);
   }
 
   protected readonly TipoAtivoEnum = TipoAtivoEnum;
