@@ -67,9 +67,9 @@
               </div>
               <div class="pull-right">
                 <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
-                <button mat-raised-button color="primary" [disabled]="loading || formGroup.invalid" (click)="salvar()">
+                <button mat-raised-button color="primary" [disabled]="loading || formGroup.invalid" (click)="!ehEditar ? salvar() : editar()">
                   <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
-                  <span *ngIf="!loading">Salvar</span>
+                  <span *ngIf="!loading">{{ !ehEditar ? "Salvar" : "Editar"}}</span>
                 </button>
               </div>
             </form>

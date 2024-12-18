@@ -1,9 +1,10 @@
+import {Acao} from "../acao/Acao";
+import {TituloPublico} from "../titulo-publico/TituloPublico";
+
 export interface Aporte{
   id?: number;
-  acaoId?: number;
-  razaoSocial? : string;
-  tituloPublicoId?: number;
-  descricao?: string;
+  acao?: Acao;
+  tituloPublico?: TituloPublico;
   preco?: number;
   quantidade?: number;
   movimentacao?: string;

@@ -26,6 +26,7 @@ import {MovimentacaoEnum} from "src/app/models/enums/MovimentacaoEnum";
 import {Aporte} from "src/app/models/aporte/Aporte";
 import {TipoAtivoEnumPipe} from "src/app/pipe/TipoAtivoEnumPipe";
 import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
+import {EditarAporte} from "../../../models/aporte/EditarAporte";
 
 @Component({
   selector: 'dialog-aporte',
@@ -35,9 +36,7 @@ import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogAporteComponent extends BaseComponent implements OnInit{
-  public aporte: Aporte = {
-   movimentacao : MovimentacaoEnum.Compra.toString()
-  };
+  public aporte: Aporte = {};
   public tiposAtivos: TipoAtivoEnum[] = [
     TipoAtivoEnum.Acao,
     TipoAtivoEnum.TituloPublico
@@ -50,6 +49,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   public ativos? : any[] = [];
   public pesquisarAtivo: FormControl = new FormControl<String>('');
   public loading: boolean = false;
+  public ehEditar: boolean = false;
   private carregarAportes: Function = (pagina:Number, tamanho:Number) => {};
   constructor(private readonly acaoService : AcaoService,
               private readonly tituloPublicoService: TituloPublicoService,
@@ -59,10 +59,21 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
               private readonly ref: MatDialogRef<DialogAporteComponent>,
               public override toastr: ToastrService) {
     super(toastr);
-    if (data && data.aporte)
+    if (data && data.aporte){
       this.aporte = data.aporte;
+    }
     if (data && data.carregarAportes != undefined)
       this.carregarAportes = data.carregarAportes;
+    this.ehEditar = this.aporte.id != undefined;
+    if (this.aporte.acao){
+      const {acao} = this.aporte;
+      this.ativos?.push({ id: acao.id, razaoSocial: acao?.razaoSocial });
+    }
+    if (this.aporte.tituloPublico){
+      this.tipoAtivo = TipoAtivoEnum.TituloPublico
+      const {tituloPublico} = this.aporte;
+      this.ativos?.push({ id: tituloPublico.id, descricao: tituloPublico?.descricao });
+    }
   }
   ngOnInit(): void {
     this.inicializarAtivoForm();
@@ -74,10 +85,10 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   inicializarAtivoForm(): void{
     this.formGroup = new FormGroup({
       tipoAtivo: new FormControl(this.tipoAtivo),
-      movimentacao: new FormControl(this.aporte.movimentacao),
+      movimentacao: new FormControl(this.movimentacao),
       ativo: new FormControl(this.tipoAtivo == TipoAtivoEnum.Acao ?
-        this.aporte.acaoId :
-        this.aporte.tituloPublicoId, [
+        this.aporte.acao?.id :
+        this.aporte.tituloPublico?.id, [
         Validators.required
       ]),
       preco: new FormControl(this.aporte.preco, [
@@ -89,6 +100,14 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         Validators.min(1)
       ])
     });
+    if (this.aporte.movimentacao)
+      this.formGroup.get('movimentacao')?.setValue(
+        this.aporte.movimentacao === "Compra" ?
+                MovimentacaoEnum.Compra :
+                MovimentacaoEnum.Venda
+      );
+    else
+      this.formGroup.get('movimentacao')?.setValue(MovimentacaoEnum.Compra);
   }
 
   get ativo() : AbstractControl<any, any> | null{
@@ -186,22 +205,44 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         salvarReq.acaoId = this.ativo?.value
       else
         salvarReq.tituloPublicoId = this.ativo?.value
-      var updateDialogSuccess = ()=>{
-        this.loading = false;
-        this.carregarAportes(0,10);
-        this.ref.close();
-        this.cdr.detectChanges();
-      }
-      var updateDialogError = ()=>{
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
       this.aporteService.salvar(salvarReq).subscribe({
-        next: () => this.success(updateDialogSuccess),
-        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
+        next: () => this.success(this.updateDialogSuccess),
+        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)
         }
       );
     }
+  }
+
+  editar(){
+    this.loading = true;
+    if(this.formGroup.valid){
+      var editarReq: EditarAporte = {
+        id: this.aporte.id,
+        preco: this.converterRealToDouble(this.preco?.value),
+        quantidade: this.quantidade?.value,
+        movimentacao: this.movimentacao?.value
+      }
+      if (this.tipoAtivo == TipoAtivoEnum.Acao)
+        editarReq.acaoId = this.ativo?.value
+      else
+        editarReq.tituloPublicoId = this.ativo?.value
+      this.aporteService.editar(editarReq).subscribe({
+          next: () => this.success(this.updateDialogSuccess),
+          error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)
+        }
+      );
+    }
+  }
+
+  private updateDialogSuccess = ()=>{
+    this.loading = false;
+    this.carregarAportes(0,10);
+    this.ref.close();
+    this.cdr.detectChanges();
+  }
+  private updateDialogError = ()=>{
+    this.loading = false;
+    this.cdr.detectChanges();
   }
 
   protected readonly TipoAtivoEnum = TipoAtivoEnum;

@@ -140,7 +140,8 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   openDialogEditAporte(aporte : Aporte) {
     this.dialog.open(DialogAporteComponent, {
       data: {
-        aporte
+        aporte,
+        carregarAportes: this.carregarAportes.bind(this)
       }
     });
   }
@@ -148,16 +149,17 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   openDialogExcluirAporte(aporte : Aporte) {
     this.dialog.open(DialogExcluirEntidadeComponent, {
       data: {
-        nomeEntidade: "aporte",
-        nomeAtivo: aporte.acaoId && !aporte.tituloPublicoId ? aporte.razaoSocial : aporte.descricao
+        idEntidade: aporte.id,
+        nomeEntidade: "Aporte - " + (aporte.acao?.id ? aporte.acao?.razaoSocial : aporte.tituloPublico?.descricao),
+        deletar: this.deletar.bind(this)
       }
     });
   }
 
-  carregarAportes(pagina:number, tamanho:number, tipoAtivo?: Number, ativoId?: Number, dataInicio?: string, dataFim?: string){
+  carregarAportes(pagina:number, tamanho:number, pesquisarReq?: PesquisarAporte){
     this.loading = true;
     this.btnLoading = true;
-    this.aporteService.filtrar(pagina, tamanho).subscribe({
+    this.aporteService.filtrar(pagina, tamanho, pesquisarReq).subscribe({
       next: (responseApi:ResponseApi<Paginado<Aporte>>) => {
         this.paginator.pageIndex = pagina;
         this.paginator.pageSize = tamanho;
@@ -182,7 +184,7 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
       dataInicio: this.dataInicio?.value?.toLocaleDateString("pt-BR"),
       dataFim: this.dataFim?.value?.toLocaleDateString("pt-BR")
     }
-    this.carregarAportes(event.pageIndex, event.pageSize, pesquisarReq.tipoAtivo, pesquisarReq.ativoId, pesquisarReq.dataInicio, pesquisarReq.dataFim);
+    this.carregarAportes(event.pageIndex, event.pageSize, pesquisarReq);
   }
 
   limpar(){
@@ -195,6 +197,17 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
     this.cdr.detectChanges();
   }
 
+  deletar(id:Number){
+    this.aporteService.deletar(id).subscribe({
+      next: (responseApi:ResponseApi<Aporte>) => {
+        this.dialog.closeAll();
+        this.carregarAportes(0, 10);
+      },
+      error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, () => this.dialog.closeAll())
+    })
+    this.cdr.detectChanges();
+  }
+
   consultar(){
     this.btnLoading = true;
     this.loading = true;
@@ -204,7 +217,7 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
       dataInicio: this.dataInicio?.value?.toLocaleDateString("pt-BR"),
       dataFim: this.dataFim?.value?.toLocaleDateString("pt-BR")
     }
-    this.carregarAportes(0, 10, pesquisarReq.tipoAtivo, pesquisarReq.ativoId, pesquisarReq.dataInicio, pesquisarReq.dataFim);
+    this.carregarAportes(0, 10, pesquisarReq);
   }
 
   protected readonly TipoAtivoEnum = TipoAtivoEnum;

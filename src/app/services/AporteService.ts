@@ -9,6 +9,7 @@ import {SalvarAporte} from "../models/aporte/SalvarAporte";
 import {Aporte} from "../models/aporte/Aporte";
 import {EditarAporte} from "../models/aporte/EditarAporte";
 import {Paginado} from "../models/Paginado";
+import {PesquisarAporte} from "../models/aporte/PesquisarAporte";
 
 @Injectable({
   providedIn: 'root'
@@ -22,15 +23,18 @@ export class AporteService{
   editar(request : EditarAporte) : Observable<ResponseApi<Aporte>>{
     return this.http.put<ResponseApi<Aporte>>(this.apiUrl + '/aporte', request);
   }
-  filtrar(pagina:Number, tamanho:Number, tipoAtivo?: Number, ativoId?: Number, dataInicio?: string, dataFim?: string) : Observable<ResponseApi<Paginado<Aporte>>>{
+  filtrar(pagina:Number, tamanho:Number, filtro?: PesquisarAporte) : Observable<ResponseApi<Paginado<Aporte>>>{
     const headers = {
       pagina: pagina.toString(),
       tamanho: tamanho.toString(),
-      ...(tipoAtivo !== undefined && { tipoAtivo: tipoAtivo.toString() }),
-      ...(ativoId !== undefined && { ativoId: ativoId.toString() }),
-      ...(dataInicio !== undefined && { dataInicio: dataInicio.toString() }),
-      ...(dataFim !== undefined && { dataFim: dataFim.toString() }),
+      ...(filtro?.tipoAtivo !== undefined && filtro?.tipoAtivo !== null && { tipoAtivo: filtro.tipoAtivo.toString() }),
+      ...(filtro?.ativoId !== undefined && filtro?.ativoId !== null && { ativoId: filtro.ativoId.toString() }),
+      ...(filtro?.dataInicio !== undefined && { dataInicio: filtro.dataInicio.toString() }),
+      ...(filtro?.dataFim !== undefined && { dataFim: filtro.dataFim.toString() }),
     };
     return this.http.get<ResponseApi<Paginado<Aporte>>>(this.apiUrl + '/aporte/filtrar', { headers })
+  }
+  deletar(id:Number) : Observable<ResponseApi<Aporte>>{
+    return this.http.delete<ResponseApi<Aporte>>(this.apiUrl + '/aporte/' + id);
   }
 }
