@@ -137,6 +137,18 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
     });
   }
 
+  habilitarEdiacaoAporte(aporte:Aporte){
+    if (!aporte.dataRegistro)
+      return false;
+    var hj = new Date();
+    var dataAporteCriado = new Date(aporte.dataRegistro)
+    return (
+      dataAporteCriado.getFullYear() === hj.getFullYear() &&
+      dataAporteCriado.getMonth() === hj.getMonth() &&
+      dataAporteCriado.getDate() === hj.getDate()
+    );
+  }
+
   openDialogEditAporte(aporte : Aporte) {
     this.dialog.open(DialogAporteComponent, {
       data: {
