@@ -6,6 +6,9 @@
           Títulos público
         </h2>
       </div>
+      <div *ngIf="loadingAcoes" class="col-sm-12 mb-5">
+        <div class="loader"></div>
+      </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let titulo of titulosPublico">
         <div class="card card-chart">
           <div class="card-body">
@@ -24,7 +27,7 @@
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ titulo.precoInicial | currency:'BRL' }}</span>
+                <span>{{ titulo.precoInicial }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ titulo.quantidade }}</p>
@@ -32,7 +35,7 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ titulo?.quantidade! * titulo?.precoInicial! | currency: 'BRL' }}</span>
+                <span>{{ titulo?.valorTotalAtivo }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
@@ -60,6 +63,9 @@
           Ações
         </h2>
       </div>
+      <div *ngIf="loadingTitulos" class="col-sm-12 mb-5">
+        <div class="loader"></div>
+      </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let acao of acoes">
         <div class="card card-chart">
           <div class="card-body">
@@ -78,7 +84,7 @@
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ acao.precoDinamico | currency:'BRL' }}</span>
+                <span>{{ acao.precoDinamico }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ acao.quantidade }}</p>
@@ -86,7 +92,7 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ acao?.quantidade! * acao?.precoDinamico! | currency: 'BRL' }}</span>
+                <span>{{ acao?.valorTotalAtivoAtual }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{

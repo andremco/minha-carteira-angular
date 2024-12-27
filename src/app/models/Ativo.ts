@@ -10,7 +10,7 @@ export interface Ativo{
   valorTotalAtivoAtual?: number;
   carteiraIdealPorcento?: number;
   carteiraTenhoPorcento?: number;
-  quantoQueroTotal?: number
+  quantoQueroTotal?: number;
   quantoFaltaTotal?: number;
   quantidadeQueFaltaTotal?: number;
   comprarOuAguardar?: string;

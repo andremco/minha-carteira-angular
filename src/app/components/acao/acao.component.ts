@@ -75,11 +75,11 @@ export class AcaoComponent extends BaseComponent implements AfterViewInit {
   carregarAcoes(pagina:number, tamanho:number){
     this.loading = true;
     this.service.filtrar(pagina, tamanho).subscribe({
-      next: (setorPaginado:ResponseApi<Paginado<Acao>>) => {
+      next: (acaoPaginado:ResponseApi<Paginado<Acao>>) => {
         this.paginator.pageIndex = pagina;
         this.paginator.pageSize = tamanho;
-        this.paginator.length = <number>setorPaginado.data?.total;
-        this.dataSource.data = <Acao[]>setorPaginado.data?.itens;
+        this.paginator.length = <number>acaoPaginado.data?.total;
+        this.dataSource.data = <Acao[]>acaoPaginado.data?.itens;
         this.loading = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
