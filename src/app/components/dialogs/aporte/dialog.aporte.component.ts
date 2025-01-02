@@ -27,7 +27,7 @@ import {Aporte} from "src/app/models/aporte/Aporte";
 import {TipoAtivoEnumPipe} from "src/app/pipe/TipoAtivoEnumPipe";
 import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
 import {EditarAporte} from "../../../models/aporte/EditarAporte";
-import {PesquisarAporte} from "../../../models/aporte/PesquisarAporte";
+import {CategoriaEnum} from "../../../models/enums/CategoriaEnum";
 
 @Component({
   selector: 'dialog-aporte',
@@ -171,7 +171,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   }
 
   carregarAcoes(razaoSocial: String){
-    this.acaoService.filtrar(0, 10, razaoSocial).subscribe({
+    this.acaoService.filtrar(0, 10, undefined, razaoSocial).subscribe({
       next: (response:ResponseApi<Paginado<Acao>>) => {
         this.ativos = response.data?.itens;
         this.formGroup.get('ativo')?.setValue(undefined);

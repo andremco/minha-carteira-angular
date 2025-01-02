@@ -6,15 +6,18 @@
           Títulos público
         </h2>
       </div>
-      <div *ngIf="loadingAcoes" class="col-sm-12 mb-5">
+      <div *ngIf="loadingTitulos" class="col-sm-12">
         <div class="loader"></div>
+      </div>
+      <div *ngIf="!loadingTitulos && titulosPublico.length === 0" class="col-sm-12">
+        <p class="text-gray text-center">Nenhum resultado encontrado!</p>
       </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let titulo of titulosPublico">
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
-                <h4 class="card-title">{{ titulo.descricao }}</h4>
+                <h4 class="card-title">{{ titulo.descricao | truncate:30 }}</h4>
               </div>
             </div>
             <div class="row">
@@ -58,20 +61,28 @@
           </div>
         </div>
       </div>
+      <div *ngIf="!loadingTitulos && exibirBotaoCarregarTituloPublico()" (click)="carregarMaisTituloPublico()" class="col-sm-12">
+        <div class="text-center">
+          <button mat-button [color]="'primary'">Carregar + ativos</button>
+        </div>
+      </div>
       <div class="tim-typo">
         <h2>
           Ações
         </h2>
       </div>
-      <div *ngIf="loadingTitulos" class="col-sm-12 mb-5">
+      <div *ngIf="loadingAcoes" class="col-sm-12 mb-5">
         <div class="loader"></div>
+      </div>
+      <div *ngIf="!loadingAcoes && acoes.length === 0" class="col-sm-12">
+        <p class="text-gray text-center">Nenhum resultado encontrado!</p>
       </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let acao of acoes">
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
-                <h4 class="card-title">{{ acao.razaoSocial }}</h4>
+                <h4 class="card-title">{{ acao.razaoSocial | truncate:30 }}</h4>
               </div>
             </div>
             <div class="row">
@@ -115,17 +126,28 @@
           </div>
         </div>
       </div>
+      <div *ngIf="!loadingAcoes && exibirBotaoCarregarAcoes()" (click)="carregarMaisAcoes()" class="col-sm-12">
+        <div class="text-center">
+          <button mat-button [color]="'primary'">Carregar + ativos</button>
+        </div>
+      </div>
       <div class="tim-typo">
         <h2>
           Fundo Imobiliário
         </h2>
+      </div>
+      <div *ngIf="loadingFiis" class="col-sm-12 mb-5">
+        <div class="loader"></div>
+      </div>
+      <div *ngIf="!loadingFiis && fiis.length === 0" class="col-sm-12">
+        <p class="text-gray text-center">Nenhum resultado encontrado!</p>
       </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let fundo of fiis">
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
-                <h4 class="card-title">{{ fundo.razaoSocial }}</h4>
+                <h4 class="card-title">{{ fundo.razaoSocial | truncate:30 }}</h4>
               </div>
             </div>
             <div class="row">
@@ -138,7 +160,7 @@
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ fundo.precoDinamico | currency:'BRL' }}</span>
+                <span>{{ fundo.precoDinamico }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ fundo.quantidade }}</p>
@@ -146,7 +168,7 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ fundo?.quantidade! * fundo?.precoDinamico! | currency: 'BRL' }}</span>
+                <span>{{ fundo?.valorTotalAtivoAtual }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
@@ -167,6 +189,76 @@
               <button mat-button [color]="fundo.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(fundo)">Ver +</button>
             </div>
           </div>
+        </div>
+      </div>
+      <div *ngIf="!loadingFiis && exibirBotaoCarregarFiis()" (click)="carregarMaisFiis()" class="col-sm-12">
+        <div class="text-center">
+          <button mat-button [color]="'primary'">Carregar + ativos</button>
+        </div>
+      </div>
+      <div class="tim-typo">
+        <h2>
+          Brazilian Depositary Receipts
+        </h2>
+      </div>
+      <div *ngIf="loadingBdrs" class="col-sm-12 mb-5">
+        <div class="loader"></div>
+      </div>
+      <div *ngIf="!loadingBdrs && bdrs.length === 0" class="col-sm-12 mb-5">
+        <p class="text-gray text-center">Nenhum resultado encontrado!</p>
+      </div>
+      <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let bdr of bdrs">
+        <div class="card card-chart">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <h4 class="card-title">{{ bdr.razaoSocial | truncate:30 }}</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <p [ngClass]="{
+                'sinalizar-compra': bdr.comprarOuAguardar === 'Comprar',
+                'sinalizar-espera': bdr.comprarOuAguardar === 'Aguardar'
+                }">{{ bdr.ticker }}</p>
+              </div>
+            </div>
+            <div class="row" [style.margin-top]="'15px'">
+              <div class="col-sm-6">
+                <span>{{ bdr.precoDinamico }}</span>
+              </div>
+              <div class="col-sm-6">
+                <p class="card-category">{{ bdr.quantidade }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <span>{{ bdr?.valorTotalAtivoAtual }}</span>
+              </div>
+              <div class="col-sm-6">
+                <span [ngClass]="{
+                'sinalizar-compra': bdr.lucroOuPerda === 'Lucro',
+                'sinalizar-perda': bdr.lucroOuPerda === 'Perda'
+                }">{{ bdr.lucroOuPerda }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col-sm-6" [style.padding-left]="'0'">
+                <span [ngClass]="{
+                'sinalizar-compra': bdr.comprarOuAguardar === 'Comprar',
+                'sinalizar-espera': bdr.comprarOuAguardar === 'Aguardar'
+                }">{{ bdr.comprarOuAguardar }}</span>
+            </div>
+            <div class="col-sm-6 verMais">
+              <button mat-button [color]="bdr.comprarOuAguardar === 'Comprar' ? 'primary' : 'warn'" (click)="openDialog(bdr)">Ver +</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!loadingBdrs && exibirBotaoCarregarBdrs()" (click)="carregarMaisBdrs()" class="col-sm-12">
+        <div class="text-center">
+          <button mat-button [color]="'primary'">Carregar + ativos</button>
         </div>
       </div>
     </div>

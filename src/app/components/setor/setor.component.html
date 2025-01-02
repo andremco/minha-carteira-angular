@@ -39,7 +39,7 @@
                     <button (click)="openDialogEditSetor(element)" mat-mini-fab class="btn-edit-basic mr-2">
                       <mat-icon>edit_note</mat-icon>
                     </button>
-                    <button (click)="openDialogExcluirSetor(element)" mat-mini-fab class="btn-delete-danger">
+                    <button *ngIf="element.numAtivos == 0" (click)="openDialogExcluirSetor(element)" mat-mini-fab class="btn-delete-danger">
                       <mat-icon>delete</mat-icon>
                     </button>
                   </td>

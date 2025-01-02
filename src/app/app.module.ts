@@ -43,6 +43,7 @@ import {TickerPipe} from "./pipe/TickerPipe";
 import {TipoAtivoEnumPipe} from "./pipe/TipoAtivoEnumPipe";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {TruncateTextoPipe} from "./pipe/TruncateTextoPipe";
 
 
 registerLocaleData(localePt);
@@ -60,7 +61,8 @@ registerLocaleData(localePt);
     AporteComponent,
     TipoAtivoPipe,
     NomeAtivoPipe,
-    TickerPipe
+    TickerPipe,
+    TruncateTextoPipe
   ],
     imports: [
         CommonModule,
