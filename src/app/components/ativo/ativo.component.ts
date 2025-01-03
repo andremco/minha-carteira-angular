@@ -58,9 +58,21 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
   }
 
   openDialog(ativo : Ativo) {
+    let pagina = 0;
+    let tamanho = this.limiteInicialAtivos;
     this.dialog.open(DialogEditarAtivoComponent, {
       data: {
-        ativo
+        ativo,
+        carregarTitulosPublico: () => { this.carregarTitulosPublico(pagina, tamanho, true) },
+        carregarAcoes: () => {
+          let acao = <Acao>ativo;
+          if (acao.categoria?.id === CategoriaEnum.Acao)
+            this.carregarAcoes(pagina, tamanho, true);
+          if (acao.categoria?.id === CategoriaEnum.FIIS)
+            this.carregarFiis(pagina, tamanho, true);
+          if (acao.categoria?.id === CategoriaEnum.BDR)
+            this.carregarBdrs(pagina, tamanho, true);
+        }
       }
     });
   }
@@ -77,12 +89,18 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
     this.carregarTitulosPublico(this.proximaPaginaTitulos, this.limiteInicialAtivos);
   }
 
-  carregarTitulosPublico(pagina:number, tamanho:number){
+  carregarTitulosPublico(pagina:number, tamanho:number, zerarTitulosPublico: boolean = false){
     this.loadingTitulos = true;
     this.tituloPublicoService.filtrar(pagina, tamanho).subscribe({
       next: (tituloPaginado:ResponseApi<Paginado<TituloPublico>>) => {
         this.totalTitulos = <number>tituloPaginado.data?.total;
-        this.titulosPublico.push(...<TituloPublico[]>tituloPaginado.data?.itens);
+        if (zerarTitulosPublico){
+          this.cumulativoTitulos = 0;
+          this.proximaPaginaTitulos = 0;
+          this.titulosPublico = <TituloPublico[]>tituloPaginado.data?.itens;
+        }
+        else
+          this.titulosPublico.push(...<TituloPublico[]>tituloPaginado.data?.itens);
         this.loadingTitulos = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -105,12 +123,18 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
     this.carregarAcoes(this.proximaPaginaAcoes, this.limiteInicialAtivos);
   }
 
-  carregarAcoes(pagina:number, tamanho:number){
+  carregarAcoes(pagina:number, tamanho:number, zerarAcoes: boolean = false){
     this.loadingAcoes = true;
     this.acaoService.filtrar(pagina, tamanho, CategoriaEnum.Acao).subscribe({
       next: (acaoPaginado:ResponseApi<Paginado<Acao>>) => {
         this.totalAcoes = <number>acaoPaginado.data?.total;
-        this.acoes.push(...<Acao[]>acaoPaginado.data?.itens);
+        if (zerarAcoes){
+          this.cumulativoAcoes = 0;
+          this.proximaPaginaAcoes = 0;
+          this.acoes = <Acao[]>acaoPaginado.data?.itens;
+        }
+        else
+          this.acoes.push(...<Acao[]>acaoPaginado.data?.itens);
         this.loadingAcoes = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -133,12 +157,18 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
     this.carregarFiis(this.proximaPaginaFiis, this.limiteInicialAtivos);
   }
 
-  carregarFiis(pagina:number, tamanho:number){
+  carregarFiis(pagina:number, tamanho:number, zerarFiis: boolean = false){
     this.loadingFiis = true;
     this.acaoService.filtrar(pagina, tamanho, CategoriaEnum.FIIS).subscribe({
       next: (fiisPaginado:ResponseApi<Paginado<Acao>>) => {
         this.totalFiis = <number>fiisPaginado.data?.total;
-        this.fiis.push(...<Acao[]>fiisPaginado.data?.itens);
+        if (zerarFiis){
+          this.cumulativoFiis = 0;
+          this.proximaPaginaFiis = 0;
+          this.fiis = <Acao[]>fiisPaginado.data?.itens;
+        }
+        else
+          this.fiis.push(...<Acao[]>fiisPaginado.data?.itens);
         this.loadingFiis = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -161,12 +191,18 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
     this.carregarBdrs(this.proximaPaginaBdrs, this.limiteInicialAtivos);
   }
 
-  carregarBdrs(pagina:number, tamanho:number){
+  carregarBdrs(pagina:number, tamanho:number, zerarBdrs: boolean = false){
     this.loadingBdrs = true;
     this.acaoService.filtrar(pagina, tamanho, CategoriaEnum.BDR).subscribe({
       next: (bdrPaginado:ResponseApi<Paginado<Acao>>) => {
         this.totalBdrs = <number>bdrPaginado.data?.total;
-        this.bdrs.push(...<Acao[]>bdrPaginado.data?.itens);
+        if (zerarBdrs){
+          this.cumulativoBdrs = 0;
+          this.proximaPaginaBdrs = 0;
+          this.bdrs = <Acao[]>bdrPaginado.data?.itens;
+        }
+        else
+          this.bdrs.push(...<Acao[]>bdrPaginado.data?.itens);
         this.loadingBdrs = false;
       },
       error: (errorResponse : HttpErrorResponse) => {

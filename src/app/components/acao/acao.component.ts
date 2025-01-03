@@ -46,7 +46,7 @@ export class AcaoComponent extends BaseComponent implements AfterViewInit {
     this.dialog.open(DialogEditarAtivoComponent, {
       data: {
         ativo: acao,
-        carregarAcoes: this.carregarAcoes.bind(this)
+        carregarAcoes: () => { this.carregarAcoes(0, 10) }
       }
     });
   }

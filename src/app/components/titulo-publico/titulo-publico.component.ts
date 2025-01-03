@@ -4,7 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
 import {MatPaginator, MatPaginatorIntl, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {DialogSalvarTituloPublicoComponent} from "../dialogs/titulo-publico/dialog.salvar.titulo-publico.component";
+import {DialogSalvarTituloPublicoComponent} from "src/app/components/dialogs/titulo-publico/dialog.salvar.titulo-publico.component";
 import {DialogExcluirEntidadeComponent} from "src/app/components/dialogs/excluir/dialog.excluir.entidade.component";
 import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
@@ -12,7 +12,7 @@ import {ResponseApi} from "src/app/models/ResponseApi";
 import {Paginado} from "src/app/models/Paginado";
 import {HttpErrorResponse} from "@angular/common/http";
 import {TituloPublicoService} from "src/app/services/TituloPublicoService";
-import {DialogEditarAtivoComponent} from "../dialogs/ativo/dialog.editar.ativo.component";
+import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 
 @Component({
   selector: 'titulo-publico',
@@ -82,7 +82,7 @@ export class TituloPublicoComponent extends BaseComponent implements OnInit, Aft
     this.dialog.open(DialogEditarAtivoComponent, {
       data: {
         ativo: titulo,
-        carregarTitulosPublico: this.carregarTitulosPublico.bind(this)
+        carregarTitulosPublico: () => { this.carregarTitulosPublico(0, 10) }
       }
     });
   }

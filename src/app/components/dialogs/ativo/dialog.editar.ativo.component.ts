@@ -44,8 +44,8 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   public btnLoading: boolean = false;
   public categorias? : Dominio[] = [];
   public setores? : Dominio[] = [];
-  private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
-  private carregarTitulosPublico: Function = (pagina:Number, tamanho:Number) => {};
+  private carregarAcoes: Function = () => {};
+  private carregarTitulosPublico: Function = () => {};
   constructor(private readonly acaoService : AcaoService,
               private readonly tituloPublicoService: TituloPublicoService,
               private readonly dominioService : DominioService,
@@ -230,9 +230,9 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
       var updateDialogSuccess = ()=> {
         this.btnLoading = false;
         if(this.ehAcao)
-          this.carregarAcoes(0, 10);
+          this.carregarAcoes();
         else
-          this.carregarTitulosPublico(0,10);
+          this.carregarTitulosPublico();
         this.ref.close();
         this.cdr.detectChanges();
       }
