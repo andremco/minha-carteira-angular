@@ -1,4 +1,4 @@
-import {Setor} from "./setor/Setor";
+import {Setor} from "../setor/Setor";
 
 export interface Ativo{
   id?: number;

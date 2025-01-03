@@ -7,7 +7,7 @@ import {SalvarAcao} from "src/app/models/acao/SalvarAcao";
 import {Acao} from "src/app/models/acao/Acao";
 import {Paginado} from "src/app/models/Paginado";
 import {EditarAcao} from "src/app/models/acao/EditarAcao";
-import {CategoriaEnum} from "../models/enums/CategoriaEnum";
+import {TipoAtivoEnum} from "../models/enums/TipoAtivoEnum";
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +24,12 @@ export class AcaoService{
   obter(idAcao : number) : Observable<ResponseApi<Acao>>{
     return this.http.get<ResponseApi<Acao>>(this.apiUrl + '/acao/' + idAcao);
   }
-  filtrar(pagina:Number, tamanho:Number, categoria?: CategoriaEnum, razaoSocial?: String) : Observable<ResponseApi<Paginado<Acao>>>{
+  filtrar(pagina:Number, tamanho:Number, tipoAtivoId?: TipoAtivoEnum, razaoSocial?: String) : Observable<ResponseApi<Paginado<Acao>>>{
     const headers = {
       pagina: pagina.toString(),
       tamanho: tamanho.toString(),
       ...(razaoSocial !== undefined && { razaoSocial: razaoSocial.toString() }),
-      ...(categoria !== undefined && { categoria: categoria.toString() }),
+      ...(tipoAtivoId !== undefined && { tipoAtivoId: tipoAtivoId.toString() }),
     };
     return this.http.get<ResponseApi<Paginado<Acao>>>(this.apiUrl + '/acao/filtrar', { headers })
   }

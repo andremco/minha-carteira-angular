@@ -92,8 +92,8 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   carregarAcoes(razaoSocial: String){
     let pagina = 0;
     let tamanho = 10;
-    let categoria = undefined;
-    this.acaoService.filtrar(pagina, tamanho, categoria, razaoSocial).subscribe({
+    let tipoAtivoId = undefined;
+    this.acaoService.filtrar(pagina, tamanho, tipoAtivoId, razaoSocial).subscribe({
       next: (response:ResponseApi<Paginado<Acao>>) => {
         this.ativos = response.data?.itens;
         this.formGroup.get('ativo')?.setValue(undefined);

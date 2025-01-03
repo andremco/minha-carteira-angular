@@ -22,9 +22,9 @@
               <div class="row" *ngIf="ehAcao">
                 <div class="col-sm-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Categoria</mat-label>
+                    <mat-label>TipoAtivo</mat-label>
                     <mat-select required formControlName="categoria">
-                      <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
+                      <mat-option *ngFor="let categoria of tipoAtivos" [value]="categoria.id">
                         {{ categoria.descricao }}
                       </mat-option>
                     </mat-select>

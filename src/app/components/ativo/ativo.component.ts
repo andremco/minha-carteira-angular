@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, OnInit} from "@angular/core";
 import {Acao} from "src/app/models/acao/Acao";
 import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
-import {Ativo} from "src/app/models/Ativo";
+import {Ativo} from "src/app/models/ativo/Ativo";
 import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {MatDialog} from "@angular/material/dialog";
 import {BaseComponent} from "../base.component";
@@ -11,7 +11,7 @@ import {ResponseApi} from "src/app/models/ResponseApi";
 import {Paginado} from "src/app/models/Paginado";
 import {HttpErrorResponse} from "@angular/common/http";
 import {TituloPublicoService} from "src/app/services/TituloPublicoService";
-import {CategoriaEnum} from "src/app/models/enums/CategoriaEnum";
+import {TipoAtivoEnum} from "../../models/enums/TipoAtivoEnum";
 
 @Component({
   selector: 'ativo',
@@ -66,11 +66,11 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
         carregarTitulosPublico: () => { this.carregarTitulosPublico(pagina, tamanho, true) },
         carregarAcoes: () => {
           let acao = <Acao>ativo;
-          if (acao.categoria?.id === CategoriaEnum.Acao)
+          if (acao.setor?.tipoAtivo?.id === TipoAtivoEnum.Acao)
             this.carregarAcoes(pagina, tamanho, true);
-          if (acao.categoria?.id === CategoriaEnum.FIIS)
+          if (acao.setor?.tipoAtivo?.id === TipoAtivoEnum.FundoImobiliario)
             this.carregarFiis(pagina, tamanho, true);
-          if (acao.categoria?.id === CategoriaEnum.BDR)
+          if (acao.setor?.tipoAtivo?.id === TipoAtivoEnum.BrazilianDepositaryReceipts)
             this.carregarBdrs(pagina, tamanho, true);
         }
       }
@@ -125,7 +125,7 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
 
   carregarAcoes(pagina:number, tamanho:number, zerarAcoes: boolean = false){
     this.loadingAcoes = true;
-    this.acaoService.filtrar(pagina, tamanho, CategoriaEnum.Acao).subscribe({
+    this.acaoService.filtrar(pagina, tamanho, TipoAtivoEnum.Acao).subscribe({
       next: (acaoPaginado:ResponseApi<Paginado<Acao>>) => {
         this.totalAcoes = <number>acaoPaginado.data?.total;
         if (zerarAcoes){
@@ -159,7 +159,7 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
 
   carregarFiis(pagina:number, tamanho:number, zerarFiis: boolean = false){
     this.loadingFiis = true;
-    this.acaoService.filtrar(pagina, tamanho, CategoriaEnum.FIIS).subscribe({
+    this.acaoService.filtrar(pagina, tamanho, TipoAtivoEnum.FundoImobiliario).subscribe({
       next: (fiisPaginado:ResponseApi<Paginado<Acao>>) => {
         this.totalFiis = <number>fiisPaginado.data?.total;
         if (zerarFiis){
@@ -193,7 +193,7 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
 
   carregarBdrs(pagina:number, tamanho:number, zerarBdrs: boolean = false){
     this.loadingBdrs = true;
-    this.acaoService.filtrar(pagina, tamanho, CategoriaEnum.BDR).subscribe({
+    this.acaoService.filtrar(pagina, tamanho, TipoAtivoEnum.BrazilianDepositaryReceipts).subscribe({
       next: (bdrPaginado:ResponseApi<Paginado<Acao>>) => {
         this.totalBdrs = <number>bdrPaginado.data?.total;
         if (zerarBdrs){

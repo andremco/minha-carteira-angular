@@ -42,7 +42,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   public ehAcao? : boolean;
   public loading: boolean = false;
   public btnLoading: boolean = false;
-  public categorias? : Dominio[] = [];
+  public tipoAtivos? : Dominio[] = [];
   public setores? : Dominio[] = [];
   private carregarAcoes: Function = () => {};
   private carregarTitulosPublico: Function = () => {};
@@ -65,7 +65,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
 
   ngOnInit() {
     this.inicializarAtivoForm();
-    this.carregarCategorias();
+    this.carregarTipoAtivos();
     this.carregarSetores();
     if (this.ehAcao)
       this.detalharAcao(this.ativo.id);
@@ -168,10 +168,10 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
       this.formGroup.get('razaoSocial')?.setValue("")
   }
 
-  carregarCategorias(){
-    this.dominioService.get('categorias').subscribe({
+  carregarTipoAtivos(){
+    this.dominioService.get('tipoAtivos').subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
-        this.categorias = response.data;
+        this.tipoAtivos = response.data;
       },
       error: (errorResponse : HttpErrorResponse) => {
         console.log(errorResponse);

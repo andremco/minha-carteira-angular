@@ -6,7 +6,20 @@
           <div class="card-header card-header-success">
             <h4 class="card-title">Setor</h4>
           </div>
-          <div class="card-body" [formGroup]="setorForm">
+          <div class="card-body" [formGroup]="formGroup">
+            <div class="row">
+              <div class="col-sm-12">
+                <mat-form-field>
+                  <mat-label>Tipo do ativo</mat-label>
+                  <mat-select required formControlName="tipoAtivo">
+                    <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
+                      {{ tipoAtivo.descricao }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="tipoAtivo?.invalid && (tipoAtivo?.dirty || tipoAtivo?.touched)">{{tipoAtivoErrorMessage()}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
             <div class="row">
               <div class="col-sm-12">
                 <mat-form-field>
@@ -18,7 +31,7 @@
             </div>
             <div class="pull-right">
               <button mat-raised-button mat-dialog-close class="mr-1">Sair</button>
-              <button mat-raised-button color="primary" [disabled]="loading || setorForm.invalid" (click)="!this.ehEditar ? salvar() : editar()">
+              <button mat-raised-button color="primary" [disabled]="loading || formGroup.invalid" (click)="!this.ehEditar ? salvar() : editar()">
                 <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
                 <span *ngIf="!loading">Salvar</span>
               </button>

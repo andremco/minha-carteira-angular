@@ -22,7 +22,7 @@ export class SetorComponent extends BaseComponent implements AfterViewInit, OnIn
   readonly dialog = inject(MatDialog);
   loading: boolean = false;
   dataSource = new MatTableDataSource<Setor>();
-  displayedColumns: string[] = ['descricao', 'dataRegistro', 'numAtivos', 'acoes'];
+  displayedColumns: string[] = ['descricao', 'tipoAtivo', 'dataRegistro', 'numAtivos', 'acoes'];
   @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(new MatPaginatorIntl(), ChangeDetectorRef.prototype);
   @ViewChild(MatSort) sort: MatSort = new MatSort();
 

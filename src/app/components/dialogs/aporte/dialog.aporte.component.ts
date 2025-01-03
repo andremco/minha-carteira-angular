@@ -26,8 +26,7 @@ import {MovimentacaoEnum} from "src/app/models/enums/MovimentacaoEnum";
 import {Aporte} from "src/app/models/aporte/Aporte";
 import {TipoAtivoEnumPipe} from "src/app/pipe/TipoAtivoEnumPipe";
 import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
-import {EditarAporte} from "../../../models/aporte/EditarAporte";
-import {CategoriaEnum} from "../../../models/enums/CategoriaEnum";
+import {EditarAporte} from "src/app/models/aporte/EditarAporte";
 
 @Component({
   selector: 'dialog-aporte',

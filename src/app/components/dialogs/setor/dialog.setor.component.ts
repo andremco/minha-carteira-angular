@@ -15,24 +15,29 @@ import {EditarSetor} from "src/app/models/setor/EditarSetor";
 import {ResponseApi} from "src/app/models/ResponseApi";
 import {MESSAGE} from "src/app/message/message"
 import {BaseComponent} from "src/app/components/base.component";
+import {Dominio} from "../../../models/Dominio";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {DominioService} from "../../../services/DominioService";
 
 @Component({
   selector: 'dialog-setor',
   templateUrl: 'dialog.setor.component.html',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatProgressSpinner, CommonModule, MatError, ReactiveFormsModule],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatProgressSpinner, CommonModule, MatError, ReactiveFormsModule, MatOption, MatSelect],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogSetorComponent extends BaseComponent implements OnInit{
-  setor: Setor = {};
-  setorForm: FormGroup = new FormGroup('');
-  loading: boolean = false;
-  ehEditar: boolean = false;
+  private setor: Setor = {};
+  public tipoAtivos? : Dominio[] = [];
+  public loading: boolean = false;
+  public ehEditar: boolean = false;
   private carregarSetores: Function = (pagina:Number, tamanho:Number) => {};
   constructor(
     private readonly ref: MatDialogRef<DialogSetorComponent>,
     @Inject(MAT_DIALOG_DATA) private data: { setor: Setor, carregarSetores: Function},
     private readonly service : SetorService,
+    private readonly dominioService : DominioService,
     private readonly cdr: ChangeDetectorRef,
     public override toastr: ToastrService) {
     super(toastr);
@@ -44,16 +49,31 @@ export class DialogSetorComponent extends BaseComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.setorForm = new FormGroup({
+    this.formGroup = new FormGroup({
+      tipoAtivo: new FormControl(this.setor.tipoAtivo?.id, [
+        Validators.required
+      ]),
       descricao: new FormControl(this.setor.descricao, [
         Validators.required,
         Validators.maxLength(60)
       ])
-    })
+    });
+    this.carregarTipoAtivos();
+  }
+
+  get tipoAtivo() : AbstractControl<any, any> | null{
+    return this.formGroup.get('tipoAtivo');
   }
 
   get descricao() : AbstractControl<any, any> | null{
-    return this.setorForm.get('descricao');
+    return this.formGroup.get('descricao');
+  }
+
+  tipoAtivoErrorMessage() : string {
+    if (this.tipoAtivo?.hasError('required')) {
+      return MESSAGE.OBRIGATORIO;
+    }
+    return MESSAGE.VAZIO;
   }
 
   descricaoErrorMessage() : string {
@@ -64,6 +84,17 @@ export class DialogSetorComponent extends BaseComponent implements OnInit{
       return MESSAGE.ATE_60_CHARS;
     }
     return MESSAGE.VAZIO;
+  }
+
+  carregarTipoAtivos(){
+    this.dominioService.get('tipoAtivos').subscribe({
+      next: (response:ResponseApi<Dominio[]>) => {
+        this.tipoAtivos = response.data;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);
+      }
+    })
   }
 
   updateDialogSuccess = ()=> {
@@ -80,6 +111,7 @@ export class DialogSetorComponent extends BaseComponent implements OnInit{
   salvar(){
     this.loading = true;
     var salvarReq : SalvarSetor = {
+      tipoAtivoId: this.tipoAtivo?.value,
       descricao: this.descricao?.value
     }
 
@@ -94,6 +126,7 @@ export class DialogSetorComponent extends BaseComponent implements OnInit{
     this.loading = true;
     var editarReq : EditarSetor = {
       id: this.setor.id,
+      tipoAtivoId: this.tipoAtivo?.value,
       descricao: this.descricao?.value
     }
     this.service.editar(editarReq).subscribe({

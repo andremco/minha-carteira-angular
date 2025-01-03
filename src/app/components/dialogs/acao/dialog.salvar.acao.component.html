@@ -11,20 +11,20 @@
             </div>
           </div>
           <div class="card-body">
-            <form [formGroup]="acaoForm">
+            <form [formGroup]="formGroup">
               <div class="row mb-2">
-                <div class="col-sm-4">
-                  <mat-form-field color="primary">
-                    <mat-label>Categoria</mat-label>
-                    <mat-select required formControlName="categoria">
-                      <mat-option *ngFor="let categoria of categorias" [value]="categoria.id">
-                        {{ categoria.descricao }}
+                <div class="col-sm-6">
+                  <mat-form-field>
+                    <mat-label>Tipo do ativo</mat-label>
+                    <mat-select required formControlName="tipoAtivo" (selectionChange)="onSelectChangeTipoAtivoId($event)">
+                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.valueOf()">
+                        {{ tipoAtivo | exibirTipoAtivoEnum }}
                       </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="categoria?.invalid && (categoria?.dirty || categoria?.touched)">{{categoriaErrorMessage()}}</mat-error>
+                    <mat-error *ngIf="tipoAtivo?.invalid && (tipoAtivo?.dirty || tipoAtivo?.touched)">{{tipoAtivoErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <mat-form-field color="primary">
                     <mat-label>Setor</mat-label>
                     <mat-select required formControlName="setor">
@@ -35,15 +35,15 @@
                     <mat-error *ngIf="setor?.invalid && (setor?.dirty || setor?.touched)">{{setorErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-3">
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
                   <mat-form-field color="primary">
                     <mat-label>Nota</mat-label>
                     <input matInput required formControlName="nota">
                     <mat-error *ngIf="nota?.invalid && (nota?.dirty || nota?.touched)">{{notaErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-sm-3">
                   <mat-form-field color="primary">
                     <mat-label>Ticker</mat-label>
@@ -51,7 +51,7 @@
                     <mat-error *ngIf="ticker?.invalid && (ticker?.dirty || ticker?.touched)">{{tickerErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-7">
                   <mat-form-field color="primary">
                     <mat-label>Razão social</mat-label>
                     <input matInput required formControlName="razaoSocial" [readonly]="true">
@@ -61,7 +61,7 @@
               </div>
               <div class="pull-right">
                 <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
-                <button mat-raised-button color="primary" [disabled]="loading || acaoForm.invalid" (click)="salvar()">
+                <button mat-raised-button color="primary" [disabled]="loading || formGroup.invalid" (click)="salvar()">
                   <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
                   <span *ngIf="!loading">Salvar</span>
                 </button>

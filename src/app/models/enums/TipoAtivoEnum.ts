@@ -1,4 +1,6 @@
 export enum TipoAtivoEnum{
   Acao = 1,
-  TituloPublico = 2
+  FundoImobiliario = 2,
+  BrazilianDepositaryReceipts = 3,
+  TituloPublico = 4
 }

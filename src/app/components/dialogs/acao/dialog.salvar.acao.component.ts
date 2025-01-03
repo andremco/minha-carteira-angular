@@ -4,7 +4,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {MatOption, MatSelect} from "@angular/material/select";
+import {MatOption, MatSelect, MatSelectChange} from "@angular/material/select";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {Acao} from "src/app/models/acao/Acao";
@@ -23,22 +23,24 @@ import {MESSAGE} from "src/app/message/message";
 import {TickerService} from "src/app/services/TickerService";
 import {Ticker} from "src/app/models/Ticker";
 import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
+import {TipoAtivoEnumPipe} from "../../../pipe/TipoAtivoEnumPipe";
 
 @Component({
   selector: 'salvar-acao',
   templateUrl: './dialog.salvar.acao.component.html',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner, TipoAtivoEnumPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
-  acao: Acao = {
-    categoria: { id: TipoAtivoEnum.Acao.valueOf() }
-  };
-  acaoForm: FormGroup = new FormGroup('');
-  loading: boolean = false;
-  categorias? : Dominio[] = [];
-  setores? : Dominio[] = [];
+  private acao: Acao = {};
+  public loading: boolean = false;
+  public tipoAtivos: TipoAtivoEnum[] = [
+    TipoAtivoEnum.Acao,
+    TipoAtivoEnum.FundoImobiliario,
+    TipoAtivoEnum.BrazilianDepositaryReceipts
+  ];
+  public setores? : Dominio[] = [];
   private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
   constructor(private readonly ref: MatDialogRef<DialogSalvarAcaoComponent>,
               private readonly dominioService : DominioService,
@@ -54,33 +56,31 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarAcaoForm();
-    this.carregarCategorias();
-    this.carregarSetores();
   }
 
-  get categoria() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('categoria');
+  get tipoAtivo() : AbstractControl<any, any> | null{
+    return this.formGroup.get('tipoAtivo');
   }
 
   get setor() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('setor');
+    return this.formGroup.get('setor');
   }
 
   get nota() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('nota');
+    return this.formGroup.get('nota');
   }
 
   get ticker() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('ticker');
+    return this.formGroup.get('ticker');
   }
 
   get razaoSocial() : AbstractControl<any, any> | null{
-    return this.acaoForm.get('razaoSocial');
+    return this.formGroup.get('razaoSocial');
   }
 
   inicializarAcaoForm(){
-    this.acaoForm = new FormGroup({
-      categoria: new FormControl(this.acao.categoria?.id, [
+    this.formGroup = new FormGroup({
+      tipoAtivo: new FormControl(this.acao.setor?.tipoAtivo?.id, [
         Validators.required
       ]),
       setor: new FormControl(this.acao.setor?.id, [
@@ -102,26 +102,21 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
       ])
     });
     // Escuta mudanças no valor e transforma em maiúsculas
-    this.acaoForm.get('ticker')?.valueChanges.subscribe(value => {
+    this.formGroup.get('ticker')?.valueChanges.subscribe(value => {
       if (value !== value.toUpperCase()) {
-        this.acaoForm.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
+        this.formGroup.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
       }
     });
   }
 
-  carregarCategorias(){
-    this.dominioService.get('categorias').subscribe({
-      next: (response:ResponseApi<Dominio[]>) => {
-        this.categorias = response.data;
-      },
-      error: (errorResponse : HttpErrorResponse) => {
-        console.log(errorResponse);
-      }
-    })
+  onSelectChangeTipoAtivoId(event: MatSelectChange){
+    this.setor?.setValue(undefined);
+    this.carregarSetores(event.value);
   }
 
-  carregarSetores(){
-    this.dominioService.get('setores').subscribe({
+  carregarSetores(tipoAtivoId?: number){
+    let urlResource = tipoAtivoId != undefined ? "setores/" + tipoAtivoId : "setores";
+    this.dominioService.get(urlResource).subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
         this.setores = response.data;
       },
@@ -133,11 +128,10 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
 
   salvar(){
     this.loading = true;
-    if(this.acaoForm.valid){
+    if(this.formGroup.valid){
       var salvarReq: SalvarAcao = {
         razaoSocial: this.razaoSocial?.value,
         setorId: this.setor?.value,
-        categoriaId: this.categoria?.value,
         ticker: this.ticker?.value,
         nota: this.nota?.value
       }
@@ -163,17 +157,17 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
     if (value && value.length >= 5){
       this.tickerService.obter(value).subscribe({
         next: (response:ResponseApi<Ticker>) => {
-          this.acaoForm.get('razaoSocial')?.setValue(response.data?.razaoSocial)
+          this.formGroup.get('razaoSocial')?.setValue(response.data?.razaoSocial)
         },
         error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
       })
     }
     else
-      this.acaoForm.get('razaoSocial')?.setValue("")
+      this.formGroup.get('razaoSocial')?.setValue("")
   }
 
-  categoriaErrorMessage() : string {
-    if (this.categoria?.hasError('required')) {
+  tipoAtivoErrorMessage() : string {
+    if (this.tipoAtivo?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
     }
     return MESSAGE.VAZIO;
