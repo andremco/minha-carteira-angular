@@ -23,13 +23,12 @@ import {MESSAGE} from "src/app/message/message";
 import {TickerService} from "src/app/services/TickerService";
 import {Ticker} from "src/app/models/Ticker";
 import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
-import {TipoAtivoEnumPipe} from "../../../pipe/TipoAtivoEnumPipe";
 
 @Component({
   selector: 'salvar-acao',
   templateUrl: './dialog.salvar.acao.component.html',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner, TipoAtivoEnumPipe],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {

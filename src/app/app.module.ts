@@ -40,7 +40,6 @@ import { AporteComponent } from "./components/aporte/aporte.component";
 import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
 import {NomeAtivoPipe} from "./pipe/NomeAtivoPipe";
 import {TickerPipe} from "./pipe/TickerPipe";
-import {TipoAtivoEnumPipe} from "./pipe/TipoAtivoEnumPipe";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {TruncateTextoPipe} from "./pipe/TruncateTextoPipe";
@@ -89,7 +88,6 @@ registerLocaleData(localePt);
         MatNativeDateModule,
         MatDatepickerModule,
         ReactiveFormsModule,
-        TipoAtivoEnumPipe,
         NgxMatSelectSearchModule,
         MatProgressSpinner
     ],

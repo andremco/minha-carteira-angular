@@ -24,7 +24,6 @@ import {SalvarAporte} from "src/app/models/aporte/SalvarAporte";
 import {AporteService} from "src/app/services/AporteService";
 import {MovimentacaoEnum} from "src/app/models/enums/MovimentacaoEnum";
 import {Aporte} from "src/app/models/aporte/Aporte";
-import {TipoAtivoEnumPipe} from "src/app/pipe/TipoAtivoEnumPipe";
 import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
 import {EditarAporte} from "src/app/models/aporte/EditarAporte";
 import {Dominio} from "../../../models/Dominio";
@@ -34,7 +33,7 @@ import {DominioService} from "../../../services/DominioService";
   selector: 'dialog-aporte',
   templateUrl: 'dialog.aporte.component.html',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect, NgClass, NgIf, ReactiveFormsModule, MatError, NgForOf, NgxMatSelectSearchModule, MatProgressSpinner, CommonModule, TipoAtivoEnumPipe, MovimentacaoEnumPipe],
+  imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatOption, MatSelect, NgClass, NgIf, ReactiveFormsModule, MatError, NgForOf, NgxMatSelectSearchModule, MatProgressSpinner, CommonModule, MovimentacaoEnumPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogAporteComponent extends BaseComponent implements OnInit{
