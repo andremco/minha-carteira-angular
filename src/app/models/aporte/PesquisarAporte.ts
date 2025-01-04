@@ -1,7 +1,7 @@
 import {TipoAtivoEnum} from "../enums/TipoAtivoEnum";
 
 export interface PesquisarAporte{
-  tipoAtivo?: TipoAtivoEnum,
+  tipoAtivoId?: TipoAtivoEnum,
   ativoId?: number,
   dataInicio?: string,
   dataFim?: string

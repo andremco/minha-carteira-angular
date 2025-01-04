@@ -13,8 +13,8 @@
                   <mat-form-field color="primary">
                     <mat-label>Tipo do ativo</mat-label>
                     <mat-select formControlName="tipoAtivo" (selectionChange)="onSelectChangeTipoAtivoId($event)">
-                      <mat-option *ngFor="let tipoAtivo of tiposAtivos" [value]="tipoAtivo.valueOf()">
-                        {{ tipoAtivo | exibirTipoAtivoEnum }}
+                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
+                        {{ tipoAtivo.descricao }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>

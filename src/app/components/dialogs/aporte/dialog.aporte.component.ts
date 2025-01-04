@@ -27,6 +27,8 @@ import {Aporte} from "src/app/models/aporte/Aporte";
 import {TipoAtivoEnumPipe} from "src/app/pipe/TipoAtivoEnumPipe";
 import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
 import {EditarAporte} from "src/app/models/aporte/EditarAporte";
+import {Dominio} from "../../../models/Dominio";
+import {DominioService} from "../../../services/DominioService";
 
 @Component({
   selector: 'dialog-aporte',
@@ -37,10 +39,7 @@ import {EditarAporte} from "src/app/models/aporte/EditarAporte";
 })
 export class DialogAporteComponent extends BaseComponent implements OnInit{
   public aporte: Aporte = {};
-  public tiposAtivos: TipoAtivoEnum[] = [
-    TipoAtivoEnum.Acao,
-    TipoAtivoEnum.TituloPublico
-  ];
+  public tipoAtivos? : Dominio[] = [];
   public movimentacoes: MovimentacaoEnum[] = [
     MovimentacaoEnum.Compra,
     MovimentacaoEnum.Venda
@@ -52,6 +51,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   public ehEditar: boolean = false;
   private carregarAportes: Function = (pagina:Number, tamanho:Number) => {};
   constructor(private readonly acaoService : AcaoService,
+              private readonly dominioService : DominioService,
               private readonly tituloPublicoService: TituloPublicoService,
               private readonly aporteService: AporteService,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -79,7 +79,8 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.inicializarAtivoForm();
     this.pesquisarAtivo.valueChanges.subscribe(() => {
       this.filtrarAtivos()
-    })
+    });
+    this.carregarTipoAtivos();
   }
 
   inicializarAtivoForm(): void{
@@ -154,7 +155,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   }
 
   onSelectChangeTipoAtivoId(event: MatSelectChange){
-    this.tipoAtivo = (event.value == TipoAtivoEnum.Acao) ? TipoAtivoEnum.Acao : TipoAtivoEnum.TituloPublico;
+    this.tipoAtivo = <TipoAtivoEnum>event.value;
     this.ativos = [];
     this.formGroup.get('ativo')?.setValue(undefined);
   }
@@ -162,15 +163,26 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   filtrarAtivos(){
     let ativo = this.pesquisarAtivo.value;
     if (ativo && ativo.length >= 5){
-      if (this.tipoAtivo == TipoAtivoEnum.Acao)
-        this.carregarAcoes(ativo)
+      if (this.tipoAtivo != TipoAtivoEnum.TituloPublico)
+        this.carregarAcoes(ativo, this.tipoAtivo)
       else
         this.carregarTitulosPublico(ativo)
     }
   }
 
-  carregarAcoes(razaoSocial: String){
-    this.acaoService.filtrar(0, 10, undefined, razaoSocial).subscribe({
+  carregarTipoAtivos(){
+    this.dominioService.get('tipoAtivos').subscribe({
+      next: (response:ResponseApi<Dominio[]>) => {
+        this.tipoAtivos = response.data;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);
+      }
+    })
+  }
+
+  carregarAcoes(razaoSocial: String, tipoAtivoId?: TipoAtivoEnum){
+    this.acaoService.filtrar(0, 10, tipoAtivoId, razaoSocial).subscribe({
       next: (response:ResponseApi<Paginado<Acao>>) => {
         this.ativos = response.data?.itens;
         this.formGroup.get('ativo')?.setValue(undefined);

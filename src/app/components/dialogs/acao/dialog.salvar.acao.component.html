@@ -17,8 +17,8 @@
                   <mat-form-field>
                     <mat-label>Tipo do ativo</mat-label>
                     <mat-select required formControlName="tipoAtivo" (selectionChange)="onSelectChangeTipoAtivoId($event)">
-                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.valueOf()">
-                        {{ tipoAtivo | exibirTipoAtivoEnum }}
+                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
+                        {{ tipoAtivo.descricao }}
                       </mat-option>
                     </mat-select>
                     <mat-error *ngIf="tipoAtivo?.invalid && (tipoAtivo?.dirty || tipoAtivo?.touched)">{{tipoAtivoErrorMessage()}}</mat-error>

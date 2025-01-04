@@ -27,7 +27,7 @@ export class AporteService{
     const headers = {
       pagina: pagina.toString(),
       tamanho: tamanho.toString(),
-      ...(filtro?.tipoAtivo !== undefined && filtro?.tipoAtivo !== null && { tipoAtivo: filtro.tipoAtivo.toString() }),
+      ...(filtro?.tipoAtivoId !== undefined && filtro?.tipoAtivoId !== null && { tipoAtivoId: filtro.tipoAtivoId.toString() }),
       ...(filtro?.ativoId !== undefined && filtro?.ativoId !== null && { ativoId: filtro.ativoId.toString() }),
       ...(filtro?.dataInicio !== undefined && { dataInicio: filtro.dataInicio.toString() }),
       ...(filtro?.dataFim !== undefined && { dataFim: filtro.dataFim.toString() }),

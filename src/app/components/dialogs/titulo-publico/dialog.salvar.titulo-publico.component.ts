@@ -20,6 +20,7 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MESSAGE} from "src/app/message/message";
 import {SalvarTituloPublico} from "src/app/models/titulo-publico/SalvarTituloPublico";
+import {TipoAtivoEnum} from "../../../models/enums/TipoAtivoEnum";
 
 @Component({
   selector: 'salvar-titulo-publico',
@@ -47,7 +48,7 @@ export class DialogSalvarTituloPublicoComponent extends BaseComponent implements
 
   ngOnInit(): void {
     this.inicializarTituloForm();
-    this.carregarSetores();
+    this.carregarSetores(TipoAtivoEnum.TituloPublico);
   }
 
   inicializarTituloForm(){
@@ -71,8 +72,9 @@ export class DialogSalvarTituloPublicoComponent extends BaseComponent implements
     })
   }
 
-  carregarSetores(){
-    this.dominioService.get('setores').subscribe({
+  carregarSetores(tipoAtivo?: TipoAtivoEnum){
+    let urlResource = tipoAtivo != undefined ? "setores/" + tipoAtivo.valueOf() : "setores";
+    this.dominioService.get(urlResource).subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
         this.setores = response.data;
       },

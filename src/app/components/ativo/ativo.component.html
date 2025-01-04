@@ -6,10 +6,10 @@
           Títulos público
         </h2>
       </div>
-      <div *ngIf="loadingTitulos" class="col-sm-12">
+      <div *ngIf="loadingTitulos" class="col-sm-12 mb-5">
         <div class="loader"></div>
       </div>
-      <div *ngIf="!loadingTitulos && titulosPublico.length === 0" class="col-sm-12">
+      <div *ngIf="!loadingTitulos && titulosPublico.length === 0" class="col-sm-12 mb-5">
         <p class="text-gray text-center">Nenhum resultado encontrado!</p>
       </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let titulo of titulosPublico">
@@ -74,7 +74,7 @@
       <div *ngIf="loadingAcoes" class="col-sm-12 mb-5">
         <div class="loader"></div>
       </div>
-      <div *ngIf="!loadingAcoes && acoes.length === 0" class="col-sm-12">
+      <div *ngIf="!loadingAcoes && acoes.length === 0" class="col-sm-12 mb-5">
         <p class="text-gray text-center">Nenhum resultado encontrado!</p>
       </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let acao of acoes">
@@ -139,7 +139,7 @@
       <div *ngIf="loadingFiis" class="col-sm-12 mb-5">
         <div class="loader"></div>
       </div>
-      <div *ngIf="!loadingFiis && fiis.length === 0" class="col-sm-12">
+      <div *ngIf="!loadingFiis && fiis.length === 0" class="col-sm-12 mb-5">
         <p class="text-gray text-center">Nenhum resultado encontrado!</p>
       </div>
       <div class="col-sm-6 col-md-3 col-lg-3" *ngFor="let fundo of fiis">

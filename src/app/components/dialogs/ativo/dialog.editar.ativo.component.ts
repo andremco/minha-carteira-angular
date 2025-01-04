@@ -1,16 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from "@angular/core";
-import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import { MatButtonModule } from "@angular/material/button";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import { MatFormField, MatLabel } from "@angular/material/form-field";
-import { MatInput } from "@angular/material/input";
-import { MatOption, MatSelect } from "@angular/material/select";
-import { MatGridList, MatGridTile } from "@angular/material/grid-list";
-import { FlexLayoutModule } from "@angular/flex-layout";
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CommonModule } from "@angular/common";
+import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
+import {MatInput, MatInputModule} from "@angular/material/input";
+import {MatOption, MatSelect, MatSelectChange} from "@angular/material/select";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {CommonModule} from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {AcaoService} from "src/app/services/AcaoService";
 import {ResponseApi} from "src/app/models/ResponseApi";
@@ -25,9 +22,10 @@ import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
 import {EditarAcao} from "src/app/models/acao/EditarAcao";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {TituloPublicoService} from "../../../services/TituloPublicoService";
-import {TituloPublico} from "../../../models/titulo-publico/TituloPublico";
-import {EditarTituloPublico} from "../../../models/titulo-publico/EditarTituloPublico";
+import {TituloPublicoService} from "src/app/services/TituloPublicoService";
+import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
+import {EditarTituloPublico} from "src/app/models/titulo-publico/EditarTituloPublico";
+import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
 
 @Component({
   selector: 'ativo',
@@ -39,7 +37,6 @@ import {EditarTituloPublico} from "../../../models/titulo-publico/EditarTituloPu
 export class DialogEditarAtivoComponent extends BaseComponent implements OnInit {
   public comprar : boolean = false;
   public ativo? : any;
-  public ehAcao? : boolean;
   public loading: boolean = false;
   public btnLoading: boolean = false;
   public tipoAtivos? : Dominio[] = [];
@@ -56,7 +53,6 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
               public override toastr: ToastrService) {
     super(toastr);
     this.ativo = data.ativo
-    this.ehAcao = (data.ativo && data.ativo.categoria)
     if (data && data.carregarAcoes != undefined)
       this.carregarAcoes = data.carregarAcoes;
     if (data && data.carregarTitulosPublico != undefined)
@@ -64,19 +60,24 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.inicializarAtivoForm();
-    this.carregarTipoAtivos();
-    this.carregarSetores();
-    if (this.ehAcao)
-      this.detalharAcao(this.ativo.id);
-    else
-      this.detalharTituloPublico(this.ativo.id);
+    let tipoAtivo = this.data?.ativo?.setor?.tipoAtivo;
+    if(tipoAtivo){
+      let tipoAtivoEnum = <TipoAtivoEnum>tipoAtivo.id;
+      this.carregarTipoAtivos(tipoAtivoEnum);
+      this.carregarSetores(tipoAtivoEnum);
+      if (tipoAtivoEnum != TipoAtivoEnum.TituloPublico)
+        this.detalharAcao(this.ativo.id);
+      else
+        this.detalharTituloPublico(this.ativo.id);
+
+      this.inicializarAtivoForm(tipoAtivoEnum);
+    }
   }
 
-  inicializarAtivoForm(){
-    if (this.ehAcao){
+  inicializarAtivoForm(tipoAtivo?: TipoAtivoEnum){
+    if (tipoAtivo != TipoAtivoEnum.TituloPublico){
       this.formGroup = new FormGroup({
-        categoria: new FormControl(this.ativo.categoria?.id, [
+        tipoAtivo: new FormControl(this.ativo.setor?.tipoAtivo?.id, [
           Validators.required
         ]),
         setor: new FormControl(this.ativo.setor?.id, [
@@ -106,6 +107,9 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     }
     else{
       this.formGroup = new FormGroup({
+        tipoAtivo: new FormControl(this.ativo.setor?.tipoAtivo?.id, [
+          Validators.required
+        ]),
         setor: new FormControl(this.ativo.setor?.id, [
           Validators.required
         ]),
@@ -135,8 +139,8 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     return this.formGroup.get('descricao');
   }
 
-  get categoria() : AbstractControl<any, any> | null{
-    return this.formGroup.get('categoria');
+  get tipoAtivo() : AbstractControl<any, any> | null{
+    return this.formGroup.get('tipoAtivo');
   }
 
   get setor() : AbstractControl<any, any> | null{
@@ -155,6 +159,11 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     return this.formGroup.get('nota');
   }
 
+  onSelectChangeTipoAtivoId(event: MatSelectChange){
+    this.setor?.setValue(undefined);
+    this.carregarSetores(event.value);
+  }
+
   buscarAcaoPorTicker(value: string){
     if (value && value.length >= 5){
       this.tickerService.obter(value).subscribe({
@@ -168,10 +177,15 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
       this.formGroup.get('razaoSocial')?.setValue("")
   }
 
-  carregarTipoAtivos(){
+  carregarTipoAtivos(tipoAtivo? : TipoAtivoEnum){
     this.dominioService.get('tipoAtivos').subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
-        this.tipoAtivos = response.data;
+        let tipoAtivos = response.data;
+        if(tipoAtivos && tipoAtivos.length > 0 && tipoAtivo != TipoAtivoEnum.TituloPublico){
+          this.tipoAtivos = tipoAtivos.filter(item => item.id !== TipoAtivoEnum.TituloPublico);
+        }
+        else
+          this.tipoAtivos = response.data;
       },
       error: (errorResponse : HttpErrorResponse) => {
         console.log(errorResponse);
@@ -179,8 +193,9 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     })
   }
 
-  carregarSetores(){
-    this.dominioService.get('setores').subscribe({
+  carregarSetores(tipoAtivo?: TipoAtivoEnum){
+    let urlResource = tipoAtivo != undefined ? "setores/" + tipoAtivo.valueOf() : "setores";
+    this.dominioService.get(urlResource).subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
         this.setores = response.data;
       },
@@ -229,7 +244,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     if(this.formGroup.valid){
       var updateDialogSuccess = ()=> {
         this.btnLoading = false;
-        if(this.ehAcao)
+        if(this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico)
           this.carregarAcoes();
         else
           this.carregarTitulosPublico();
@@ -241,12 +256,11 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
         this.cdr.detectChanges();
       }
       var editarReq: {}
-      if(this.ehAcao){
+      if(this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico){
         editarReq = {
           id: this.ativo.id,
           razaoSocial: this.razaoSocial?.value,
           setorId: this.setor?.value,
-          categoriaId: this.categoria?.value,
           ticker: this.ticker?.value,
           nota: this.nota?.value
         }
@@ -273,8 +287,8 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     }
   }
 
-  categoriaErrorMessage() : string {
-    if (this.categoria?.hasError('required')) {
+  tipoAtivoErrorMessage() : string {
+    if (this.tipoAtivo?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
     }
     return MESSAGE.VAZIO;
@@ -335,4 +349,6 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     }
     return MESSAGE.VAZIO;
   }
+
+  protected readonly TipoAtivoEnum = TipoAtivoEnum;
 }

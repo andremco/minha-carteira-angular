@@ -24,8 +24,8 @@
                   <mat-form-field color="primary">
                     <mat-label>Tipo do ativo</mat-label>
                     <mat-select formControlName="tipoAtivo" (selectionChange)="onSelectChangeTipoAtivoId($event)">
-                      <mat-option *ngFor="let tipo of tiposAtivos" [value]="tipo.valueOf()">
-                        {{ tipo | exibirTipoAtivoEnum }}
+                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
+                        {{ tipoAtivo.descricao }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -90,7 +90,7 @@
                       </ng-container>
                       <ng-container matColumnDef="ticker">
                         <th mat-header-cell *matHeaderCellDef class="text-gray"> Ticker </th>
-                        <td mat-cell *matCellDef="let element"> {{element | exibirTicker}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element | exibirTicker }} </td>
                       </ng-container>
                       <ng-container matColumnDef="movimentacao">
                         <th mat-header-cell *matHeaderCellDef class="text-gray"> Movimentação </th>

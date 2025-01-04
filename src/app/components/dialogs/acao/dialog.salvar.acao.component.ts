@@ -35,11 +35,7 @@ import {TipoAtivoEnumPipe} from "../../../pipe/TipoAtivoEnumPipe";
 export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
   private acao: Acao = {};
   public loading: boolean = false;
-  public tipoAtivos: TipoAtivoEnum[] = [
-    TipoAtivoEnum.Acao,
-    TipoAtivoEnum.FundoImobiliario,
-    TipoAtivoEnum.BrazilianDepositaryReceipts
-  ];
+  public tipoAtivos? : Dominio[] = [];
   public setores? : Dominio[] = [];
   private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
   constructor(private readonly ref: MatDialogRef<DialogSalvarAcaoComponent>,
@@ -56,6 +52,7 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarAcaoForm();
+    this.carregarTipoAtivos();
   }
 
   get tipoAtivo() : AbstractControl<any, any> | null{
@@ -112,6 +109,20 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
   onSelectChangeTipoAtivoId(event: MatSelectChange){
     this.setor?.setValue(undefined);
     this.carregarSetores(event.value);
+  }
+
+  carregarTipoAtivos(){
+    this.dominioService.get('tipoAtivos').subscribe({
+      next: (response:ResponseApi<Dominio[]>) => {
+        let tipoAtivos = response.data;
+        if(tipoAtivos && tipoAtivos.length > 0){
+          this.tipoAtivos = tipoAtivos.filter(item => item.id !== TipoAtivoEnum.TituloPublico);
+        }
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);
+      }
+    })
   }
 
   carregarSetores(tipoAtivoId?: number){

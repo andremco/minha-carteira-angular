@@ -23,11 +23,11 @@
               <table *ngIf="!loading && dataSource.data.length > 0" mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="razaoSocial">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Razão social </th>
-                  <td mat-cell *matCellDef="let element"> {{element.razaoSocial}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.razaoSocial }} </td>
                 </ng-container>
                 <ng-container matColumnDef="setorDescricao">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Setor </th>
-                  <td mat-cell *matCellDef="let element"> {{element.setor.descricao}} </td>
+                  <td mat-cell *matCellDef="let element"> {{element.setor.descricao }} </td>
                 </ng-container>
                 <ng-container matColumnDef="ticker">
                   <th mat-header-cell *matHeaderCellDef class="text-gray"> Ticker </th>

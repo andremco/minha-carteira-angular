@@ -6,7 +6,7 @@
           <div class="card-header" [ngClass]="{'card-header-success': comprar, 'card-header-warning': !comprar}">
             <div class="row">
               <div class="col-md-6">
-                <h4 class="card-title" [innerHTML]="ehAcao ? ativo.razaoSocial : ativo.descricao"></h4>
+                <h4 class="card-title" [innerHTML]="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico ? ativo.razaoSocial : ativo.descricao"></h4>
                 <p class="card-category">{{ ativo.setor.descricao }}</p>
               </div>
               <div class="col-md-6">
@@ -19,16 +19,16 @@
           <div class="card-body">
             <div *ngIf="loading" [class]="comprar ? 'loader' : 'loader-warn'"></div>
             <form *ngIf="!loading" [formGroup]="formGroup">
-              <div class="row" *ngIf="ehAcao">
+              <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico">
                 <div class="col-sm-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>TipoAtivo</mat-label>
-                    <mat-select required formControlName="categoria">
-                      <mat-option *ngFor="let categoria of tipoAtivos" [value]="categoria.id">
-                        {{ categoria.descricao }}
+                    <mat-label>Tipo do ativo</mat-label>
+                    <mat-select required formControlName="tipoAtivo" (selectionChange)="onSelectChangeTipoAtivoId($event)">
+                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
+                        {{ tipoAtivo.descricao }}
                       </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="categoria?.invalid && (categoria?.dirty || categoria?.touched)">{{categoriaErrorMessage()}}</mat-error>
+                    <mat-error *ngIf="tipoAtivo?.invalid && (tipoAtivo?.dirty || tipoAtivo?.touched)">{{tipoAtivoErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
                 <div class="col-sm-5">
@@ -50,7 +50,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row" *ngIf="ehAcao">
+              <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico">
                 <div class="col-md-12">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Razão social</mat-label>
@@ -59,7 +59,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row" *ngIf="!ehAcao">
+              <div class="row" *ngIf="this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico">
                 <div class="col-md-5">
                   <mat-form-field color="primary">
                     <mat-label>Setor</mat-label>
@@ -81,13 +81,13 @@
               </div>
               <div class="row">
                 <div class="col-md-4">
-                  <div *ngIf="ehAcao">
+                  <div *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico">
                     <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                       <mat-label>Preço dinâmico</mat-label>
                       <input matInput [value]="ativo.precoDinamico" readonly>
                     </mat-form-field>
                   </div>
-                  <div *ngIf="!ehAcao">
+                  <div *ngIf="this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico">
                     <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                       <mat-label>Preço inicial</mat-label>
                       <input matInput required formControlName="precoInicial" #inputBox (blur)="onPrecoInputBlur(inputBox.value, 'precoInicial')">

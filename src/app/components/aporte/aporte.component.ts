@@ -21,6 +21,8 @@ import {Acao} from "src/app/models/acao/Acao";
 import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
 import {AcaoService} from "src/app/services/AcaoService";
 import {TituloPublicoService} from "src/app/services/TituloPublicoService";
+import {Dominio} from "../../models/Dominio";
+import {DominioService} from "../../services/DominioService";
 
 @Component({
   selector: 'aporte',
@@ -28,10 +30,7 @@ import {TituloPublicoService} from "src/app/services/TituloPublicoService";
 })
 export class AporteComponent extends BaseComponent implements AfterViewInit, OnInit{
   public pesquisarAporte: PesquisarAporte = {};
-  public tiposAtivos: TipoAtivoEnum[] = [
-    TipoAtivoEnum.Acao,
-    TipoAtivoEnum.TituloPublico
-  ];
+  public tipoAtivos? : Dominio[] = [];
   public movimentacoes: MovimentacaoEnum[] = [
     MovimentacaoEnum.Compra,
     MovimentacaoEnum.Venda
@@ -49,6 +48,7 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   constructor(private readonly aporteService : AporteService,
               private readonly acaoService : AcaoService,
               private readonly tituloPublicoService: TituloPublicoService,
+              private readonly dominioService : DominioService,
               private readonly cdr: ChangeDetectorRef,
               public override toastr: ToastrService) {
     super(toastr);
@@ -63,11 +63,12 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
 
   ngAfterViewInit(): void {
     this.carregarAportes(0, 10);
+    this.carregarTipoAtivos();
   }
 
   inicializarPesquisaForm(): void{
     this.formGroup = new FormGroup({
-      tipoAtivo: new FormControl(this.pesquisarAporte.tipoAtivo),
+      tipoAtivo: new FormControl(this.pesquisarAporte.tipoAtivoId),
       ativo: new FormControl(this.pesquisarAporte.ativoId),
       dataInicio: new FormControl(this.pesquisarAporte.dataInicio),
       dataFim: new FormControl(this.pesquisarAporte.dataFim)
@@ -82,11 +83,22 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   filtrarAtivos(){
     let ativo = this.pesquisarAtivo.value;
     if (ativo && ativo.length >= 5){
-      if (this.tipoAtivo?.value == TipoAtivoEnum.Acao)
+      if (this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico)
         this.carregarAcoes(ativo)
       else
         this.carregarTitulosPublico(ativo)
     }
+  }
+
+  carregarTipoAtivos(){
+    this.dominioService.get('tipoAtivos').subscribe({
+      next: (response:ResponseApi<Dominio[]>) => {
+        this.tipoAtivos = response.data;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);
+      }
+    })
   }
 
   carregarAcoes(razaoSocial: String){
@@ -175,7 +187,7 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
     this.loading = true;
     this.btnLoading = true;
     var pesquisarReq: PesquisarAporte = {
-      tipoAtivo: this.tipoAtivo?.value,
+      tipoAtivoId: this.tipoAtivo?.value,
       ativoId: this.ativo?.value,
       dataInicio: this.dataInicio?.value?.toLocaleDateString("pt-BR"),
       dataFim: this.dataFim?.value?.toLocaleDateString("pt-BR")
