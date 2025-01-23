@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TipoAtivoPipe implements PipeTransform {
   transform(ativo: any): string {
     if (ativo){
-      debugger
       if (ativo.acao?.setor?.tipoAtivo)
         return ativo.acao?.setor?.tipoAtivo?.descricao;
       if (ativo.tituloPublico?.setor?.tipoAtivo)

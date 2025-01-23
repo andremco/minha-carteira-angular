@@ -86,9 +86,9 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.formGroup = new FormGroup({
       tipoAtivo: new FormControl(this.tipoAtivo),
       movimentacao: new FormControl(this.movimentacao),
-      ativo: new FormControl(this.tipoAtivo == TipoAtivoEnum.Acao ?
-        this.aporte.acao?.id :
-        this.aporte.tituloPublico?.id, [
+      ativo: new FormControl(this.tipoAtivo == TipoAtivoEnum.TituloPublico ?
+        this.aporte.tituloPublico?.id :
+        this.aporte.acao?.id, [
         Validators.required
       ]),
       preco: new FormControl(this.aporte.preco, [
@@ -212,10 +212,10 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         quantidade: this.quantidade?.value,
         movimentacao: this.movimentacao?.value
       }
-      if (this.tipoAtivo == TipoAtivoEnum.Acao)
-        salvarReq.acaoId = this.ativo?.value
-      else
+      if (this.tipoAtivo == TipoAtivoEnum.TituloPublico)
         salvarReq.tituloPublicoId = this.ativo?.value
+      else
+        salvarReq.acaoId = this.ativo?.value
       this.aporteService.salvar(salvarReq).subscribe({
         next: () => this.success(this.updateDialogSuccess),
         error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)
@@ -233,10 +233,10 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         quantidade: this.quantidade?.value,
         movimentacao: this.movimentacao?.value
       }
-      if (this.tipoAtivo == TipoAtivoEnum.Acao)
-        editarReq.acaoId = this.ativo?.value
-      else
+      if (this.tipoAtivo == TipoAtivoEnum.TituloPublico)
         editarReq.tituloPublicoId = this.ativo?.value
+      else
+        editarReq.acaoId = this.ativo?.value
       this.aporteService.editar(editarReq).subscribe({
           next: () => this.success(this.updateDialogSuccess),
           error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)

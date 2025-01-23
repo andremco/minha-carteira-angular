@@ -9,7 +9,7 @@
           <div class="card-body">
             <form [formGroup]="formGroup">
               <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                   <mat-form-field color="primary">
                     <mat-label>Tipo do ativo</mat-label>
                     <mat-select formControlName="tipoAtivo" (selectionChange)="onSelectChangeTipoAtivoId($event)">
@@ -19,7 +19,7 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <mat-form-field color="primary">
                     <mat-label>Movimentação</mat-label>
                     <mat-select formControlName="movimentacao">
@@ -42,7 +42,7 @@
                         </ngx-mat-select-search>
                       </mat-option>
                       <mat-option *ngFor="let ativo of ativos" [value]="ativo.id">
-                        {{ tipoAtivo == TipoAtivoEnum.Acao ? ativo.razaoSocial : ativo.descricao }}
+                        {{ tipoAtivo == TipoAtivoEnum.TituloPublico  ? ativo.descricao : ativo.razaoSocial }}
                       </mat-option>
                     </mat-select>
                     <mat-error *ngIf="ativo?.invalid && (ativo?.dirty || ativo?.touched)">{{ativoErrorMessage()}}</mat-error>
