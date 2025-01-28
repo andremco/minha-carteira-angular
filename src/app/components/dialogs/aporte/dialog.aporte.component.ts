@@ -26,8 +26,8 @@ import {MovimentacaoEnum} from "src/app/models/enums/MovimentacaoEnum";
 import {Aporte} from "src/app/models/aporte/Aporte";
 import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
 import {EditarAporte} from "src/app/models/aporte/EditarAporte";
-import {Dominio} from "../../../models/Dominio";
-import {DominioService} from "../../../services/DominioService";
+import {Dominio} from "src/app/models/Dominio";
+import {DominioService} from "src/app/services/DominioService";
 
 @Component({
   selector: 'dialog-aporte',

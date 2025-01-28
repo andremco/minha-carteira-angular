@@ -48,7 +48,17 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-sm-6" [style.height]="'700px'">
+        <h2 [style.text-align]="'center'">Porcetagem de ativos na carteira</h2>
+        <div id="porcetagem-ativos-carteira-chart" style="height: 60vh"></div>
+      </div>
       <div class="col-sm-6">
+        <h2 [style.text-align]="'center'">Valor de ativos na carteira</h2>
+        <div id="valor-ativos-carteira-chart" style="height: 60vh"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
         <h2 [style.text-align]="'center'">Aportes em {{ hj | date : "y" }}</h2>
         <div class="legend">
           <div class="square-legend square-tesouro-direto"></div>
@@ -59,10 +69,6 @@
           <label [style.margin-right]="'10px'">Fundo Imobiliário</label>
         </div>
         <div id="aportes-anual-chart" style="height: 60vh"></div>
-      </div>
-      <div class="col-sm-6">
-        <h2 [style.text-align]="'center'">Ativos</h2>
-        <div id="ativos-chart" style="height: 60vh"></div>
       </div>
     </div>
     <div class="row mt-5">

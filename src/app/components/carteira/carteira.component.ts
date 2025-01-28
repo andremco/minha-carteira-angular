@@ -17,12 +17,31 @@ export class CarteiraComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.gerarPorcetagemAtivosCarteiraChart();
+    this.gerarValorAtivosCarteiraChart();
     this.gerarAportesAnualChart();
-    this.gerarAtivosChart();
     this.gerarSetoresAcoesChart();
     this.gerarAumentarPosicaoSetoresAcoesChart();
     this.gerarSetoresFiisChart();
     this.gerarAumentarPosicaoSetoresFiisChart();
+  }
+
+  gerarPorcetagemAtivosCarteiraChart(){
+    new Chartist.BarChart('#porcetagem-ativos-carteira-chart', {
+      labels: ['Tesouro Direto', 'Ações', 'Fundos Imobiliários'],
+      series: [70, 20, 10]
+    }, {
+      distributeSeries: true
+    });
+  }
+
+  gerarValorAtivosCarteiraChart(){
+    new Chartist.BarChart('#valor-ativos-carteira-chart', {
+      labels: ['Tesouro Direto', 'Ações', 'Fundos Imobiliários'],
+      series: [5500, 17000, 4500]
+    }, {
+      distributeSeries: true
+    });
   }
 
   gerarAportesAnualChart(){
@@ -74,15 +93,6 @@ export class CarteiraComponent implements OnInit {
       }]
     ]);
 
-  }
-
-  gerarAtivosChart(){
-    new Chartist.BarChart('#ativos-chart', {
-      labels: ['Tesouro Direto', 'Ações', 'Fundos Imobiliários'],
-      series: [5500, 17000, 4500]
-    }, {
-      distributeSeries: true
-    });
   }
 
   gerarSetoresAcoesChart(){
