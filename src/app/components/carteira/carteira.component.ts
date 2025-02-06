@@ -1,56 +1,142 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
 import 'chartist/dist/index.css';
 import * as Chartist from 'chartist';
+import {CarteiraService} from "../../services/CarteiraService";
+import {ResponseApi} from "../../models/ResponseApi";
+import {HttpErrorResponse} from "@angular/common/http";
+import {ValoresCarteiraTotal} from "../../models/carteira/ValoresCarteiraTotal";
+import {BaseComponent} from "../base.component";
+import {ToastrService} from "ngx-toastr";
+import {AportesTotal} from "../../models/carteira/AportesTotal";
+import {AportesValorMensal} from "../../models/carteira/AportesValorMensal";
+import {tipoAtivoEnumDescricao, TipoAtivoEnum} from "../../models/enums/TipoAtivoEnum";
 
 @Component({
   selector: 'carteira',
   templateUrl: './carteira.component.html',
   styleUrls: ['./carteira.component.scss'],
 })
-export class CarteiraComponent implements OnInit {
-
-  public totalAporte : number = 20000000.20;
-  public investAjustado : number = 28152086.78;
-  public lucroPerda : number = (this.investAjustado - this.totalAporte);
+export class CarteiraComponent extends BaseComponent implements AfterViewInit {
+  public loadingCarteiraTotal : boolean = false;
+  public loadingAportesPorcentagemTotal : boolean = false;
+  public loadingAportesValorTotal : boolean = false;
+  public loadingAportesMensal : boolean = false;
+  public loadingSetores : boolean = false;
+  public loadingSetoresAumento : boolean = false;
+  public valorCarteiraTotal?: ValoresCarteiraTotal = {};
   public hj : Date = new Date();
+  protected tiposAtivos: TipoAtivoEnum [] = [
+    TipoAtivoEnum.Acao,
+    TipoAtivoEnum.FundoImobiliario,
+    TipoAtivoEnum.BrazilianDepositaryReceipts,
+    TipoAtivoEnum.TituloPublico
+  ]
+  constructor(private readonly carteiraService : CarteiraService,
+              private ref: ChangeDetectorRef,
+              public override toastr: ToastrService) {
+    super(toastr);
+  }
 
-  constructor() { }
-
-  ngOnInit(): void {
-    this.gerarPorcetagemAtivosCarteiraChart();
-    this.gerarValorAtivosCarteiraChart();
-    this.gerarAportesAnualChart();
+  ngAfterViewInit(){
+    this.carregarValorTotalCarteira();
+    this.gerarPorcentagemAtivosDashboard();
+    this.gerarValorTotalAtivosDashboard();
+    this.gerarAportesMensalDashboard();
     this.gerarSetoresAcoesChart();
     this.gerarAumentarPosicaoSetoresAcoesChart();
     this.gerarSetoresFiisChart();
     this.gerarAumentarPosicaoSetoresFiisChart();
   }
 
-  gerarPorcetagemAtivosCarteiraChart(){
-    new Chartist.BarChart('#porcetagem-ativos-carteira-chart', {
-      labels: ['Tesouro Direto', 'Ações', 'Fundos Imobiliários'],
-      series: [70, 20, 10]
+  carregarValorTotalCarteira(){
+    this.loadingCarteiraTotal = true;
+    this.carteiraService.obterCarteiraTotal().subscribe({
+      next: (response:ResponseApi<ValoresCarteiraTotal>) => {
+        this.valorCarteiraTotal = response.data;
+        this.loadingCarteiraTotal = false;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        this.loadingCarteiraTotal = false;
+        this.error(errorResponse);
+      }
+    });
+  }
+
+  gerarPorcentagemAtivosDashboard(){
+    this.loadingAportesPorcentagemTotal = true;
+    this.carteiraService.obterAportesPorcentagemTotal().subscribe({
+      next: (response:ResponseApi<AportesTotal>) => {
+        let porcentagemAtivos = response.data;
+        if (porcentagemAtivos){
+          this.montarDashboardAtivos(porcentagemAtivos, "#porcentagem-ativos-dashboard");
+        }
+        this.loadingAportesPorcentagemTotal = false;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        this.loadingAportesPorcentagemTotal = false;
+        this.error(errorResponse);
+      }
+    });
+    this.ref.detectChanges();
+  }
+
+  gerarValorTotalAtivosDashboard(){
+    this.loadingAportesValorTotal = true;
+    this.carteiraService.obterAportesValorTotal().subscribe({
+      next: (response:ResponseApi<AportesTotal>) => {
+        let valorAtivos = response.data;
+        if (valorAtivos){
+          this.montarDashboardAtivos(valorAtivos, '#valor-ativos-total-dashboard');
+        }
+        this.loadingAportesValorTotal = false;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        this.loadingAportesValorTotal = false;
+        this.error(errorResponse);
+      }
+    });
+    this.ref.detectChanges();
+  }
+
+  montarDashboardAtivos(aportes : AportesTotal, divDashboard : string){
+    let labelsAtivos : string[] = this.tiposAtivos.map(tipo => tipoAtivoEnumDescricao(tipo))
+    new Chartist.BarChart(divDashboard, {
+      labels: labelsAtivos,
+      series: [aportes.porAcoes, aportes.porFIIs, aportes.porBDRs, aportes.porTitulos]
     }, {
       distributeSeries: true
     });
   }
 
-  gerarValorAtivosCarteiraChart(){
-    new Chartist.BarChart('#valor-ativos-carteira-chart', {
-      labels: ['Tesouro Direto', 'Ações', 'Fundos Imobiliários'],
-      series: [5500, 17000, 4500]
-    }, {
-      distributeSeries: true
+  gerarAportesMensalDashboard(){
+    this.loadingAportesMensal = true;
+    //TODO alterar este comportamento
+    let dataInicio = new Date(2024, 0, 1).toLocaleDateString("pt-BR");
+    let dataFim = new Date(2024, 11, 31).toLocaleDateString("pt-BR");
+    this.carteiraService.obterAportesValorMensal(dataInicio, dataFim).subscribe({
+      next: (response:ResponseApi<AportesValorMensal>) => {
+        let valoresMensal = response.data;
+        if (valoresMensal){
+          this.montarDashboardAportesMensal(valoresMensal);
+        }
+        this.loadingAportesMensal = false;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        this.loadingAportesMensal = false;
+        this.error(errorResponse);
+      }
     });
+    this.ref.detectChanges();
   }
 
-  gerarAportesAnualChart(){
-    new Chartist.BarChart('#aportes-anual-chart', {
-      labels: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO'],
+  montarDashboardAportesMensal(valoresMensal : AportesValorMensal){
+    new Chartist.BarChart('#aportes-mensal-dashboard', {
+      labels: valoresMensal.mesesPesquisados,
       series: [
-        [350, 200, 100, 500, 1000, 350, 600, 100], //Tesouro Direto
-        [350, 300, 600, 500, 0, 350, 300, 250], //Ações
-        [300, 200, 300, 0, 0, 300, 100, 277]  //Fundos Imobiliários
+        valoresMensal.aportesAcoesMensal ? valoresMensal.aportesAcoesMensal.map(a => a.totalAportado) : [], //Ações
+        valoresMensal.aportesFIIsMensal ? valoresMensal.aportesFIIsMensal.map(a => a.totalAportado) : [], //FIIs
+        valoresMensal.aportesBDRsMensal ? valoresMensal.aportesBDRsMensal.map(a => a.totalAportado) : [], // BDRs
+        valoresMensal.aportesTituloPublicoMensal ? valoresMensal.aportesTituloPublicoMensal.map(a => a.totalAportado) : [] //Fundos Imobiliários
       ]
     }, {
       // Default mobile configuration
@@ -92,7 +178,6 @@ export class CarteiraComponent implements OnInit {
         seriesBarDistance: 15
       }]
     ]);
-
   }
 
   gerarSetoresAcoesChart(){
@@ -232,4 +317,34 @@ export class CarteiraComponent implements OnInit {
 
     new Chartist.PieChart('#quero-setores-fiis-chart', aumentarPosicaoSetores, options, responsiveOptions);
   }
+
+  cssLegendSquareDashboard(tipoAtivo : TipoAtivoEnum) : string {
+    if (tipoAtivo == TipoAtivoEnum.Acao)
+      return "square-acoes";
+    if (tipoAtivo == TipoAtivoEnum.FundoImobiliario)
+      return "square-fiis";
+    if (tipoAtivo == TipoAtivoEnum.BrazilianDepositaryReceipts)
+      return "square-bdrs";
+    if (tipoAtivo == TipoAtivoEnum.TituloPublico)
+      return "square-titulos";
+    return "";
+  }
+
+  tituloSetoresDashboard(){
+
+  }
+
+  tituloSetoresAumentoDashboard(){
+
+  }
+
+  idDivSetoresDashboard(){
+
+  }
+
+  idDivSetoresAumentoDashboard(){
+
+  }
+
+  protected readonly tipoAtivoEnumDescricao = tipoAtivoEnumDescricao;
 }

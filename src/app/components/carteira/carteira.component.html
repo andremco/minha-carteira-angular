@@ -1,74 +1,134 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-6 col-lg-4">
-        <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">account_balance_wallet</i>
+      <div class="col-sm-12 mt-4" [hidden]="!loadingCarteiraTotal">
+        <div class="row">
+          <div class="col-sm-6 col-lg-4">
+            <div class="container-loader-dashboard">
+              <div class="loader-dashboard"></div>
             </div>
-            <p class="card-category">Total aporte</p>
-            <h3 class="card-title">
-              {{ totalAporte | currency:'BRL'  }}
-            </h3>
           </div>
-          <div [style.margin-bottom]="'25px'"></div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="container-loader-dashboard">
+              <div class="loader-dashboard"></div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-4">
+            <div class="container-loader-dashboard">
+              <div class="loader-dashboard"></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-sm-6 col-lg-4">
-        <div class="card card-stats">
-          <div class="card-header card-header-success card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">candlestick_chart</i>
+      <div class="col-sm-12 mt-2" [hidden]="loadingCarteiraTotal">
+        <div class="row">
+          <div class="col-sm-6 col-lg-4">
+            <div class="card card-stats">
+              <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">account_balance_wallet</i>
+                </div>
+                <p class="card-category">Total aporte</p>
+                <h3 class="card-title">
+                  {{ valorCarteiraTotal?.totalCarteira }}
+                </h3>
+              </div>
+              <div [style.margin-bottom]="'25px'"></div>
             </div>
-            <p class="card-category">Investimento ajustado</p>
-            <h3 class="card-title">
-              {{ investAjustado | currency:'BRL'  }}
-            </h3>
           </div>
-          <div [style.margin-bottom]="'25px'"></div>
-        </div>
-      </div>
-      <div class="col-sm-3 col-lg-4">
-        <div class="card card-stats">
-          <div class="card-header card-header-icon"
-               [ngClass]="lucroPerda > 0 ? 'card-header-success' : 'card-header-danger'"
-          >
-            <div class="card-icon">
-              <i class="material-icons" *ngIf="lucroPerda > 0">trending_up</i>
-              <i class="material-icons" *ngIf="lucroPerda <= 0">trending_down</i>
+          <div class="col-sm-6 col-lg-4">
+            <div class="card card-stats">
+              <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                  <i class="material-icons">candlestick_chart</i>
+                </div>
+                <p class="card-category">Investimento ajustado</p>
+                <h3 class="card-title">
+                  {{ valorCarteiraTotal?.totalCarteiraAtualizado }}
+                </h3>
+              </div>
+              <div [style.margin-bottom]="'25px'"></div>
             </div>
-            <p class="card-category" [innerHTML]="lucroPerda > 0 ? 'Lucro' : 'Perda'"></p>
-            <h3 class="card-title">
-              {{ lucroPerda | currency:'BRL'  }}
-            </h3>
           </div>
-          <div [style.margin-bottom]="'25px'"></div>
+          <div class="col-sm-3 col-lg-4">
+            <div class="card card-stats">
+              <div class="card-header card-header-icon"
+                   [ngClass]="valorCarteiraTotal?.balancoPositivo ? 'card-header-success' : 'card-header-danger'"
+              >
+                <div class="card-icon">
+                  <i class="material-icons" *ngIf="valorCarteiraTotal?.balancoPositivo">trending_up</i>
+                  <i class="material-icons" *ngIf="!valorCarteiraTotal?.balancoPositivo">trending_down</i>
+                </div>
+                <p class="card-category" [innerHTML]="valorCarteiraTotal?.balancoPositivo ? 'Lucro' : 'Perda'"></p>
+                <h3 class="card-title">
+                  {{ valorCarteiraTotal?.lucroOuPerda }}
+                </h3>
+              </div>
+              <div [style.margin-bottom]="'25px'"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-6" [style.height]="'700px'">
-        <h2 [style.text-align]="'center'">Porcetagem de ativos na carteira</h2>
-        <div id="porcetagem-ativos-carteira-chart" style="height: 60vh"></div>
+      <div class="col-sm-6 mt-3" [hidden]="!loadingAportesPorcentagemTotal">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="container-loader-dashboard" [style.height]="'700px'">
+              <div class="loader-dashboard"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <h2 [style.text-align]="'center'">Valor de ativos na carteira</h2>
-        <div id="valor-ativos-carteira-chart" style="height: 60vh"></div>
+      <div class="col-sm-6 mt-3" [hidden]="loadingAportesPorcentagemTotal" [style.height]="'560px'">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2 [style.text-align]="'center'">Porcentagem de ativos na carteira</h2>
+            <div id="porcentagem-ativos-dashboard" style="height: 50vh"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mt-3" [hidden]="!loadingAportesValorTotal">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="container-loader-dashboard" [style.height]="'700px'">
+              <div class="loader-dashboard"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mt-3" [hidden]="loadingAportesValorTotal" [style.height]="'560px'">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2 [style.text-align]="'center'">Valor de ativos na carteira</h2>
+            <div id="valor-ativos-total-dashboard" style="height: 50vh"></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12">
-        <h2 [style.text-align]="'center'">Aportes em {{ hj | date : "y" }}</h2>
-        <div class="legend">
-          <div class="square-legend square-tesouro-direto"></div>
-          <label [style.margin-right]="'10px'">Tesouro Direto</label>
-          <div class="square-legend square-acoes"></div>
-          <label [style.margin-right]="'10px'">Ações</label>
-          <div class="square-legend square-fiis"></div>
-          <label [style.margin-right]="'10px'">Fundo Imobiliário</label>
+      <div class="col-sm-12" [hidden]="!loadingAportesMensal">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="container-loader-dashboard" [style.height]="'700px'">
+              <div class="loader-dashboard"></div>
+            </div>
+          </div>
         </div>
-        <div id="aportes-anual-chart" style="height: 60vh"></div>
+      </div>
+      <div class="col-sm-12" [hidden]="loadingAportesMensal">
+        <div class="row">
+          <div class="col-sm-12">
+            <h2 [style.text-align]="'center'">Aportes em {{ hj | date : "y" }}</h2>
+            <div class="legend">
+              <ng-template ngFor let-item [ngForOf]="tiposAtivos">
+                <div [class]="'square-legend ' + cssLegendSquareDashboard(item)"></div>
+                <label [style.margin-right]="'10px'">{{tipoAtivoEnumDescricao(item)}}</label>
+              </ng-template>
+            </div>
+            <div id="aportes-mensal-dashboard" style="height: 60vh"></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row mt-5">
