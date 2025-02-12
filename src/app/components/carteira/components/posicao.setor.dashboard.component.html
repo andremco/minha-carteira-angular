@@ -1,0 +1,16 @@
+
+<div class="col-sm-12" [hidden]="!loading">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="container-loader-dashboard" [style.height]="'700px'">
+        <div class="loader-dashboard"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-12" [hidden]="loading">
+  <h2 [style.text-align]="'center'">
+    {{ titulo }}
+  </h2>
+  <div [id]="divId" style="height: 60vh"></div>
+</div>

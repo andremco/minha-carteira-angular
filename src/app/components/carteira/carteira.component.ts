@@ -1,15 +1,16 @@
 import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
 import 'chartist/dist/index.css';
 import * as Chartist from 'chartist';
-import {CarteiraService} from "../../services/CarteiraService";
-import {ResponseApi} from "../../models/ResponseApi";
+import {CarteiraService} from "src/app/services/CarteiraService";
+import {ResponseApi} from "src/app/models/ResponseApi";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ValoresCarteiraTotal} from "../../models/carteira/ValoresCarteiraTotal";
+import {ValoresCarteiraTotal} from "src/app/models/carteira/ValoresCarteiraTotal";
 import {BaseComponent} from "../base.component";
 import {ToastrService} from "ngx-toastr";
-import {AportesTotal} from "../../models/carteira/AportesTotal";
-import {AportesValorMensal} from "../../models/carteira/AportesValorMensal";
-import {tipoAtivoEnumDescricao, TipoAtivoEnum} from "../../models/enums/TipoAtivoEnum";
+import {AportesTotal} from "src/app/models/carteira/AportesTotal";
+import {AportesValorMensal} from "src/app/models/carteira/AportesValorMensal";
+import {TipoAtivoEnum, tipoAtivoEnumDescricao} from "src/app/models/enums/TipoAtivoEnum";
+import {SetoresFatiado} from "../../models/carteira/SetoresFatiado";
 
 @Component({
   selector: 'carteira',
@@ -17,20 +18,18 @@ import {tipoAtivoEnumDescricao, TipoAtivoEnum} from "../../models/enums/TipoAtiv
   styleUrls: ['./carteira.component.scss'],
 })
 export class CarteiraComponent extends BaseComponent implements AfterViewInit {
-  public loadingCarteiraTotal : boolean = false;
-  public loadingAportesPorcentagemTotal : boolean = false;
-  public loadingAportesValorTotal : boolean = false;
-  public loadingAportesMensal : boolean = false;
-  public loadingSetores : boolean = false;
-  public loadingSetoresAumento : boolean = false;
+  public loadingCarteiraTotal: boolean = false;
+  public loadingAportesPorcentagemTotal: boolean = false;
+  public loadingAportesValorTotal: boolean = false;
+  public loadingAportesMensal: boolean = false;
   public valorCarteiraTotal?: ValoresCarteiraTotal = {};
-  public hj : Date = new Date();
+  public hj: Date = new Date();
   protected tiposAtivos: TipoAtivoEnum [] = [
     TipoAtivoEnum.Acao,
     TipoAtivoEnum.FundoImobiliario,
     TipoAtivoEnum.BrazilianDepositaryReceipts,
     TipoAtivoEnum.TituloPublico
-  ]
+  ];
   constructor(private readonly carteiraService : CarteiraService,
               private ref: ChangeDetectorRef,
               public override toastr: ToastrService) {
@@ -42,10 +41,7 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     this.gerarPorcentagemAtivosDashboard();
     this.gerarValorTotalAtivosDashboard();
     this.gerarAportesMensalDashboard();
-    this.gerarSetoresAcoesChart();
-    this.gerarAumentarPosicaoSetoresAcoesChart();
-    this.gerarSetoresFiisChart();
-    this.gerarAumentarPosicaoSetoresFiisChart();
+    this.gerarAumentarPosicaoSetoresFatiadoDashboard();
   }
 
   carregarValorTotalCarteira(){
@@ -180,12 +176,16 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     ]);
   }
 
-  gerarSetoresAcoesChart(){
+  montarDashboardSetoresFatiado(fatia : SetoresFatiado[], idDiv : string){
+    if (!fatia || fatia.length == 0 || !idDiv)
+      return
+
+    let labels = fatia.map(f => (f.setor ? f.setor : "") + (f.percentual?.toString()) + "%")
+    let series = fatia.map(f => f.percentual)
+
     var setores = {
-      /*Máximo 15 setores!! acima disso não renderiza mais cores na fatia do gráfico =/*/
-      labels: ['Título público 5,66%', 'Bebidas 5,66%', 'Hospedagem 5,66%', 'Tecnologia 5,66%', 'Bolsa 5,66%', 'Banco 5,66%', 'Seguradora 5,66%', 'Holding 5,66%',
-        'Logística 5,66%', 'Escritório 5,66%', 'Construção civil 5,66%', 'Mídia 5,66%', 'Energia 5,66%', 'Aéreo 5,66%', 'Farmacêutica 5,66%'],
-      series: [6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66]
+      labels: labels,
+      series: series
     };
 
     const options: Chartist.PieChartOptions = {
@@ -211,10 +211,10 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
       ]
     ];
 
-    new Chartist.PieChart('#setores-acoes-chart', setores, options, responsiveOptions);
+    new Chartist.PieChart('#' + idDiv, setores, options, responsiveOptions);
   }
 
-  gerarAumentarPosicaoSetoresAcoesChart(){
+  gerarAumentarPosicaoSetoresFatiadoDashboard(){
 
     var aumentarPosicaoSetores = {
       /*Máximo 15 setores!! acima disso não renderiza mais cores na fatia do gráfico =/*/
@@ -246,76 +246,7 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
       ]
     ];
 
-    new Chartist.PieChart('#quero-setores-acoes-chart', aumentarPosicaoSetores, options, responsiveOptions);
-  }
-
-  gerarSetoresFiisChart(){
-    var setores = {
-      /*Máximo 15 setores!! acima disso não renderiza mais cores na fatia do gráfico =/*/
-      labels: ['Título público 5,66%', 'Bebidas 5,66%', 'Hospedagem 5,66%', 'Tecnologia 5,66%', 'Bolsa 5,66%', 'Banco 5,66%', 'Seguradora 5,66%', 'Holding 5,66%',
-        'Logística 5,66%', 'Escritório 5,66%', 'Construção civil 5,66%', 'Mídia 5,66%', 'Energia 5,66%', 'Aéreo 5,66%', 'Farmacêutica 5,66%'],
-      series: [6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66, 6.66]
-    };
-
-    const options: Chartist.PieChartOptions = {
-      labelInterpolationFnc: value => String(value)[0]
-    };
-
-    const responsiveOptions: Chartist.ResponsiveOptions<Chartist.PieChartOptions> = [
-      [
-        'screen and (min-width: 640px)',
-        {
-          chartPadding: 30,
-          labelOffset: 100,
-          labelDirection: 'explode',
-          labelInterpolationFnc: value => value
-        }
-      ],
-      [
-        'screen and (min-width: 1024px)',
-        {
-          labelOffset: 80,
-          chartPadding: 20
-        }
-      ]
-    ];
-
-    new Chartist.PieChart('#setores-fiis-chart', setores, options, responsiveOptions);
-  }
-
-  gerarAumentarPosicaoSetoresFiisChart(){
-
-    var aumentarPosicaoSetores = {
-      /*Máximo 15 setores!! acima disso não renderiza mais cores na fatia do gráfico =/*/
-      labels: ['Título público 20%', 'Bebidas 12%', 'Hospedagem 2%', 'Tecnologia 2%', 'Bolsa 2%', 'Banco 1%', 'Seguradora 8%', 'Holding 8%',
-        'Logística 3%', 'Escritório 6%', 'Construção civil 3%', 'Mídia 3%', 'Energia 15%', 'Aéreo 10%', 'Farmacêutica 5%'],
-      series: [20, 12, 2, 2, 2, 1, 8, 8, 3, 6, 3, 3, 15, 10, 5]
-    };
-
-    const options: Chartist.PieChartOptions = {
-      labelInterpolationFnc: value => String(value)[0]
-    };
-
-    const responsiveOptions: Chartist.ResponsiveOptions<Chartist.PieChartOptions> = [
-      [
-        'screen and (min-width: 640px)',
-        {
-          chartPadding: 30,
-          labelOffset: 100,
-          labelDirection: 'explode',
-          labelInterpolationFnc: value => value
-        }
-      ],
-      [
-        'screen and (min-width: 1024px)',
-        {
-          labelOffset: 80,
-          chartPadding: 20
-        }
-      ]
-    ];
-
-    new Chartist.PieChart('#quero-setores-fiis-chart', aumentarPosicaoSetores, options, responsiveOptions);
+    //new Chartist.PieChart('#quero-setores-acoes-chart', aumentarPosicaoSetores, options, responsiveOptions);
   }
 
   cssLegendSquareDashboard(tipoAtivo : TipoAtivoEnum) : string {
@@ -330,21 +261,18 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     return "";
   }
 
-  tituloSetoresDashboard(){
-
-  }
-
-  tituloSetoresAumentoDashboard(){
-
-  }
-
-  idDivSetoresDashboard(){
-
-  }
-
-  idDivSetoresAumentoDashboard(){
-
+  tituloSetoresAumentoDashboard(tipoAtivo : TipoAtivoEnum) : string {
+    if (tipoAtivo == TipoAtivoEnum.Acao)
+      return "nas ações";
+    if (tipoAtivo == TipoAtivoEnum.FundoImobiliario)
+      return "nos FIIs";
+    if (tipoAtivo == TipoAtivoEnum.BrazilianDepositaryReceipts)
+      return "nas BDRs";
+    if (tipoAtivo == TipoAtivoEnum.TituloPublico)
+      return "nos títulos";
+    return "";
   }
 
   protected readonly tipoAtivoEnumDescricao = tipoAtivoEnumDescricao;
+  protected readonly TipoAtivoEnum = TipoAtivoEnum;
 }

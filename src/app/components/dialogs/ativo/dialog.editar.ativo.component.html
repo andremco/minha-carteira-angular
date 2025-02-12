@@ -112,14 +112,8 @@
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Quantidade que falta</mat-label>
-                    <input matInput [value]="ativo.quantoFaltaTotal"  readonly>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Pago / Tenho</mat-label>
-                    <input matInput [value]="ativo.valorTotalAtivo" readonly>
+                    <mat-label>Carteira quanto tenho</mat-label>
+                    <input matInput [value]="ativo.carteiraTenhoPorcento" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
@@ -128,24 +122,50 @@
                     <input matInput [value]="ativo.carteiraIdealPorcento" readonly>
                   </mat-form-field>
                 </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Quantidade que falta</mat-label>
+                    <input matInput [value]="ativo.quantidadeQueFaltaTotal"  readonly>
+                  </mat-form-field>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Quanto que falta</mat-label>
-                    <input matInput [value]="ativo.quantoFaltaTotal" readonly>
+                    <mat-label>Compras realizadas</mat-label>
+                    <input matInput [value]="ativo.valorTotalCompras" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Carteira quanto tenho</mat-label>
-                    <input matInput [value]="ativo.carteiraTenhoPorcento" readonly>
+                    <mat-label>Vendas realizadas</mat-label>
+                    <input matInput [value]="ativo.valorTotalVendas" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Valor atual do ativo</mat-label>
+                    <input matInput [value]="ativo.valorTotalAtivoAtual" readonly>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Pago / Tenho</mat-label>
+                    <input matInput [value]="ativo.valorTotalAtivo" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Ideal / Quero</mat-label>
                     <input matInput [value]="ativo.quantoQueroTotal" readonly>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Quanto que falta</mat-label>
+                    <input matInput [value]="ativo.quantoFaltaTotal" readonly>
                   </mat-form-field>
                 </div>
               </div>

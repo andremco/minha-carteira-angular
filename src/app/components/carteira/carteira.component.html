@@ -131,33 +131,15 @@
         </div>
       </div>
     </div>
-    <div class="row mt-5">
+    <ng-template ngFor let-item [ngForOf]="tiposAtivos">
+      <div class="row">
         <div class="col-sm-6">
-          <h2 [style.text-align]="'center'">
-            Setores das Ações
-          </h2>
-          <div id="setores-acoes-chart" style="height: 60vh"></div>
+          <posicao-setor [tipoAtivo]="item" [buscarMinhaPosicao]="true"></posicao-setor>
         </div>
         <div class="col-sm-6">
-          <h2 [style.text-align]="'center'">
-            Aumentar posições nas Ações
-          </h2>
-          <div id="quero-setores-acoes-chart" style="height: 60vh"></div>
+          <posicao-setor [tipoAtivo]="item" [buscarMinhaPosicao]="false"></posicao-setor>
         </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-sm-6">
-        <h2 [style.text-align]="'center'">
-          Setores dos Fundos Imobiliários
-        </h2>
-        <div id="setores-fiis-chart" style="height: 60vh"></div>
       </div>
-      <div class="col-sm-6">
-        <h2 [style.text-align]="'center'">
-          Aumentar posições nos Fundos Imobiliários
-        </h2>
-        <div id="quero-setores-fiis-chart" style="height: 60vh"></div>
-      </div>
-    </div>
+    </ng-template>
   </div>
 </div>

@@ -43,6 +43,9 @@ import {TickerPipe} from "./pipe/TickerPipe";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {TruncateTextoPipe} from "./pipe/TruncateTextoPipe";
+import {
+  PosicaoSetorDashboardComponent
+} from "./components/carteira/components/posicao.setor.dashboard.component";
 
 
 registerLocaleData(localePt);
@@ -63,34 +66,35 @@ registerLocaleData(localePt);
     TickerPipe,
     TruncateTextoPipe
   ],
-    imports: [
-        CommonModule,
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatMenuModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        MatTableModule,
-        MatPaginatorModule,
-        FlexLayoutModule,
-        MatCardModule,
-        MatTooltipModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatDialogModule,
-        ToastrModule.forRoot(),
-        MatNativeDateModule,
-        MatDatepickerModule,
-        ReactiveFormsModule,
-        NgxMatSelectSearchModule,
-        MatProgressSpinner
-    ],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    FlexLayoutModule,
+    MatCardModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDialogModule,
+    ToastrModule.forRoot(),
+    MatNativeDateModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    NgxMatSelectSearchModule,
+    MatProgressSpinner,
+    PosicaoSetorDashboardComponent
+  ],
   providers: [
     {
       provide: LOCALE_ID,
