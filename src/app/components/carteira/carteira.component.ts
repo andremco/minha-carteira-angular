@@ -106,9 +106,9 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
 
   gerarAportesMensalDashboard(){
     this.loadingAportesMensal = true;
-    //TODO alterar este comportamento
-    let dataInicio = new Date(2024, 0, 1).toLocaleDateString("pt-BR");
-    let dataFim = new Date(2024, 11, 31).toLocaleDateString("pt-BR");
+    let dataInicio = new Date(new Date().getFullYear(), 0, 1).toLocaleDateString("pt-BR");
+    //Mês corrente com último dia do mês!!
+    let dataFim = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toLocaleDateString("pt-BR");
     this.carteiraService.obterAportesValorMensal(dataInicio, dataFim).subscribe({
       next: (response:ResponseApi<AportesValorMensal>) => {
         let valoresMensal = response.data;

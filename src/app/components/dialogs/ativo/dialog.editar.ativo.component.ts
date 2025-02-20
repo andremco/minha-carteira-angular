@@ -116,6 +116,9 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
         precoInicial: new FormControl(this.ativo.precoInicial, [
           Validators.required
         ]),
+        valorRendimento: new FormControl(this.ativo.valorRendimento, [
+          Validators.required
+        ]),
         nota: new FormControl(this.ativo.nota, [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
@@ -153,6 +156,10 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
 
   get precoInicial() : AbstractControl<any, any> | null{
     return this.formGroup.get('precoInicial');
+  }
+
+  get valorRendimento() : AbstractControl<any, any> | null{
+    return this.formGroup.get('valorRendimento');
   }
 
   get nota() : AbstractControl<any, any> | null{
@@ -276,6 +283,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
           descricao: this.descricao?.value,
           setorId: this.setor?.value,
           precoInicial: this.converterRealToDouble(this.precoInicial?.value),
+          valorRendimento: this.converterRealToDouble(this.valorRendimento?.value),
           nota: this.nota?.value
         }
         this.tituloPublicoService.editar(<EditarTituloPublico>editarReq).subscribe({
@@ -323,6 +331,13 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
 
   precoInicialErrorMessage() : string {
     if (this.precoInicial?.hasError('required')) {
+      return MESSAGE.OBRIGATORIO;
+    }
+    return MESSAGE.VAZIO;
+  }
+
+  valorRendimentoErrorMessage() : string {
+    if (this.valorRendimento?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
     }
     return MESSAGE.VAZIO;
