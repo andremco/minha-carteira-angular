@@ -37,8 +37,7 @@ export class BaseComponent {
   }
   onPrecoInputBlur(value : string, nameFieldControl: String){
     // Remove caracteres não numéricos, exceto vírgulas
-    const numericValue = value.replace(/[^\d,]/g, '');
-
+    const numericValue = value.replace(/[^\d,-]/g, '');
     // Substitui vírgulas por pontos para formatar como número
     const formattedValue = numericValue.replace(',', '.');
 
