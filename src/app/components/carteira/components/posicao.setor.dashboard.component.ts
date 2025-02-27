@@ -7,16 +7,22 @@ import {ResponseApi} from "src/app/models/ResponseApi";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SetoresFatiado} from "src/app/models/carteira/SetoresFatiado";
 import * as Chartist from "chartist";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'posicao-setor',
   templateUrl: './posicao.setor.dashboard.component.html',
   standalone: true,
+  imports: [
+    NgIf
+  ]
 })
 export class PosicaoSetorDashboardComponent extends BaseComponent implements AfterViewInit {
   @Input() tipoAtivo: TipoAtivoEnum = TipoAtivoEnum.Acao;
   @Input() buscarMinhaPosicao: boolean = false;
   public loading: boolean = false;
+  public showDashboard: boolean = true;
+
   constructor(private readonly carteiraService : CarteiraService,
               private ref: ChangeDetectorRef,
               public override toastr: ToastrService) {
@@ -79,9 +85,12 @@ export class PosicaoSetorDashboardComponent extends BaseComponent implements Aft
     let observer = {
       next: (response:ResponseApi<SetoresFatiado[]>) => {
         let itens = response.data;
-        if (itens){
+        if (itens)
           this.montarDashboard(itens);
-        }
+
+        if (itens && itens.length == 0)
+          this.showDashboard = false;
+
         this.loading = false;
       },
       error: (errorResponse : HttpErrorResponse) => {

@@ -170,16 +170,10 @@
                     <input matInput [value]="ativo.valorTotalVendas" readonly>
                   </mat-form-field>
                 </div>
-                <div class="col-md-4" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico">
+                <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Valor atual do ativo</mat-label>
                     <input matInput [value]="ativo.valorTotalAtivoAtual" readonly>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-4" *ngIf="this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico">
-                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
-                    <mat-label>Valor do ativo</mat-label>
-                    <input matInput [value]="ativo.valorTotalAtivo" readonly>
                   </mat-form-field>
                 </div>
               </div>

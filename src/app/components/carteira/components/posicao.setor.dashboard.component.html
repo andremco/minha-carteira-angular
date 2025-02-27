@@ -8,7 +8,7 @@
     </div>
   </div>
 </div>
-<div class="col-sm-12" [hidden]="loading">
+<div class="col-sm-12" [hidden]="loading" *ngIf="showDashboard">
   <h2 [style.text-align]="'center'">
     {{ titulo }}
   </h2>

@@ -41,7 +41,6 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     this.gerarPorcentagemAtivosDashboard();
     this.gerarValorTotalAtivosDashboard();
     this.gerarAportesMensalDashboard();
-    this.gerarAumentarPosicaoSetoresFatiadoDashboard();
   }
 
   carregarValorTotalCarteira(){
@@ -176,79 +175,6 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     ]);
   }
 
-  montarDashboardSetoresFatiado(fatia : SetoresFatiado[], idDiv : string){
-    if (!fatia || fatia.length == 0 || !idDiv)
-      return
-
-    let labels = fatia.map(f => (f.setor ? f.setor : "") + (f.percentual?.toString()) + "%")
-    let series = fatia.map(f => f.percentual)
-
-    var setores = {
-      labels: labels,
-      series: series
-    };
-
-    const options: Chartist.PieChartOptions = {
-      labelInterpolationFnc: value => String(value)[0]
-    };
-
-    const responsiveOptions: Chartist.ResponsiveOptions<Chartist.PieChartOptions> = [
-      [
-        'screen and (min-width: 640px)',
-        {
-          chartPadding: 30,
-          labelOffset: 100,
-          labelDirection: 'explode',
-          labelInterpolationFnc: value => value
-        }
-      ],
-      [
-        'screen and (min-width: 1024px)',
-        {
-          labelOffset: 80,
-          chartPadding: 20
-        }
-      ]
-    ];
-
-    new Chartist.PieChart('#' + idDiv, setores, options, responsiveOptions);
-  }
-
-  gerarAumentarPosicaoSetoresFatiadoDashboard(){
-
-    var aumentarPosicaoSetores = {
-      /*Máximo 15 setores!! acima disso não renderiza mais cores na fatia do gráfico =/*/
-      labels: ['Título público 20%', 'Bebidas 12%', 'Hospedagem 2%', 'Tecnologia 2%', 'Bolsa 2%', 'Banco 1%', 'Seguradora 8%', 'Holding 8%',
-        'Logística 3%', 'Escritório 6%', 'Construção civil 3%', 'Mídia 3%', 'Energia 15%', 'Aéreo 10%', 'Farmacêutica 5%'],
-      series: [20, 12, 2, 2, 2, 1, 8, 8, 3, 6, 3, 3, 15, 10, 5]
-    };
-
-    const options: Chartist.PieChartOptions = {
-      labelInterpolationFnc: value => String(value)[0]
-    };
-
-    const responsiveOptions: Chartist.ResponsiveOptions<Chartist.PieChartOptions> = [
-      [
-        'screen and (min-width: 640px)',
-        {
-          chartPadding: 30,
-          labelOffset: 100,
-          labelDirection: 'explode',
-          labelInterpolationFnc: value => value
-        }
-      ],
-      [
-        'screen and (min-width: 1024px)',
-        {
-          labelOffset: 80,
-          chartPadding: 20
-        }
-      ]
-    ];
-
-    //new Chartist.PieChart('#quero-setores-acoes-chart', aumentarPosicaoSetores, options, responsiveOptions);
-  }
-
   cssLegendSquareDashboard(tipoAtivo : TipoAtivoEnum) : string {
     if (tipoAtivo == TipoAtivoEnum.Acao)
       return "square-acoes";
@@ -258,18 +184,6 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
       return "square-bdrs";
     if (tipoAtivo == TipoAtivoEnum.TituloPublico)
       return "square-titulos";
-    return "";
-  }
-
-  tituloSetoresAumentoDashboard(tipoAtivo : TipoAtivoEnum) : string {
-    if (tipoAtivo == TipoAtivoEnum.Acao)
-      return "nas ações";
-    if (tipoAtivo == TipoAtivoEnum.FundoImobiliario)
-      return "nos FIIs";
-    if (tipoAtivo == TipoAtivoEnum.BrazilianDepositaryReceipts)
-      return "nas BDRs";
-    if (tipoAtivo == TipoAtivoEnum.TituloPublico)
-      return "nos títulos";
     return "";
   }
 
