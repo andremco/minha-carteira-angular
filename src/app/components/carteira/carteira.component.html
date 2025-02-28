@@ -97,7 +97,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 mt-3" [hidden]="loadingAportesValorTotal" [style.height]="'560px'">
+      <div class="col-sm-6 mt-3" [style.height]="'560px'" [hidden]="loadingAportesValorTotal">
         <div class="row">
           <div class="col-sm-12">
             <h2 [style.text-align]="'center'">Valor de ativos na carteira</h2>
@@ -116,7 +116,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-12" [hidden]="loadingAportesMensal">
+      <div class="col-sm-12" [hidden]="loadingAportesMensal" *ngIf="showDashboardAportesMensal">
         <div class="row">
           <div class="col-sm-12">
             <h2 [style.text-align]="'center'">Aportes em {{ hj | date : "y" }}</h2>

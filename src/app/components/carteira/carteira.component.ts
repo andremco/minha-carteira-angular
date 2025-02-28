@@ -10,7 +10,6 @@ import {ToastrService} from "ngx-toastr";
 import {AportesTotal} from "src/app/models/carteira/AportesTotal";
 import {AportesValorMensal} from "src/app/models/carteira/AportesValorMensal";
 import {TipoAtivoEnum, tipoAtivoEnumDescricao} from "src/app/models/enums/TipoAtivoEnum";
-import {SetoresFatiado} from "../../models/carteira/SetoresFatiado";
 
 @Component({
   selector: 'carteira',
@@ -21,7 +20,9 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
   public loadingCarteiraTotal: boolean = false;
   public loadingAportesPorcentagemTotal: boolean = false;
   public loadingAportesValorTotal: boolean = false;
+  public showDashboardValorTotal: boolean = true;
   public loadingAportesMensal: boolean = false;
+  public showDashboardAportesMensal: boolean = true;
   public valorCarteiraTotal?: ValoresCarteiraTotal = {};
   public hj: Date = new Date();
   protected tiposAtivos: TipoAtivoEnum [] = [
@@ -80,9 +81,10 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     this.carteiraService.obterAportesValorTotal().subscribe({
       next: (response:ResponseApi<AportesTotal>) => {
         let valorAtivos = response.data;
-        if (valorAtivos){
+
+        if (valorAtivos)
           this.montarDashboardAtivos(valorAtivos, '#valor-ativos-total-dashboard');
-        }
+
         this.loadingAportesValorTotal = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -111,9 +113,14 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     this.carteiraService.obterAportesValorMensal(dataInicio, dataFim).subscribe({
       next: (response:ResponseApi<AportesValorMensal>) => {
         let valoresMensal = response.data;
-        if (valoresMensal){
+        if (valoresMensal)
           this.montarDashboardAportesMensal(valoresMensal);
-        }
+
+        if (valoresMensal?.mesesPesquisados?.length == 0 && valoresMensal?.aportesAcoesMensal?.length == 0 &&
+            valoresMensal?.aportesFIIsMensal?.length == 0 && valoresMensal?.aportesBDRsMensal?.length == 0 &&
+            valoresMensal.aportesTituloPublicoMensal?.length == 0)
+          this.showDashboardAportesMensal = false;
+
         this.loadingAportesMensal = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
