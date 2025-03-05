@@ -85,7 +85,7 @@ export class PosicaoSetorDashboardComponent extends BaseComponent implements Aft
     let observer = {
       next: (response:ResponseApi<SetoresFatiado[]>) => {
         let itens = response.data;
-        if (itens)
+        if (itens && itens.length != 0)
           this.montarDashboard(itens);
 
         if (itens && itens.length == 0)

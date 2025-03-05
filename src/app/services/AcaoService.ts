@@ -24,11 +24,11 @@ export class AcaoService{
   obter(idAcao : number) : Observable<ResponseApi<Acao>>{
     return this.http.get<ResponseApi<Acao>>(this.apiUrl + '/acao/' + idAcao);
   }
-  filtrar(pagina:Number, tamanho:Number, tipoAtivoId?: TipoAtivoEnum, razaoSocial?: String) : Observable<ResponseApi<Paginado<Acao>>>{
+  filtrar(pagina:Number, tamanho:Number, tipoAtivoId?: TipoAtivoEnum, descricaoAtivo?: String) : Observable<ResponseApi<Paginado<Acao>>>{
     const headers = {
       pagina: pagina.toString(),
       tamanho: tamanho.toString(),
-      ...(razaoSocial !== undefined && { razaoSocial: razaoSocial.toString() }),
+      ...(descricaoAtivo !== undefined && { descricaoAtivo: descricaoAtivo.toString() }),
       ...(tipoAtivoId !== undefined && { tipoAtivoId: tipoAtivoId.toString() }),
     };
     return this.http.get<ResponseApi<Paginado<Acao>>>(this.apiUrl + '/acao/filtrar', { headers })

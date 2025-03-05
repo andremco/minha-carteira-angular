@@ -180,8 +180,8 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     })
   }
 
-  carregarAcoes(razaoSocial: String, tipoAtivoId?: TipoAtivoEnum){
-    this.acaoService.filtrar(0, 10, tipoAtivoId, razaoSocial).subscribe({
+  carregarAcoes(descricaoAtivo: String, tipoAtivoId?: TipoAtivoEnum){
+    this.acaoService.filtrar(0, 10, tipoAtivoId, descricaoAtivo).subscribe({
       next: (response:ResponseApi<Paginado<Acao>>) => {
         this.ativos = response.data?.itens;
         this.formGroup.get('ativo')?.setValue(undefined);

@@ -20,7 +20,6 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
   public loadingCarteiraTotal: boolean = false;
   public loadingAportesPorcentagemTotal: boolean = false;
   public loadingAportesValorTotal: boolean = false;
-  public showDashboardValorTotal: boolean = true;
   public loadingAportesMensal: boolean = false;
   public showDashboardAportesMensal: boolean = true;
   public valorCarteiraTotal?: ValoresCarteiraTotal = {};
