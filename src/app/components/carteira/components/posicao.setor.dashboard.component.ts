@@ -1,5 +1,5 @@
 import {BaseComponent} from "src/app/components/base.component";
-import {AfterViewInit, ChangeDetectorRef, Component, Input} from "@angular/core";
+import {AfterViewInit, ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, Input } from "@angular/core";
 import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
 import {CarteiraService} from "src/app/services/CarteiraService";
 import {ToastrService} from "ngx-toastr";
@@ -15,7 +15,8 @@ import {NgIf} from "@angular/common";
   standalone: true,
   imports: [
     NgIf
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PosicaoSetorDashboardComponent extends BaseComponent implements AfterViewInit {
   @Input() tipoAtivo: TipoAtivoEnum = TipoAtivoEnum.Acao;

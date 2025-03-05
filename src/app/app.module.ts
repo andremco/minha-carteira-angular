@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import localePt from '@angular/common/locales/pt';
@@ -41,6 +41,7 @@ import {TickerPipe} from "./pipe/TickerPipe";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {TruncateTextoPipe} from "./pipe/TruncateTextoPipe";
+import {PosicaoSetorDashboardComponent} from "./components/carteira/components/posicao.setor.dashboard.component";
 
 
 registerLocaleData(localePt);
@@ -85,7 +86,8 @@ registerLocaleData(localePt);
     MatDatepickerModule,
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
-    MatProgressSpinner
+    MatProgressSpinner,
+    PosicaoSetorDashboardComponent
   ],
   providers: [
     {
@@ -104,6 +106,7 @@ registerLocaleData(localePt);
       useValue: getPtBrPaginatorIntl()
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

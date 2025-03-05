@@ -14,7 +14,7 @@ import {TipoAtivoEnum, tipoAtivoEnumDescricao} from "src/app/models/enums/TipoAt
 @Component({
   selector: 'carteira',
   templateUrl: './carteira.component.html',
-  styleUrls: ['./carteira.component.scss'],
+  styleUrls: ['./carteira.component.scss']
 })
 export class CarteiraComponent extends BaseComponent implements AfterViewInit {
   public loadingCarteiraTotal: boolean = false;
