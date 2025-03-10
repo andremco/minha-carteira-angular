@@ -10,7 +10,7 @@ import {AporteComponent} from "./components/aporte/aporte.component";
 const routes: Routes = [
   {
     path: '',
-    component: CarteiraComponent
+    component: AtivoComponent
   },
   {
     path: 'ativos',
@@ -31,6 +31,10 @@ const routes: Routes = [
   {
     path: 'setores',
     component: SetorComponent
+  },
+  {
+    path: 'relatorio',
+    component: CarteiraComponent
   }
 ];
 

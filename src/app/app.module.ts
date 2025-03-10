@@ -2,7 +2,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import localePt from '@angular/common/locales/pt';
-import { registerLocaleData, CommonModule } from '@angular/common';
+import {registerLocaleData, CommonModule, NgOptimizedImage} from '@angular/common';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getPtBrPaginatorIntl } from './custom-paginator';
 import { BrowserModule } from '@angular/platform-browser';
@@ -87,7 +87,8 @@ registerLocaleData(localePt);
     ReactiveFormsModule,
     NgxMatSelectSearchModule,
     MatProgressSpinner,
-    PosicaoSetorDashboardComponent
+    PosicaoSetorDashboardComponent,
+    NgOptimizedImage
   ],
   providers: [
     {

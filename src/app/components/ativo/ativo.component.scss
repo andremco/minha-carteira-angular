@@ -12,6 +12,7 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+
 .sinalizar-compra{
   padding-left: 0;
   color: $green-600;
@@ -31,10 +32,24 @@
 .verMais{
   display:flex;
   justify-content: flex-end;
-  padding-right: 0;
+  padding-right: 10px;
 }
 
 .card-chart {
   margin-top: 5px;
 }
 
+.icon-titulo-publico{
+  display:flex;
+  justify-content: flex-end;
+  color: #3C4858;
+}
+
+.icon-ativo{
+  display:flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: #3C4858;
+  height: 32px;
+  width: 32px;
+}

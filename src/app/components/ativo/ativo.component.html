@@ -16,16 +16,25 @@
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-12">
-                <h4 class="card-title">{{ titulo.descricao | truncate:30 }}</h4>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4 class="card-title">{{ titulo.descricao | truncate:25 }}</h4>
+                  </div>
+                  <div class="col-sm-12">
+                    <p [ngClass]="{
+                      'sinalizar-compra': titulo.comprarOuAguardar === 'Comprar',
+                      'sinalizar-espera': titulo.comprarOuAguardar === 'Aguardar'
+                    }">{{ titulo.setor?.descricao }}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p [ngClass]="{
-                'sinalizar-compra': titulo.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': titulo.comprarOuAguardar === 'Aguardar'
-                }">{{ titulo.setor?.descricao }}</p>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12 icon-titulo-publico">
+                    <mat-icon>assured_workload</mat-icon>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">
@@ -81,16 +90,25 @@
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-12">
-                <h4 class="card-title">{{ acao.razaoSocial | truncate:30 }}</h4>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4 class="card-title">{{ acao.razaoSocial | truncate:18 }}</h4>
+                  </div>
+                  <div class="col-sm-12">
+                    <p [ngClass]="{
+                      'sinalizar-compra': acao.comprarOuAguardar === 'Comprar',
+                      'sinalizar-espera': acao.comprarOuAguardar === 'Aguardar'
+                    }">{{ acao.ticker }}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p [ngClass]="{
-                'sinalizar-compra': acao.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': acao.comprarOuAguardar === 'Aguardar'
-                }">{{ acao.ticker }}</p>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12 icon-ativo">
+                    <img [src]="acao.urlIconAtivo" [alt]="acao.razaoSocial" />
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">
@@ -146,16 +164,25 @@
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-12">
-                <h4 class="card-title">{{ fundo.razaoSocial | truncate:30 }}</h4>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4 class="card-title">{{ fundo.razaoSocial | truncate:18 }}</h4>
+                  </div>
+                  <div class="col-sm-12">
+                    <p [ngClass]="{
+                      'sinalizar-compra': fundo.comprarOuAguardar === 'Comprar',
+                      'sinalizar-espera': fundo.comprarOuAguardar === 'Aguardar'
+                    }">{{ fundo.ticker }}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p [ngClass]="{
-                'sinalizar-compra': fundo.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': fundo.comprarOuAguardar === 'Aguardar'
-                }">{{ fundo.ticker }}</p>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12 icon-ativo">
+                    <img [src]="fundo.urlIconAtivo" [alt]="fundo.razaoSocial" />
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">
@@ -211,16 +238,25 @@
         <div class="card card-chart">
           <div class="card-body">
             <div class="row">
-              <div class="col-sm-12">
-                <h4 class="card-title">{{ bdr.razaoSocial | truncate:30 }}</h4>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h4 class="card-title">{{ bdr.razaoSocial | truncate:18 }}</h4>
+                  </div>
+                  <div class="col-sm-12">
+                    <p [ngClass]="{
+                      'sinalizar-compra': bdr.comprarOuAguardar === 'Comprar',
+                      'sinalizar-espera': bdr.comprarOuAguardar === 'Aguardar'
+                    }">{{ bdr.ticker }}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <p [ngClass]="{
-                'sinalizar-compra': bdr.comprarOuAguardar === 'Comprar',
-                'sinalizar-espera': bdr.comprarOuAguardar === 'Aguardar'
-                }">{{ bdr.ticker }}</p>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12 icon-ativo">
+                    <img [src]="bdr.urlIconAtivo" [alt]="bdr.razaoSocial" />
+                  </div>
+                </div>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">

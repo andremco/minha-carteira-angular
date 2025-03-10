@@ -1,7 +1,7 @@
 <main class="main">
   <p class="menu">
     <mat-toolbar color="primary">
-      <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="menu minha carteira">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu minha carteira">
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -10,9 +10,10 @@
         <button mat-menu-item [routerLink]="['/acoes']">Ações</button>
         <button mat-menu-item [routerLink]="['/titulos-publicos']">Títulos públicos</button>
         <button mat-menu-item [routerLink]="['/setores']">Setores</button>
+        <button mat-menu-item [routerLink]="['/relatorio']">Relatório</button>
       </mat-menu>
       <span (click)="changetab()" class="carteira">Minha carteira</span>
-      <span class="example-spacer"></span>
+      <span></span>
     </mat-toolbar>
   </p>
   <div>

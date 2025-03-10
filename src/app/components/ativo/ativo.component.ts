@@ -212,4 +212,6 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
     });
     this.cdr.detectChanges();
   }
+
+  protected readonly String = String;
 }

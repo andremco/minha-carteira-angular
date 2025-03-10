@@ -159,6 +159,10 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.formGroup.get('ativo')?.setValue(undefined);
   }
 
+  onSelectChangeAtivo(ativo : any){
+    this.formGroup.get('preco')?.setValue(ativo.value.precoDinamico);
+  }
+
   filtrarAtivos(){
     let ativo = this.pesquisarAtivo.value;
     if (ativo && ativo.length >= 5){
@@ -213,9 +217,9 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         movimentacao: this.movimentacao?.value
       }
       if (this.tipoAtivo == TipoAtivoEnum.TituloPublico)
-        salvarReq.tituloPublicoId = this.ativo?.value
+        salvarReq.tituloPublicoId = this.ativo?.value?.id;
       else
-        salvarReq.acaoId = this.ativo?.value
+        salvarReq.acaoId = this.ativo?.value?.id;
       this.aporteService.salvar(salvarReq).subscribe({
         next: () => this.success(this.updateDialogSuccess),
         error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)
@@ -234,9 +238,9 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         movimentacao: this.movimentacao?.value
       }
       if (this.tipoAtivo == TipoAtivoEnum.TituloPublico)
-        editarReq.tituloPublicoId = this.ativo?.value
+        editarReq.tituloPublicoId = this.ativo?.value?.id;
       else
-        editarReq.acaoId = this.ativo?.value
+        editarReq.acaoId = this.ativo?.value?.id;
       this.aporteService.editar(editarReq).subscribe({
           next: () => this.success(this.updateDialogSuccess),
           error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)
