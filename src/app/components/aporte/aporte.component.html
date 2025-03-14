@@ -37,7 +37,8 @@
                         <ngx-mat-select-search
                           [formControl]="pesquisarAtivo"
                           placeholderLabel="Pesquisar ativo..."
-                          noEntriesFoundLabel="Nenhum registro encontrado">
+                          noEntriesFoundLabel="Nenhum registro encontrado"
+                        >
                         </ngx-mat-select-search>
                       </mat-option>
                       <mat-option *ngFor="let ativo of ativos" [value]="ativo.id">

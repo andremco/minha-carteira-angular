@@ -56,9 +56,6 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
 
   ngOnInit(){
     this.inicializarPesquisaForm();
-    this.pesquisarAtivo.valueChanges.subscribe(() => {
-      this.filtrarAtivos()
-    })
   }
 
   ngAfterViewInit(): void {
@@ -69,10 +66,21 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   inicializarPesquisaForm(): void{
     this.formGroup = new FormGroup({
       tipoAtivo: new FormControl(this.pesquisarAporte.tipoAtivoId),
-      ativo: new FormControl(this.pesquisarAporte.ativoId),
+      ativo: new FormControl({ value: this.pesquisarAporte.ativoId, disabled: true }),
       dataInicio: new FormControl(this.pesquisarAporte.dataInicio),
       dataFim: new FormControl(this.pesquisarAporte.dataFim)
     });
+
+    this.formGroup.get('tipoAtivo')?.valueChanges.subscribe((value) => {
+      if(!value)
+        this.formGroup.get('ativo')?.disable();
+      else
+        this.formGroup.get('ativo')?.enable();
+    });
+
+    this.pesquisarAtivo.valueChanges.subscribe(() => {
+      this.filtrarAtivos()
+    })
   }
 
   onSelectChangeTipoAtivoId(event: MatSelectChange){
