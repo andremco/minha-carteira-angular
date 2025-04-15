@@ -4,7 +4,7 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import localePt from '@angular/common/locales/pt';
 import {registerLocaleData, CommonModule, NgOptimizedImage} from '@angular/common';
 import { MatPaginatorIntl } from '@angular/material/paginator';
-import { getPtBrPaginatorIntl } from './custom-paginator';
+import { getPtBrPaginatorIntl } from './util/custom-paginator';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';

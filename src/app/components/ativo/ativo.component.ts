@@ -12,6 +12,7 @@ import {Paginado} from "src/app/models/Paginado";
 import {HttpErrorResponse} from "@angular/common/http";
 import {TituloPublicoService} from "src/app/services/TituloPublicoService";
 import {TipoAtivoEnum} from "../../models/enums/TipoAtivoEnum";
+import {checkUrlLogoAtivo} from "../../util/check-url-logo-ativo";
 
 @Component({
   selector: 'ativo',
@@ -136,6 +137,9 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
         else
           this.acoes.push(...<Acao[]>acaoPaginado.data?.itens);
         this.loadingAcoes = false;
+        this.acoes.forEach(async (acao) => {
+          acao.iconLogoUp = await checkUrlLogoAtivo(acao.urlIconAtivo);
+        });
       },
       error: (errorResponse : HttpErrorResponse) => {
         this.loadingAcoes = false;
@@ -169,6 +173,9 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
         }
         else
           this.fiis.push(...<Acao[]>fiisPaginado.data?.itens);
+        this.fiis.forEach(async (fundo) => {
+          fundo.iconLogoUp = await checkUrlLogoAtivo(fundo.urlIconAtivo);
+        });
         this.loadingFiis = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -203,6 +210,9 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
         }
         else
           this.bdrs.push(...<Acao[]>bdrPaginado.data?.itens);
+        this.bdrs.forEach(async (bdr) => {
+          bdr.iconLogoUp = await checkUrlLogoAtivo(bdr.urlIconAtivo);
+        });
         this.loadingBdrs = false;
       },
       error: (errorResponse : HttpErrorResponse) => {
@@ -214,4 +224,5 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
   }
 
   protected readonly String = String;
+  protected readonly checkUrlLogoAtivo = checkUrlLogoAtivo;
 }

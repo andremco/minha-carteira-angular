@@ -39,7 +39,7 @@
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ titulo.precoInicial }}</span>
+                <span>{{ titulo.precoInicial | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ titulo.quantidade }}</p>
@@ -47,13 +47,13 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ titulo?.valorTotalAtivoAtual }}</span>
+                <span>{{ titulo?.valorTotalAtivoAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
                 'sinalizar-compra': titulo.lucroOuPerda === 'Lucro',
                 'sinalizar-perda': titulo.lucroOuPerda === 'Perda'
-                }">{{ titulo.lucroOuPerda }}</span>
+                }">{{ titulo.lucroOuPerda | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
             </div>
           </div>
@@ -106,14 +106,15 @@
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12 icon-ativo">
-                    <img [src]="acao.urlIconAtivo" [alt]="acao.razaoSocial" />
+                    <mat-icon *ngIf="!acao.iconLogoUp">corporate_fare</mat-icon>
+                    <img *ngIf="acao.iconLogoUp" [src]="acao.urlIconAtivo" [alt]="acao.razaoSocial" />
                   </div>
                 </div>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ acao.precoDinamico }}</span>
+                <span>{{ acao.precoDinamico | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ acao.quantidade }}</p>
@@ -121,13 +122,13 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ acao?.valorTotalAtivoAtual }}</span>
+                <span>{{ acao?.valorTotalAtivoAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
                 'sinalizar-compra': acao.lucroOuPerda === 'Lucro',
                 'sinalizar-perda': acao.lucroOuPerda === 'Perda'
-                }">{{ acao.lucroOuPerda }}</span>
+                }">{{ acao.lucroOuPerda | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
             </div>
           </div>
@@ -180,14 +181,15 @@
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12 icon-ativo">
-                    <img [src]="fundo.urlIconAtivo" [alt]="fundo.razaoSocial" />
+                    <mat-icon *ngIf="!fundo.iconLogoUp">apartment</mat-icon>
+                    <img *ngIf="fundo.iconLogoUp" [src]="fundo.urlIconAtivo" [alt]="fundo.razaoSocial" />
                   </div>
                 </div>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ fundo.precoDinamico }}</span>
+                <span>{{ fundo.precoDinamico | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ fundo.quantidade }}</p>
@@ -195,13 +197,13 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ fundo?.valorTotalAtivoAtual }}</span>
+                <span>{{ fundo?.valorTotalAtivoAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
                 'sinalizar-compra': fundo.lucroOuPerda === 'Lucro',
                 'sinalizar-perda': fundo.lucroOuPerda === 'Perda'
-                }">{{ fundo.lucroOuPerda }}</span>
+                }">{{ fundo.lucroOuPerda | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
             </div>
           </div>
@@ -254,14 +256,15 @@
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12 icon-ativo">
-                    <img [src]="bdr.urlIconAtivo" [alt]="bdr.razaoSocial" />
+                    <mat-icon *ngIf="!bdr.iconLogoUp">domain</mat-icon>
+                    <img *ngIf="bdr.iconLogoUp" [src]="bdr.urlIconAtivo" [alt]="bdr.razaoSocial" />
                   </div>
                 </div>
               </div>
             </div>
             <div class="row" [style.margin-top]="'15px'">
               <div class="col-sm-6">
-                <span>{{ bdr.precoDinamico }}</span>
+                <span>{{ bdr.precoDinamico | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <p class="card-category">{{ bdr.quantidade }}</p>
@@ -269,13 +272,13 @@
             </div>
             <div class="row">
               <div class="col-sm-6">
-                <span>{{ bdr?.valorTotalAtivoAtual }}</span>
+                <span>{{ bdr?.valorTotalAtivoAtual | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
               <div class="col-sm-6">
                 <span [ngClass]="{
                 'sinalizar-compra': bdr.lucroOuPerda === 'Lucro',
                 'sinalizar-perda': bdr.lucroOuPerda === 'Perda'
-                }">{{ bdr.lucroOuPerda }}</span>
+                }">{{ bdr.lucroOuPerda | currency:'BRL':'symbol':'1.2-2' }}</span>
               </div>
             </div>
           </div>

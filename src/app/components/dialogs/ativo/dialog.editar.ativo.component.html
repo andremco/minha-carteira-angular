@@ -83,7 +83,7 @@
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Preço dinâmico</mat-label>
-                    <input matInput [value]="ativo.precoDinamico" readonly>
+                    <input matInput [value]="doubleToReal(ativo.precoDinamico)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
@@ -104,7 +104,7 @@
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Preço médio</mat-label>
-                    <input matInput [value]="ativo.precoMedio" readonly>
+                    <input matInput [value]="doubleToReal(ativo.precoMedio)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
@@ -141,13 +141,13 @@
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Carteira quanto tenho</mat-label>
-                    <input matInput [value]="ativo.carteiraTenhoPorcento" readonly>
+                    <input matInput [value]="numberToPercent(ativo.carteiraTenhoPorcento)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'" readonly>
                     <mat-label>Carteira ideal</mat-label>
-                    <input matInput [value]="ativo.carteiraIdealPorcento" readonly>
+                    <input matInput [value]="numberToPercent(ativo.carteiraIdealPorcento)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
@@ -161,19 +161,19 @@
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Compras realizadas</mat-label>
-                    <input matInput [value]="ativo.valorTotalCompras" readonly>
+                    <input matInput [value]="numberToReal(ativo.valorTotalCompras)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Vendas realizadas</mat-label>
-                    <input matInput [value]="ativo.valorTotalVendas" readonly>
+                    <input matInput [value]="numberToReal(ativo.valorTotalVendas)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Valor atual do ativo</mat-label>
-                    <input matInput [value]="ativo.valorTotalAtivoAtual" readonly>
+                    <input matInput [value]="numberToReal(ativo.valorTotalAtivoAtual)" readonly>
                   </mat-form-field>
                 </div>
               </div>
@@ -181,19 +181,19 @@
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Pago / Tenho</mat-label>
-                    <input matInput [value]="ativo.valorTotalAtivo" readonly>
+                    <input matInput [value]="numberToReal(ativo.valorTotalAtivo)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Ideal / Quero</mat-label>
-                    <input matInput [value]="ativo.quantoQueroTotal" readonly>
+                    <input matInput [value]="numberToReal(ativo.quantoQueroTotal)" readonly>
                   </mat-form-field>
                 </div>
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Quanto que falta</mat-label>
-                    <input matInput [value]="ativo.quantoFaltaTotal" readonly>
+                    <input matInput [value]="numberToReal(ativo.quantoFaltaTotal)" readonly>
                   </mat-form-field>
                 </div>
               </div>

@@ -6,4 +6,5 @@ export interface Acao extends Ativo {
   ticker? : string;
   precoDinamico?: number;
   urlIconAtivo?: string;
+  iconLogoUp?: boolean;
 }

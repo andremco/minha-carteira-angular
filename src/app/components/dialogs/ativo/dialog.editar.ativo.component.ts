@@ -26,6 +26,8 @@ import {TituloPublicoService} from "src/app/services/TituloPublicoService";
 import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
 import {EditarTituloPublico} from "src/app/models/titulo-publico/EditarTituloPublico";
 import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
+import {numberToReal} from "../../../util/number-to-real";
+import {numberToPercent} from "../../../util/number-to-percent";
 
 @Component({
   selector: 'ativo',
@@ -113,10 +115,10 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
         setor: new FormControl(this.ativo.setor?.id, [
           Validators.required
         ]),
-        precoInicial: new FormControl(this.ativo.precoInicial, [
+        precoInicial: new FormControl(numberToReal(this.ativo.precoInicial), [
           Validators.required
         ]),
-        valorRendimento: new FormControl(this.ativo.valorRendimento, [
+        valorRendimento: new FormControl(numberToReal(this.ativo.valorRendimento), [
           Validators.required
         ]),
         nota: new FormControl(this.ativo.nota, [
@@ -366,4 +368,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   }
 
   protected readonly TipoAtivoEnum = TipoAtivoEnum;
+  protected readonly doubleToReal = numberToReal;
+  protected readonly numberToPercent = numberToPercent;
+  protected readonly numberToReal = numberToReal;
 }
