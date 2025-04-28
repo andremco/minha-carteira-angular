@@ -28,6 +28,7 @@ import {MovimentacaoEnumPipe} from "src/app/pipe/MovimentacaoEnumPipe";
 import {EditarAporte} from "src/app/models/aporte/EditarAporte";
 import {Dominio} from "src/app/models/Dominio";
 import {DominioService} from "src/app/services/DominioService";
+import {numberToReal} from "src/app/util/number-to-real";
 
 @Component({
   selector: 'dialog-aporte',
@@ -91,7 +92,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         this.aporte.acao?.id, [
         Validators.required
       ]),
-      preco: new FormControl(this.aporte.preco, [
+      preco: new FormControl(numberToReal(this.aporte.preco), [
         Validators.required
       ]),
       quantidade: new FormControl(this.aporte.quantidade, [
@@ -160,7 +161,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   }
 
   onSelectChangeAtivo(ativo : any){
-    this.formGroup.get('preco')?.setValue(ativo.value.precoDinamico);
+    this.formGroup.get('preco')?.setValue(numberToReal(ativo.value.precoDinamico));
   }
 
   filtrarAtivos(){
