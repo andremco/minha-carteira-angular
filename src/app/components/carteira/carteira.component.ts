@@ -106,6 +106,7 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
 
   gerarAportesMensalDashboard(){
     this.loadingAportesMensal = true;
+    //Primeiro dia do ano
     let dataInicio = new Date(new Date().getFullYear(), 0, 1).toLocaleDateString("pt-BR");
     //Mês corrente com último dia do mês!!
     let dataFim = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toLocaleDateString("pt-BR");
