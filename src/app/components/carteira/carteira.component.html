@@ -123,7 +123,7 @@
             <div class="legend">
               <ng-template ngFor let-item [ngForOf]="tiposAtivos">
                 <div [class]="'square-legend ' + cssLegendSquareDashboard(item)"></div>
-                <label [style.margin-right]="'10px'">{{tipoAtivoEnumDescricao(item)}}</label>
+                <label [style.margin-right]="'10px'">{{tipoAtivoEnumToDescricao(item)}}</label>
               </ng-template>
             </div>
             <div id="aportes-mensal-dashboard" style="height: 60vh"></div>

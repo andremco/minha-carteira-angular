@@ -9,7 +9,7 @@ import {BaseComponent} from "../base.component";
 import {ToastrService} from "ngx-toastr";
 import {AportesTotal} from "src/app/models/carteira/AportesTotal";
 import {AportesValorMensal} from "src/app/models/carteira/AportesValorMensal";
-import {TipoAtivoEnum, tipoAtivoEnumDescricao} from "src/app/models/enums/TipoAtivoEnum";
+import {TipoAtivoEnum, tipoAtivoEnumToDescricao} from "src/app/models/enums/TipoAtivoEnum";
 
 @Component({
   selector: 'carteira',
@@ -95,7 +95,7 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
   }
 
   montarDashboardAtivos(aportes : AportesTotal, divDashboard : string){
-    let labelsAtivos : string[] = this.tiposAtivos.map(tipo => tipoAtivoEnumDescricao(tipo))
+    let labelsAtivos : string[] = this.tiposAtivos.map(tipo => tipoAtivoEnumToDescricao(tipo))
     new Chartist.BarChart(divDashboard, {
       labels: labelsAtivos,
       series: [aportes.porAcoes, aportes.porFIIs, aportes.porBDRs, aportes.porTitulos]
@@ -194,6 +194,6 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     return "";
   }
 
-  protected readonly tipoAtivoEnumDescricao = tipoAtivoEnumDescricao;
+  protected readonly tipoAtivoEnumToDescricao = tipoAtivoEnumToDescricao;
   protected readonly TipoAtivoEnum = TipoAtivoEnum;
 }

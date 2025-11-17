@@ -9,7 +9,7 @@ import {MatSelect, MatSelectChange} from "@angular/material/select";
 import {CommonModule, NgClass, NgForOf, NgIf} from "@angular/common";
 import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
-import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
+import {descricaoTotipoAtivoEnum, TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
 import {MESSAGE} from "src/app/message/message";
 import {ResponseApi} from "src/app/models/ResponseApi";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -67,6 +67,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     this.ehEditar = this.aporte.id != undefined;
     if (this.aporte.acao){
       const {acao} = this.aporte;
+      this.tipoAtivo = descricaoTotipoAtivoEnum(<string>acao?.setor?.tipoAtivo?.descricao);
       this.ativos?.push({ id: acao.id, razaoSocial: acao?.razaoSocial });
     }
     if (this.aporte.tituloPublico){
@@ -86,10 +87,8 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   inicializarAtivoForm(): void{
     this.formGroup = new FormGroup({
       tipoAtivo: new FormControl(this.tipoAtivo),
-      movimentacao: new FormControl(this.movimentacao),
-      ativo: new FormControl(this.tipoAtivo == TipoAtivoEnum.TituloPublico ?
-        this.aporte.tituloPublico?.id :
-        this.aporte.acao?.id, [
+      movimentacao: new FormControl(),
+      ativo: new FormControl(this.ativos?.at(0), [
         Validators.required
       ]),
       preco: new FormControl(numberToReal(this.aporte.preco), [
