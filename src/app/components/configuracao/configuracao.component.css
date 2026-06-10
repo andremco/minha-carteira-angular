@@ -1,0 +1,12 @@
+.icon-ativo{
+  display:flex;
+  justify-content: flex-end;
+  padding-right: 28px;
+  color: #3C4858;
+}
+
+.verMais{
+  display:flex;
+  justify-content: flex-end;
+  padding-right: 0px;
+}

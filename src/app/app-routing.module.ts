@@ -6,6 +6,7 @@ import { CarteiraComponent } from "./components/carteira/carteira.component";
 import {AtivoComponent} from "./components/ativo/ativo.component";
 import {TituloPublicoComponent} from "./components/titulo-publico/titulo-publico.component";
 import {AporteComponent} from "./components/aporte/aporte.component";
+import {ConfiguracaoComponent} from "./components/configuracao/configuracao.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'setores',
     component: SetorComponent
+  },
+  {
+    path: 'configuracao',
+    component: ConfiguracaoComponent
   },
   {
     path: 'relatorio',

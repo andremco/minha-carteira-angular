@@ -34,6 +34,7 @@ import { CarteiraComponent } from "./components/carteira/carteira.component";
 import { AtivoComponent } from "./components/ativo/ativo.component";
 import { TituloPublicoComponent } from "./components/titulo-publico/titulo-publico.component";
 import { AporteComponent } from "./components/aporte/aporte.component";
+import { ConfiguracaoComponent } from "./components/configuracao/configuracao.component";
 
 import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
 import {NomeAtivoPipe} from "./pipe/NomeAtivoPipe";
@@ -42,7 +43,6 @@ import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {TruncateTextoPipe} from "./pipe/TruncateTextoPipe";
 import {PosicaoSetorDashboardComponent} from "./components/carteira/components/posicao.setor.dashboard.component";
-
 
 registerLocaleData(localePt);
 
@@ -55,6 +55,7 @@ registerLocaleData(localePt);
     AtivoComponent,
     TituloPublicoComponent,
     AporteComponent,
+    ConfiguracaoComponent,
     TipoAtivoPipe,
     NomeAtivoPipe,
     TickerPipe,
