@@ -7,6 +7,7 @@ import {AtivoComponent} from "./components/ativo/ativo.component";
 import {TituloPublicoComponent} from "./components/titulo-publico/titulo-publico.component";
 import {AporteComponent} from "./components/aporte/aporte.component";
 import {ConfiguracaoComponent} from "./components/configuracao/configuracao.component";
+import {MoedaComponent} from "./components/moeda/moeda.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'titulos-publicos',
     component: TituloPublicoComponent
+  },
+  {
+    path: 'moedas',
+    component: MoedaComponent
   },
   {
     path: 'setores',

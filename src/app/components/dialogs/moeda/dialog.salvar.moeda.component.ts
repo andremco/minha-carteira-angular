@@ -7,50 +7,46 @@ import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect, MatSelectChange} from "@angular/material/select";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
-import {Acao} from "src/app/models/acao/Acao";
+import {Moeda} from "src/app/models/moeda/Moeda";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {DominioService} from "src/app/services/DominioService";
 import {ResponseApi} from "src/app/models/ResponseApi";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Dominio} from "src/app/models/Dominio";
-import {AcaoService} from "src/app/services/AcaoService";
+import {MoedaService} from "src/app/services/MoedaService";
 import {BaseComponent} from "src/app/components/base.component";
 import {ToastrService} from "ngx-toastr";
-import {SalvarAcao} from "src/app/models/acao/SalvarAcao";
+import {SalvarMoeda} from "src/app/models/moeda/SalvarMoeda";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MESSAGE} from "src/app/message/message";
-import {TickerService} from "src/app/services/TickerService";
-import {Ticker} from "src/app/models/Ticker";
 import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
 
 @Component({
-  selector: 'salvar-acao',
-  templateUrl: './dialog.salvar.acao.component.html',
+  selector: 'salvar-moeda',
+  templateUrl: './dialog.salvar.moeda.component.html',
   standalone: true,
   imports: [MatDialogModule, MatButtonModule, FormsModule, MatFormField, MatInput, MatLabel, MatSelect, MatOption, MatGridList, MatGridTile, FlexLayoutModule, DatePipe, NgIf, MatSlideToggle, ReactiveFormsModule, NgForOf, MatError, MatProgressSpinner],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
-  private acao: Acao = {};
+export class DialogSalvarMoedaComponent extends BaseComponent implements OnInit {
+  private moeda: Moeda = {};
   public loading: boolean = false;
   public tipoAtivos? : Dominio[] = [];
-  public setores? : Dominio[] = [];
-  private carregarAcoes: Function = (pagina:Number, tamanho:Number) => {};
-  constructor(private readonly ref: MatDialogRef<DialogSalvarAcaoComponent>,
+  private carregarMoedas: Function = (pagina:Number, tamanho:Number) => {};
+  constructor(private readonly ref: MatDialogRef<DialogSalvarMoedaComponent>,
               private readonly dominioService : DominioService,
-              private readonly acaoService : AcaoService,
-              private readonly tickerService : TickerService,
+              private readonly moedaService : MoedaService,
               private readonly cdr: ChangeDetectorRef,
-              @Inject(MAT_DIALOG_DATA) private data: { carregarAcoes: Function},
+              @Inject(MAT_DIALOG_DATA) private data: { carregarMoedas: Function},
               public override toastr: ToastrService) {
     super(toastr);
-    if (data && data.carregarAcoes != undefined)
-      this.carregarAcoes = data.carregarAcoes;
+    if (data && data.carregarMoedas != undefined)
+      this.carregarMoedas = data.carregarMoedas;
   }
 
   ngOnInit(): void {
-    this.inicializarAcaoForm();
+    this.inicializarMoedaForm();
     this.carregarTipoAtivos();
   }
 
@@ -58,56 +54,53 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
     return this.formGroup.get('tipoAtivo');
   }
 
-  get setor() : AbstractControl<any, any> | null{
-    return this.formGroup.get('setor');
+  get nome() : AbstractControl<any, any> | null{
+    return this.formGroup.get('nome');
+  }
+
+  get codigo() : AbstractControl<any, any> | null{
+    return this.formGroup.get('codigo');
   }
 
   get nota() : AbstractControl<any, any> | null{
     return this.formGroup.get('nota');
   }
 
-  get ticker() : AbstractControl<any, any> | null{
-    return this.formGroup.get('ticker');
+  get quantidade() : AbstractControl<any, any> | null{
+    return this.formGroup.get('quantidade');
   }
 
-  get razaoSocial() : AbstractControl<any, any> | null{
-    return this.formGroup.get('razaoSocial');
-  }
-
-  inicializarAcaoForm(){
+  inicializarMoedaForm(){
     this.formGroup = new FormGroup({
-      tipoAtivo: new FormControl(this.acao.setor?.tipoAtivo?.id, [
+      tipoAtivo: new FormControl(TipoAtivoEnum.Moeda, [
         Validators.required
       ]),
-      setor: new FormControl(this.acao.setor?.id, [
-        Validators.required
+      nome: new FormControl(this.moeda.nome, [
+        Validators.required,
+        Validators.maxLength(100)
       ]),
-      nota: new FormControl(this.acao.nota, [
+      codigo: new FormControl(this.moeda.codigo, [
+        Validators.required,
+        Validators.maxLength(10)
+      ]),
+      nota: new FormControl(this.moeda.nota, [
         Validators.required,
         Validators.pattern('^[0-9]*$'),
         Validators.min(0),
         Validators.max(10)
       ]),
-      ticker: new FormControl(this.acao.ticker, [
+      quantidade: new FormControl(this.moeda.quantidade, [
         Validators.required,
-        Validators.maxLength(10)
-      ]),
-      razaoSocial: new FormControl(this.acao.razaoSocial, [
-        Validators.required,
-        Validators.maxLength(100)
+        Validators.pattern('^[0-9]*$'),
+        Validators.min(0)
       ])
     });
     // Escuta mudanças no valor e transforma em maiúsculas
-    this.formGroup.get('ticker')?.valueChanges.subscribe(value => {
+    this.formGroup.get('codigo')?.valueChanges.subscribe(value => {
       if (value !== value.toUpperCase()) {
-        this.formGroup.get('ticker')?.setValue(value.toUpperCase(), { emitEvent: false });
+        this.formGroup.get('codigo')?.setValue(value.toUpperCase(), { emitEvent: false });
       }
     });
-  }
-
-  onSelectChangeTipoAtivoId(event: MatSelectChange){
-    this.setor?.setValue(undefined);
-    this.carregarSetores(event.value);
   }
 
   carregarTipoAtivos(){
@@ -115,20 +108,8 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
       next: (response:ResponseApi<Dominio[]>) => {
         let tipoAtivos = response.data;
         if(tipoAtivos && tipoAtivos.length > 0){
-          this.tipoAtivos = tipoAtivos.filter(item => item.id !== TipoAtivoEnum.TituloPublico && item.id !== TipoAtivoEnum.Moeda);
+          this.tipoAtivos = tipoAtivos.filter(item => item.id === TipoAtivoEnum.Moeda);
         }
-      },
-      error: (errorResponse : HttpErrorResponse) => {
-        console.log(errorResponse);
-      }
-    })
-  }
-
-  carregarSetores(tipoAtivoId?: number){
-    let urlResource = tipoAtivoId != undefined ? "setores/" + tipoAtivoId : "setores";
-    this.dominioService.get(urlResource).subscribe({
-      next: (response:ResponseApi<Dominio[]>) => {
-        this.setores = response.data;
       },
       error: (errorResponse : HttpErrorResponse) => {
         console.log(errorResponse);
@@ -139,15 +120,15 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
   salvar(){
     this.loading = true;
     if(this.formGroup.valid){
-      var salvarReq: SalvarAcao = {
-        razaoSocial: this.razaoSocial?.value,
-        setorId: this.setor?.value,
-        ticker: this.ticker?.value,
-        nota: this.nota?.value
+      var salvarReq: SalvarMoeda = {
+        nome: this.nome?.value,
+        codigo: this.codigo?.value,
+        nota: this.nota?.value,
+        quantidade: this.quantidade?.value
       }
       var updateDialogSuccess = ()=>{
         this.loading = false;
-        this.carregarAcoes(0, 10);
+        this.carregarMoedas(0, 10);
         this.ref.close();
         this.cdr.detectChanges();
       }
@@ -155,25 +136,12 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
         this.loading = false;
         this.cdr.detectChanges();
       }
-      this.acaoService.salvar(salvarReq).subscribe({
+      this.moedaService.salvar(salvarReq).subscribe({
           next: () => this.success(updateDialogSuccess),
           error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, updateDialogError)
         }
       );
     }
-  }
-
-  buscarAcaoPorTicker(value: string){
-    if (value && value.length >= 5){
-      this.tickerService.obter(value).subscribe({
-        next: (response:ResponseApi<Ticker>) => {
-          this.formGroup.get('razaoSocial')?.setValue(response.data?.razaoSocial)
-        },
-        error: (errorResponse : HttpErrorResponse) => this.error(errorResponse)
-      })
-    }
-    else
-      this.formGroup.get('razaoSocial')?.setValue("")
   }
 
   tipoAtivoErrorMessage() : string {
@@ -183,9 +151,22 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
     return MESSAGE.VAZIO;
   }
 
-  setorErrorMessage() : string {
-    if (this.setor?.hasError('required')) {
+  nomeErrorMessage() : string {
+    if (this.nome?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
+    }
+    if (this.nome?.hasError('maxlength')) {
+      return MESSAGE.ATE_100_CHARS;
+    }
+    return MESSAGE.VAZIO;
+  }
+
+  codigoErrorMessage() : string {
+    if (this.codigo?.hasError('required')) {
+      return MESSAGE.OBRIGATORIO;
+    }
+    if (this.codigo?.hasError('maxlength')) {
+      return MESSAGE.ATE_10_CHARS;
     }
     return MESSAGE.VAZIO;
   }
@@ -202,22 +183,13 @@ export class DialogSalvarAcaoComponent extends BaseComponent implements OnInit {
     return MESSAGE.VAZIO;
   }
 
-  tickerErrorMessage() : string {
-    if (this.ticker?.hasError('required')) {
+  quantidadeErrorMessage() : string {
+    if (this.quantidade?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
     }
-    if (this.ticker?.hasError('maxlength')) {
-      return MESSAGE.ATE_10_CHARS;
-    }
-    return MESSAGE.VAZIO;
-  }
-
-  razaoSocialErrorMessage() : string {
-    if (this.razaoSocial?.hasError('required')) {
-      return MESSAGE.OBRIGATORIO;
-    }
-    if (this.razaoSocial?.hasError('maxlength')) {
-      return MESSAGE.ATE_100_CHARS;
+    if (this.quantidade?.hasError('pattern') ||
+      this.quantidade?.hasError('min')) {
+      return MESSAGE.SOMENTE_NUMEROS;
     }
     return MESSAGE.VAZIO;
   }

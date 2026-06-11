@@ -2,7 +2,8 @@ export enum TipoAtivoEnum{
   Acao = 1,
   FundoImobiliario = 2,
   BrazilianDepositaryReceipts = 3,
-  TituloPublico = 4
+  TituloPublico = 4,
+  Moeda = 5
 }
 
 export function tipoAtivoEnumToDescricao(tipoAtivo : TipoAtivoEnum) : string {
@@ -14,6 +15,8 @@ export function tipoAtivoEnumToDescricao(tipoAtivo : TipoAtivoEnum) : string {
     return "Brazilian Depositary Receipts";
   if (tipoAtivo == TipoAtivoEnum.TituloPublico)
     return "Título Público";
+  if (tipoAtivo == TipoAtivoEnum.Moeda)
+    return "Moeda";
   return "";
 }
 
@@ -26,5 +29,9 @@ export function descricaoTotipoAtivoEnum(descricao : string) : TipoAtivoEnum {
     return TipoAtivoEnum.BrazilianDepositaryReceipts;
   if (descricao.toLowerCase() == "título público")
     return TipoAtivoEnum.TituloPublico;
+  if (descricao.toLowerCase() == "moeda")
+    return TipoAtivoEnum.Moeda;
   return TipoAtivoEnum.Acao;
 }
+
+

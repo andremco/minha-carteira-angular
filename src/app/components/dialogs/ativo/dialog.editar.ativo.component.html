@@ -6,8 +6,8 @@
           <div class="card-header" [ngClass]="{'card-header-success': comprar, 'card-header-warning': !comprar}">
             <div class="row">
               <div class="col-md-6">
-                <h4 class="card-title" [innerHTML]="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico ? ativo.razaoSocial : ativo.descricao"></h4>
-                <p class="card-category">{{ ativo.setor.descricao }}</p>
+                                <h4 class="card-title" [innerHTML]="this.tipoAtivo?.value == TipoAtivoEnum.Moeda ? ativo.nome : (this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico ? ativo.razaoSocial : ativo.descricao)"></h4>
+                <p class="card-category" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.Moeda">{{ ativo.setor.descricao }}</p>
               </div>
               <div class="col-md-6">
                 <span class="pull-right">
@@ -19,7 +19,7 @@
           <div class="card-body">
             <div *ngIf="loading" [class]="comprar ? 'loader' : 'loader-warn'"></div>
             <form *ngIf="!loading" [formGroup]="formGroup">
-              <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico">
+                            <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico && this.tipoAtivo?.value != TipoAtivoEnum.Moeda">
                 <div class="col-sm-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Tipo do ativo</mat-label>
@@ -50,12 +50,39 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico">
+              <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico && this.tipoAtivo?.value != TipoAtivoEnum.Moeda">
                 <div class="col-md-12">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Razão social</mat-label>
                     <input matInput required formControlName="razaoSocial" [readonly]="true">
                     <mat-error *ngIf="razaoSocial?.invalid && (razaoSocial?.dirty || razaoSocial?.touched)">{{razaoSocialErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" *ngIf="this.tipoAtivo?.value == TipoAtivoEnum.Moeda">
+                <div class="col-sm-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Tipo do ativo</mat-label>
+                    <mat-select required formControlName="tipoAtivo">
+                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
+                        {{ tipoAtivo.descricao }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="tipoAtivo?.invalid && (tipoAtivo?.dirty || tipoAtivo?.touched)">{{tipoAtivoErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Nome</mat-label>
+                    <input matInput required formControlName="nome">
+                    <mat-error *ngIf="nome?.invalid && (nome?.dirty || nome?.touched)">{{nomeErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Código</mat-label>
+                    <input matInput required formControlName="codigo">
+                    <mat-error *ngIf="codigo?.invalid && (codigo?.dirty || codigo?.touched)">{{codigoErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -79,7 +106,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico">
+              <div class="row" *ngIf="this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico && this.tipoAtivo?.value != TipoAtivoEnum.Moeda">
                 <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Preço dinâmico</mat-label>
@@ -122,7 +149,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row" *ngIf="this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico">
+                            <div class="row" *ngIf="this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico">
                 <div class="col-md-6">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Nota</mat-label>
@@ -131,6 +158,21 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-6">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Quantidade</mat-label>
+                    <input matInput [value]="ativo.quantidade" readonly>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row" *ngIf="this.tipoAtivo?.value == TipoAtivoEnum.Moeda">
+                <div class="col-md-4">
+                  <mat-form-field [color]="comprar ? 'primary' : 'warn'">
+                    <mat-label>Nota</mat-label>
+                    <input matInput required formControlName="nota">
+                    <mat-error *ngIf="nota?.invalid && (nota?.dirty || nota?.touched)">{{notaErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
                   <mat-form-field [color]="comprar ? 'primary' : 'warn'">
                     <mat-label>Quantidade</mat-label>
                     <input matInput [value]="ativo.quantidade" readonly>

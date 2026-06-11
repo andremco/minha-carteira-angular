@@ -35,6 +35,7 @@ import { AtivoComponent } from "./components/ativo/ativo.component";
 import { TituloPublicoComponent } from "./components/titulo-publico/titulo-publico.component";
 import { AporteComponent } from "./components/aporte/aporte.component";
 import { ConfiguracaoComponent } from "./components/configuracao/configuracao.component";
+import { MoedaComponent } from "./components/moeda/moeda.component";
 
 import {TipoAtivoPipe} from "./pipe/TipoAtivoPipe";
 import {NomeAtivoPipe} from "./pipe/NomeAtivoPipe";
@@ -48,7 +49,7 @@ registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
-    AppComponent,
+        AppComponent,
     SetorComponent,
     AcaoComponent,
     CarteiraComponent,
@@ -56,6 +57,7 @@ registerLocaleData(localePt);
     TituloPublicoComponent,
     AporteComponent,
     ConfiguracaoComponent,
+    MoedaComponent,
     TipoAtivoPipe,
     NomeAtivoPipe,
     TickerPipe,

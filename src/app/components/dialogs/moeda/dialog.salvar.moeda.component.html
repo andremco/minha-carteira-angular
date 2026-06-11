@@ -1,0 +1,72 @@
+<div class="main-content" [style.width]="'800px'">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <div class="row">
+              <div class="col-md-12">
+                <h4 class="card-title">Moeda</h4>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="formGroup">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <mat-form-field>
+                    <mat-label>Tipo do ativo</mat-label>
+                    <mat-select required formControlName="tipoAtivo">
+                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
+                        {{ tipoAtivo.descricao }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="tipoAtivo?.invalid && (tipoAtivo?.dirty || tipoAtivo?.touched)">{{tipoAtivoErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field color="primary">
+                    <mat-label>Nome</mat-label>
+                    <input matInput required formControlName="nome">
+                    <mat-error *ngIf="nome?.invalid && (nome?.dirty || nome?.touched)">{{nomeErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-3">
+                  <mat-form-field color="primary">
+                    <mat-label>Nota</mat-label>
+                    <input matInput required formControlName="nota">
+                    <mat-error *ngIf="nota?.invalid && (nota?.dirty || nota?.touched)">{{notaErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-3">
+                  <mat-form-field color="primary">
+                    <mat-label>Código</mat-label>
+                    <input matInput required formControlName="codigo">
+                    <mat-error *ngIf="codigo?.invalid && (codigo?.dirty || codigo?.touched)">{{codigoErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                  <mat-form-field color="primary">
+                    <mat-label>Quantidade</mat-label>
+                    <input matInput required formControlName="quantidade">
+                    <mat-error *ngIf="quantidade?.invalid && (quantidade?.dirty || quantidade?.touched)">{{quantidadeErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="pull-right">
+                <button mat-raised-button mat-dialog-close class="mr-1">Fechar</button>
+                <button mat-raised-button color="primary" [disabled]="loading || formGroup.invalid" (click)="salvar()">
+                  <mat-spinner *ngIf="loading" [style.width]="'30px'"></mat-spinner>
+                  <span *ngIf="!loading">Salvar</span>
+                </button>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
