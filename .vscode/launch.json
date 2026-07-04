@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Angular (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "preLaunchTask": "npm: start",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "${webRoot}/*",
+        "/./~/*": "${webRoot}/node_modules/*"
+      },
+      "sourceMaps": true,
+      "trace": true,
+      "userDataDir": "${workspaceFolder}/.vscode/chrome-debug-user-data",
+      "pathMapping": {
+        "/": "${workspaceFolder}",
+        "/src/": "${workspaceFolder}/src/"
+      }
+    },
+    {
+      "name": "Attach to Chrome (Angular)",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "url": "http://localhost:4200/*",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:/*": "${webRoot}/*",
+        "/./*": "${webRoot}/*",
+        "/src/*": "${webRoot}/*",
+        "/*": "${webRoot}/*",
+        "/./~/*": "${webRoot}/node_modules/*"
+      },
+      "sourceMaps": true,
+      "pathMapping": {
+        "/": "${workspaceFolder}",
+        "/src/": "${workspaceFolder}/src/"
+      }
+    }
+  ]
+}

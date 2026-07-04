@@ -131,7 +131,7 @@
         </div>
       </div>
     </div>
-    <ng-template ngFor let-item [ngForOf]="tiposAtivos">
+    <ng-template ngFor let-item [ngForOf]="tiposAtivosFiltrados">
       <div class="row">
         <div class="col-sm-6">
           <posicao-setor [tipoAtivo]="item" [buscarMinhaPosicao]="true"></posicao-setor>

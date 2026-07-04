@@ -74,47 +74,52 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
       let tipoAtivoEnum = <TipoAtivoEnum>tipoAtivo.id;
       this.carregarTipoAtivos(tipoAtivoEnum);
       this.carregarSetores(tipoAtivoEnum);
-            if (tipoAtivoEnum == TipoAtivoEnum.TituloPublico)
+      if (tipoAtivoEnum == TipoAtivoEnum.TituloPublico)
         this.detalharTituloPublico(this.ativo.id);
-      else if (tipoAtivoEnum == TipoAtivoEnum.Moeda)
-        this.detalharMoeda(this.ativo.id);
       else
         this.detalharAcao(this.ativo.id);
 
+      this.inicializarAtivoForm(tipoAtivoEnum);
+    } 
+    //Detalhar ativo Moeda
+    else if(this.data.carregarMoedas != undefined){
+      let tipoAtivoEnum = TipoAtivoEnum.Moeda;
+      this.carregarTipoAtivos(tipoAtivoEnum);
+      this.detalharMoeda(this.ativo.id);
       this.inicializarAtivoForm(tipoAtivoEnum);
     }
   }
 
     inicializarAtivoForm(tipoAtivo?: TipoAtivoEnum){
-        if (tipoAtivo == TipoAtivoEnum.TituloPublico){
-      this.formGroup = new FormGroup({
-        tipoAtivo: new FormControl(this.ativo.setor?.tipoAtivo?.id, [
-          Validators.required
-        ]),
-        setor: new FormControl(this.ativo.setor?.id, [
-          Validators.required
-        ]),
-        precoInicial: new FormControl(numberToReal(this.ativo.precoInicial), [
-          Validators.required
-        ]),
-        valorRendimento: new FormControl(numberToReal(this.ativo.valorRendimento), [
-          Validators.required
-        ]),
-        nota: new FormControl(this.ativo.nota, [
-          Validators.required,
-          Validators.pattern('^[0-9]*$'),
-          Validators.min(0),
-          Validators.max(10)
-        ]),
-        descricao: new FormControl(this.ativo.descricao, [
-          Validators.required,
-          Validators.maxLength(100)
-        ])
-      });
+      if (tipoAtivo == TipoAtivoEnum.TituloPublico){
+        this.formGroup = new FormGroup({
+          tipoAtivo: new FormControl(this.ativo.setor?.tipoAtivo?.id, [
+            Validators.required
+          ]),
+          setor: new FormControl(this.ativo.setor?.id, [
+            Validators.required
+          ]),
+          precoInicial: new FormControl(numberToReal(this.ativo.precoInicial), [
+            Validators.required
+          ]),
+          valorRendimento: new FormControl(numberToReal(this.ativo.valorRendimento), [
+            Validators.required
+          ]),
+          nota: new FormControl(this.ativo.nota, [
+            Validators.required,
+            Validators.pattern('^[0-9]*$'),
+            Validators.min(0),
+            Validators.max(10)
+          ]),
+          descricao: new FormControl(this.ativo.descricao, [
+            Validators.required,
+            Validators.maxLength(100)
+          ])
+        });
     }
     else if (tipoAtivo == TipoAtivoEnum.Moeda){
       this.formGroup = new FormGroup({
-        tipoAtivo: new FormControl(this.ativo.setor?.tipoAtivo?.id, [
+        tipoAtivo: new FormControl(TipoAtivoEnum.Moeda, [
           Validators.required
         ]),
         nome: new FormControl(this.ativo.nome, [
@@ -176,7 +181,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     return this.formGroup.get('razaoSocial');
   }
 
-    get descricao() : AbstractControl<any, any> | null{
+  get descricao() : AbstractControl<any, any> | null{
     return this.formGroup.get('descricao');
   }
 
@@ -234,7 +239,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
     this.dominioService.get('tipoAtivos').subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
         let tipoAtivos = response.data;
-                if(tipoAtivos && tipoAtivos.length > 0){
+        if(tipoAtivos && tipoAtivos.length > 0){
           if (tipoAtivo == TipoAtivoEnum.TituloPublico){
             this.tipoAtivos = tipoAtivos.filter(item => item.id === TipoAtivoEnum.TituloPublico);
           }
@@ -318,7 +323,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
   editar(){
     this.btnLoading = true;
     if(this.formGroup.valid){
-            var updateDialogSuccess = ()=> {
+        var updateDialogSuccess = ()=> {
         this.btnLoading = false;
         if (this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico)
           this.carregarTitulosPublico();
@@ -333,7 +338,7 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
         this.btnLoading = false;
         this.cdr.detectChanges();
       }
-            var editarReq: {}
+      var editarReq: {}
       if (this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico){
         editarReq = {
           id: this.ativo.id,
@@ -467,6 +472,18 @@ export class DialogEditarAtivoComponent extends BaseComponent implements OnInit 
       return MESSAGE.ATE_10_CHARS;
     }
     return MESSAGE.VAZIO;
+  }
+
+  exibirCamposAcoes() : boolean {
+    return this.tipoAtivo?.value == TipoAtivoEnum.Acao || this.tipoAtivo?.value == TipoAtivoEnum.BrazilianDepositaryReceipts || this.tipoAtivo?.value == TipoAtivoEnum.FundoImobiliario;
+  }
+
+  exibirCamposTituloPublico() : boolean {
+    return this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico;
+  }
+
+  exibirCamposMoeda() : boolean {
+    return this.tipoAtivo?.value == TipoAtivoEnum.Moeda;
   }
 
   protected readonly TipoAtivoEnum = TipoAtivoEnum;

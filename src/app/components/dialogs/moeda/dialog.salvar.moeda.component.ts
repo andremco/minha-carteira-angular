@@ -47,11 +47,6 @@ export class DialogSalvarMoedaComponent extends BaseComponent implements OnInit 
 
   ngOnInit(): void {
     this.inicializarMoedaForm();
-    this.carregarTipoAtivos();
-  }
-
-  get tipoAtivo() : AbstractControl<any, any> | null{
-    return this.formGroup.get('tipoAtivo');
   }
 
   get nome() : AbstractControl<any, any> | null{
@@ -66,15 +61,8 @@ export class DialogSalvarMoedaComponent extends BaseComponent implements OnInit 
     return this.formGroup.get('nota');
   }
 
-  get quantidade() : AbstractControl<any, any> | null{
-    return this.formGroup.get('quantidade');
-  }
-
   inicializarMoedaForm(){
     this.formGroup = new FormGroup({
-      tipoAtivo: new FormControl(TipoAtivoEnum.Moeda, [
-        Validators.required
-      ]),
       nome: new FormControl(this.moeda.nome, [
         Validators.required,
         Validators.maxLength(100)
@@ -88,11 +76,6 @@ export class DialogSalvarMoedaComponent extends BaseComponent implements OnInit 
         Validators.pattern('^[0-9]*$'),
         Validators.min(0),
         Validators.max(10)
-      ]),
-      quantidade: new FormControl(this.moeda.quantidade, [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-        Validators.min(0)
       ])
     });
     // Escuta mudanças no valor e transforma em maiúsculas
@@ -103,28 +86,13 @@ export class DialogSalvarMoedaComponent extends BaseComponent implements OnInit 
     });
   }
 
-  carregarTipoAtivos(){
-    this.dominioService.get('tipoAtivos').subscribe({
-      next: (response:ResponseApi<Dominio[]>) => {
-        let tipoAtivos = response.data;
-        if(tipoAtivos && tipoAtivos.length > 0){
-          this.tipoAtivos = tipoAtivos.filter(item => item.id === TipoAtivoEnum.Moeda);
-        }
-      },
-      error: (errorResponse : HttpErrorResponse) => {
-        console.log(errorResponse);
-      }
-    })
-  }
-
   salvar(){
     this.loading = true;
     if(this.formGroup.valid){
       var salvarReq: SalvarMoeda = {
         nome: this.nome?.value,
         codigo: this.codigo?.value,
-        nota: this.nota?.value,
-        quantidade: this.quantidade?.value
+        nota: this.nota?.value
       }
       var updateDialogSuccess = ()=>{
         this.loading = false;
@@ -142,13 +110,6 @@ export class DialogSalvarMoedaComponent extends BaseComponent implements OnInit 
         }
       );
     }
-  }
-
-  tipoAtivoErrorMessage() : string {
-    if (this.tipoAtivo?.hasError('required')) {
-      return MESSAGE.OBRIGATORIO;
-    }
-    return MESSAGE.VAZIO;
   }
 
   nomeErrorMessage() : string {
@@ -179,17 +140,6 @@ export class DialogSalvarMoedaComponent extends BaseComponent implements OnInit 
       this.nota?.hasError('max') ||
       this.nota?.hasError('min') ) {
       return MESSAGE.VALOR_0_10;
-    }
-    return MESSAGE.VAZIO;
-  }
-
-  quantidadeErrorMessage() : string {
-    if (this.quantidade?.hasError('required')) {
-      return MESSAGE.OBRIGATORIO;
-    }
-    if (this.quantidade?.hasError('pattern') ||
-      this.quantidade?.hasError('min')) {
-      return MESSAGE.SOMENTE_NUMEROS;
     }
     return MESSAGE.VAZIO;
   }

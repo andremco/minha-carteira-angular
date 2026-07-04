@@ -19,10 +19,12 @@ import {MovimentacaoEnum} from "src/app/models/enums/MovimentacaoEnum";
 import {MatSelectChange} from "@angular/material/select";
 import {Acao} from "src/app/models/acao/Acao";
 import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
+import {Moeda} from "src/app/models/moeda/Moeda";
 import {AcaoService} from "src/app/services/AcaoService";
 import {TituloPublicoService} from "src/app/services/TituloPublicoService";
-import {Dominio} from "../../models/Dominio";
-import {DominioService} from "../../services/DominioService";
+import {MoedaService} from "src/app/services/MoedaService";
+import {Dominio} from "src/app/models/Dominio";
+import {DominioService} from "src/app/services/DominioService";
 
 @Component({
   selector: 'aporte',
@@ -48,6 +50,7 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   constructor(private readonly aporteService : AporteService,
               private readonly acaoService : AcaoService,
               private readonly tituloPublicoService: TituloPublicoService,
+              private readonly moedaService: MoedaService,
               private readonly dominioService : DominioService,
               private readonly cdr: ChangeDetectorRef,
               public override toastr: ToastrService) {
@@ -91,10 +94,12 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
   filtrarAtivos(){
     let ativo = this.pesquisarAtivo.value;
     if (ativo && ativo.length >= 5){
-      if (this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico)
+      if (this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico && this.tipoAtivo?.value != TipoAtivoEnum.Moeda)
         this.carregarAcoes(ativo)
-      else
+      else if (this.tipoAtivo?.value == TipoAtivoEnum.TituloPublico)
         this.carregarTitulosPublico(ativo)
+      else if (this.tipoAtivo?.value == TipoAtivoEnum.Moeda)
+        this.carregarMoedas(ativo)
     }
   }
 
@@ -134,6 +139,18 @@ export class AporteComponent extends BaseComponent implements AfterViewInit, OnI
         console.log(errorResponse);
       }
     })
+  }
+
+  carregarMoedas(descricao: String){
+    this.moedaService.filtrar(0, 10, descricao).subscribe({
+      next: (response:ResponseApi<Paginado<Moeda>>) => {
+        this.ativos = response.data?.itens;
+        this.formGroup.get('ativo')?.setValue(undefined);
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);
+      }
+    });    
   }
 
   get tipoAtivo() : AbstractControl<any, any> | null{

@@ -15,10 +15,11 @@ import {EditarSetor} from "src/app/models/setor/EditarSetor";
 import {ResponseApi} from "src/app/models/ResponseApi";
 import {MESSAGE} from "src/app/message/message"
 import {BaseComponent} from "src/app/components/base.component";
-import {Dominio} from "../../../models/Dominio";
+import {Dominio} from "src/app/models/Dominio";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
-import {DominioService} from "../../../services/DominioService";
+import {DominioService} from "src/app/services/DominioService";
+import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
 
 @Component({
   selector: 'dialog-setor',
@@ -89,7 +90,7 @@ export class DialogSetorComponent extends BaseComponent implements OnInit{
   carregarTipoAtivos(){
     this.dominioService.get('tipoAtivos').subscribe({
       next: (response:ResponseApi<Dominio[]>) => {
-        this.tipoAtivos = response.data;
+        this.tipoAtivos = response.data?.filter(item => item.id !== TipoAtivoEnum.Moeda.valueOf());
       },
       error: (errorResponse : HttpErrorResponse) => {
         console.log(errorResponse);

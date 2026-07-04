@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, inject, OnInit} from "@angular/core";
 import {Acao} from "src/app/models/acao/Acao";
 import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
+import {Moeda} from "src/app/models/moeda/Moeda";
 import {Ativo} from "src/app/models/ativo/Ativo";
 import {DialogEditarAtivoComponent} from "src/app/components/dialogs/ativo/dialog.editar.ativo.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -11,8 +12,9 @@ import {ResponseApi} from "src/app/models/ResponseApi";
 import {Paginado} from "src/app/models/Paginado";
 import {HttpErrorResponse} from "@angular/common/http";
 import {TituloPublicoService} from "src/app/services/TituloPublicoService";
-import {TipoAtivoEnum} from "../../models/enums/TipoAtivoEnum";
-import {checkUrlLogoAtivo} from "../../util/check-url-logo-ativo";
+import {MoedaService} from "src/app/services/MoedaService";
+import {TipoAtivoEnum} from "src/app/models/enums/TipoAtivoEnum";
+import {checkUrlLogoAtivo} from "src/app/util/check-url-logo-ativo";
 
 @Component({
   selector: 'ativo',
@@ -25,6 +27,7 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
   public loadingAcoes: boolean = false;
   public loadingFiis: boolean = false;
   public loadingBdrs: boolean = false;
+  public loadingMoedas: boolean = false;
   public limiteInicialAtivos: number = 4;
   public totalTitulos: number = 0;
   public cumulativoTitulos: number = 0;
@@ -38,13 +41,18 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
   public totalBdrs: number = 0;
   public cumulativoBdrs: number = 0;
   public proximaPaginaBdrs: number = 0;
+  public totalMoedas: number = 0;
+  public cumulativoMoedas: number = 0;
+  public proximaPaginaMoedas: number = 0;
   public titulosPublico: TituloPublico[] = [];
   public acoes: Acao[] = [];
   public fiis: Acao[] = [];
   public bdrs: Acao[] = [];
+  public moedas: Moeda[] = [];
 
   constructor(private readonly acaoService : AcaoService,
               private readonly tituloPublicoService : TituloPublicoService,
+              private readonly moedaService : MoedaService,
               private readonly cdr: ChangeDetectorRef,
               public override toastr: ToastrService) {
     super(toastr);
@@ -56,6 +64,7 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
     this.carregarAcoes(pagina, tamanho);
     this.carregarFiis(pagina, tamanho);
     this.carregarBdrs(pagina, tamanho);
+    this.carregarMoedas(pagina, tamanho);
   }
 
   openDialog(ativo : Ativo) {
@@ -65,6 +74,7 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
       data: {
         ativo,
         carregarTitulosPublico: () => { this.carregarTitulosPublico(pagina, tamanho, true) },
+        carregarMoedas: () => { this.carregarMoedas(pagina, tamanho, true) },
         carregarAcoes: () => {
           let acao = <Acao>ativo;
           if (acao.setor?.tipoAtivo?.id === TipoAtivoEnum.Acao)
@@ -217,6 +227,40 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
       },
       error: (errorResponse : HttpErrorResponse) => {
         this.loadingBdrs = false;
+        console.log(errorResponse);
+      }
+    });
+    this.cdr.detectChanges();
+  }
+
+  exibirBotaoCarregarMoedas(){
+    return this.totalMoedas >= this.limiteInicialAtivos + this.cumulativoMoedas;
+  }
+
+  carregarMaisMoedas(){
+    if(this.totalMoedas < this.limiteInicialAtivos)
+      return;
+    this.cumulativoMoedas += 4;
+    this.proximaPaginaMoedas += 1;
+    this.carregarMoedas(this.proximaPaginaMoedas, this.limiteInicialAtivos);
+  }
+
+  carregarMoedas(pagina:number, tamanho:number, zerarMoedas: boolean = false){
+    this.loadingMoedas = true;
+    this.moedaService.filtrar(pagina, tamanho).subscribe({
+      next: (moedaPaginado:ResponseApi<Paginado<Moeda>>) => {
+        this.totalMoedas = <number>moedaPaginado.data?.total;
+        if (zerarMoedas){
+          this.cumulativoMoedas = 0;
+          this.proximaPaginaMoedas = 0;
+          this.moedas = <Moeda[]>moedaPaginado.data?.itens;
+        }
+        else
+          this.moedas.push(...<Moeda[]>moedaPaginado.data?.itens);
+        this.loadingMoedas = false;
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        this.loadingMoedas = false;
         console.log(errorResponse);
       }
     });

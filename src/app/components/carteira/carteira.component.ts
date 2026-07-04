@@ -28,8 +28,13 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     TipoAtivoEnum.Acao,
     TipoAtivoEnum.FundoImobiliario,
     TipoAtivoEnum.BrazilianDepositaryReceipts,
-    TipoAtivoEnum.TituloPublico
+    TipoAtivoEnum.TituloPublico,
+    TipoAtivoEnum.Moeda
   ];
+
+  protected get tiposAtivosFiltrados(): TipoAtivoEnum[] {
+    return this.tiposAtivos.filter(t => t !== TipoAtivoEnum.Moeda);
+  }
   constructor(private readonly carteiraService : CarteiraService,
               private ref: ChangeDetectorRef,
               public override toastr: ToastrService) {
@@ -98,7 +103,7 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
     let labelsAtivos : string[] = this.tiposAtivos.map(tipo => tipoAtivoEnumToDescricao(tipo))
     new Chartist.BarChart(divDashboard, {
       labels: labelsAtivos,
-      series: [aportes.porAcoes, aportes.porFIIs, aportes.porBDRs, aportes.porTitulos]
+      series: [aportes.porAcoes, aportes.porFIIs, aportes.porBDRs, aportes.porTitulos, aportes.porMoedas]
     }, {
       distributeSeries: true
     });
@@ -118,7 +123,7 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
 
         if (valoresMensal?.mesesPesquisados?.length == 0 && valoresMensal?.aportesAcoesMensal?.length == 0 &&
             valoresMensal?.aportesFIIsMensal?.length == 0 && valoresMensal?.aportesBDRsMensal?.length == 0 &&
-            valoresMensal.aportesTituloPublicoMensal?.length == 0)
+            valoresMensal.aportesTituloPublicoMensal?.length == 0 && valoresMensal.aportesMoedasMensal?.length == 0)
           this.showDashboardAportesMensal = false;
 
         this.loadingAportesMensal = false;
@@ -138,7 +143,8 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
         valoresMensal.aportesAcoesMensal ? valoresMensal.aportesAcoesMensal.map(a => a.totalAportado) : [], //Ações
         valoresMensal.aportesFIIsMensal ? valoresMensal.aportesFIIsMensal.map(a => a.totalAportado) : [], //FIIs
         valoresMensal.aportesBDRsMensal ? valoresMensal.aportesBDRsMensal.map(a => a.totalAportado) : [], // BDRs
-        valoresMensal.aportesTituloPublicoMensal ? valoresMensal.aportesTituloPublicoMensal.map(a => a.totalAportado) : [] //Fundos Imobiliários
+        valoresMensal.aportesTituloPublicoMensal ? valoresMensal.aportesTituloPublicoMensal.map(a => a.totalAportado) : [], //Fundos Imobiliários
+        valoresMensal.aportesMoedasMensal ? valoresMensal.aportesMoedasMensal.map(a => a.totalAportado) : [] //Moedas
       ]
     }, {
       // Default mobile configuration
@@ -191,6 +197,8 @@ export class CarteiraComponent extends BaseComponent implements AfterViewInit {
       return "square-bdrs";
     if (tipoAtivo == TipoAtivoEnum.TituloPublico)
       return "square-titulos";
+    if (tipoAtivo == TipoAtivoEnum.Moeda)
+      return "square-moedas";
     return "";
   }
 

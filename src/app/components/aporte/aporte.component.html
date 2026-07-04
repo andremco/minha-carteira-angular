@@ -42,7 +42,7 @@
                         </ngx-mat-select-search>
                       </mat-option>
                       <mat-option *ngFor="let ativo of ativos" [value]="ativo.id">
-                        {{ tipoAtivo?.value == TipoAtivoEnum.Acao ? ativo.razaoSocial : ativo.descricao }}
+                        {{ this.tipoAtivo?.value == TipoAtivoEnum.Moeda ? ativo.nome : (this.tipoAtivo?.value != TipoAtivoEnum.TituloPublico ? ativo.razaoSocial : ativo.descricao) }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>

@@ -18,6 +18,7 @@ import {TituloPublicoService} from "src/app/services/TituloPublicoService";
 import {Acao} from "src/app/models/acao/Acao";
 import {Paginado} from "src/app/models/Paginado";
 import {TituloPublico} from "src/app/models/titulo-publico/TituloPublico";
+import {Moeda} from "src/app/models/moeda/Moeda";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {SalvarAporte} from "src/app/models/aporte/SalvarAporte";
@@ -29,6 +30,7 @@ import {EditarAporte} from "src/app/models/aporte/EditarAporte";
 import {Dominio} from "src/app/models/Dominio";
 import {DominioService} from "src/app/services/DominioService";
 import {numberToReal} from "src/app/util/number-to-real";
+import {MoedaService} from "src/app/services/MoedaService";
 
 @Component({
   selector: 'dialog-aporte',
@@ -53,6 +55,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   constructor(private readonly acaoService : AcaoService,
               private readonly dominioService : DominioService,
               private readonly tituloPublicoService: TituloPublicoService,
+              private readonly moedaService: MoedaService,
               private readonly aporteService: AporteService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private readonly cdr: ChangeDetectorRef,
@@ -166,10 +169,12 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   filtrarAtivos(){
     let ativo = this.pesquisarAtivo.value;
     if (ativo && ativo.length >= 5){
-      if (this.tipoAtivo != TipoAtivoEnum.TituloPublico)
+      if (this.tipoAtivo == TipoAtivoEnum.Acao || this.tipoAtivo == TipoAtivoEnum.BrazilianDepositaryReceipts || this.tipoAtivo == TipoAtivoEnum.FundoImobiliario)
         this.carregarAcoes(ativo, this.tipoAtivo)
-      else
+      if (this.tipoAtivo == TipoAtivoEnum.TituloPublico)
         this.carregarTitulosPublico(ativo)
+      if (this.tipoAtivo == TipoAtivoEnum.Moeda)
+        this.carregarMoedas(ativo)
     }
   }
 
@@ -208,6 +213,18 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     })
   }
 
+  carregarMoedas(descricao: String){
+    this.moedaService.filtrar(0, 10, descricao).subscribe({
+      next: (response:ResponseApi<Paginado<Moeda>>) => {
+        this.ativos = response.data?.itens;
+        this.formGroup.get('ativo')?.setValue(undefined);
+      },
+      error: (errorResponse : HttpErrorResponse) => {
+        console.log(errorResponse);
+      }
+    });    
+  }
+
   salvar(){
     this.loading = true;
     if(this.formGroup.valid){
@@ -216,10 +233,13 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         quantidade: this.quantidade?.value,
         movimentacao: this.movimentacao?.value
       }
+      if(this.tipoAtivo == TipoAtivoEnum.Acao || this.tipoAtivo == TipoAtivoEnum.BrazilianDepositaryReceipts || this.tipoAtivo == TipoAtivoEnum.FundoImobiliario)
+        salvarReq.acaoId = this.ativo?.value?.id;
       if (this.tipoAtivo == TipoAtivoEnum.TituloPublico)
         salvarReq.tituloPublicoId = this.ativo?.value?.id;
-      else
-        salvarReq.acaoId = this.ativo?.value?.id;
+      if (this.tipoAtivo == TipoAtivoEnum.Moeda)
+        salvarReq.moedaId = this.ativo?.value?.id;
+
       this.aporteService.salvar(salvarReq).subscribe({
         next: () => this.success(this.updateDialogSuccess),
         error: (errorResponse : HttpErrorResponse) => this.error(errorResponse, this.updateDialogError)

@@ -6,4 +6,5 @@ export class AportesValorMensal{
   aportesFIIsMensal?: AportesTipoAtivoMensal[];
   aportesBDRsMensal?: AportesTipoAtivoMensal[];
   aportesTituloPublicoMensal?: AportesTipoAtivoMensal[];
+  aportesMoedasMensal?: AportesTipoAtivoMensal[];
 }

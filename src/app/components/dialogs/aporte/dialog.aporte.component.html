@@ -42,7 +42,7 @@
                         </ngx-mat-select-search>
                       </mat-option>
                       <mat-option *ngFor="let ativo of ativos" [value]="ativo">
-                        {{ tipoAtivo == TipoAtivoEnum.TituloPublico  ? ativo.descricao : ativo.razaoSocial }}
+                        {{ tipoAtivo == TipoAtivoEnum.Moeda ? ativo.nome : (tipoAtivo != TipoAtivoEnum.TituloPublico ? ativo.razaoSocial : ativo.descricao) }}
                       </mat-option>
                     </mat-select>
                     <mat-error *ngIf="ativo?.invalid && (ativo?.dirty || ativo?.touched)">{{ativoErrorMessage()}}</mat-error>

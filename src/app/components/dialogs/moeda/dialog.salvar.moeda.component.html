@@ -13,18 +13,7 @@
           <div class="card-body">
             <form [formGroup]="formGroup">
               <div class="row mb-2">
-                <div class="col-sm-6">
-                  <mat-form-field>
-                    <mat-label>Tipo do ativo</mat-label>
-                    <mat-select required formControlName="tipoAtivo">
-                      <mat-option *ngFor="let tipoAtivo of tipoAtivos" [value]="tipoAtivo.id">
-                        {{ tipoAtivo.descricao }}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="tipoAtivo?.invalid && (tipoAtivo?.dirty || tipoAtivo?.touched)">{{tipoAtivoErrorMessage()}}</mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <mat-form-field color="primary">
                     <mat-label>Nome</mat-label>
                     <input matInput required formControlName="nome">
@@ -33,25 +22,18 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                   <mat-form-field color="primary">
                     <mat-label>Nota</mat-label>
                     <input matInput required formControlName="nota">
                     <mat-error *ngIf="nota?.invalid && (nota?.dirty || nota?.touched)">{{notaErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                   <mat-form-field color="primary">
                     <mat-label>Código</mat-label>
                     <input matInput required formControlName="codigo">
                     <mat-error *ngIf="codigo?.invalid && (codigo?.dirty || codigo?.touched)">{{codigoErrorMessage()}}</mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-sm-6">
-                  <mat-form-field color="primary">
-                    <mat-label>Quantidade</mat-label>
-                    <input matInput required formControlName="quantidade">
-                    <mat-error *ngIf="quantidade?.invalid && (quantidade?.dirty || quantidade?.touched)">{{quantidadeErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
               </div>

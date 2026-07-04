@@ -3,4 +3,5 @@ export class AportesTotal{
   porFIIs?: string
   porBDRs?: string
   porTitulos?: string
+  porMoedas?: string
 }

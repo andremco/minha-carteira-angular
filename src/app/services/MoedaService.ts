@@ -24,12 +24,11 @@ export class MoedaService{
   obter(idMoeda : number) : Observable<ResponseApi<Moeda>>{
     return this.http.get<ResponseApi<Moeda>>(this.apiUrl + '/moeda/' + idMoeda);
   }
-  filtrar(pagina:Number, tamanho:Number, tipoAtivoId?: TipoAtivoEnum, descricaoAtivo?: String) : Observable<ResponseApi<Paginado<Moeda>>>{
+  filtrar(pagina:Number, tamanho:Number, descricaoMoeda?: String) : Observable<ResponseApi<Paginado<Moeda>>>{
     const headers = {
       pagina: pagina.toString(),
       tamanho: tamanho.toString(),
-      ...(descricaoAtivo !== undefined && { descricaoAtivo: descricaoAtivo.toString() }),
-      ...(tipoAtivoId !== undefined && { tipoAtivoId: tipoAtivoId.toString() }),
+      ...(descricaoMoeda !== undefined && { descricaoMoeda: descricaoMoeda.toString() })
     };
     return this.http.get<ResponseApi<Paginado<Moeda>>>(this.apiUrl + '/moeda/filtrar', { headers })
   }
