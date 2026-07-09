@@ -8,7 +8,7 @@ export class TickerPipe implements PipeTransform {
       if (ativo.tituloPublico)
         return "-"
       if (ativo.moeda)
-        return ativo.moeda.codigo
+        return "-"
     }
     return ""
   }

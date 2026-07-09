@@ -43,6 +43,7 @@ import {TickerPipe} from "./pipe/TickerPipe";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {TruncateTextoPipe} from "./pipe/TruncateTextoPipe";
+import {FormatQuantidadePipe} from "./pipe/FormatQuantidadePipe";
 import {PosicaoSetorDashboardComponent} from "./components/carteira/components/posicao.setor.dashboard.component";
 
 registerLocaleData(localePt);
@@ -61,7 +62,8 @@ registerLocaleData(localePt);
     TipoAtivoPipe,
     NomeAtivoPipe,
     TickerPipe,
-    TruncateTextoPipe
+    TruncateTextoPipe,
+    FormatQuantidadePipe
   ],
   imports: [
     CommonModule,

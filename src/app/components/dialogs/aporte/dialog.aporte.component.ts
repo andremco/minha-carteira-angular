@@ -98,9 +98,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
         Validators.required
       ]),
       quantidade: new FormControl(this.aporte.quantidade, [
-        Validators.required,
-        Validators.pattern('^[0-9]*$'),
-        Validators.min(1)
+        Validators.required
       ])
     });
     if (this.aporte.movimentacao)
@@ -146,12 +144,6 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   quantidadeErrorMessage() : string {
     if (this.quantidade?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
-    }
-    if (this.quantidade?.hasError('pattern')) {
-      return MESSAGE.SOMENTE_NUMEROS;
-    }
-    if (this.quantidade?.hasError('min')){
-      return MESSAGE.VALOR_ACIMA_DE_1;
     }
     return MESSAGE.VAZIO;
   }
@@ -230,7 +222,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     if(this.formGroup.valid){
       var salvarReq: SalvarAporte = {
         preco: this.converterRealToDouble(this.preco?.value),
-        quantidade: this.quantidade?.value,
+        quantidade: this.converterRealToDouble(this.quantidade?.value),
         movimentacao: this.movimentacao?.value
       }
       if(this.tipoAtivo == TipoAtivoEnum.Acao || this.tipoAtivo == TipoAtivoEnum.BrazilianDepositaryReceipts || this.tipoAtivo == TipoAtivoEnum.FundoImobiliario)
