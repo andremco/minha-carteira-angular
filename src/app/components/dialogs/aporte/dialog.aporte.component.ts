@@ -147,7 +147,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     return MESSAGE.VAZIO;
   }
 
-    quantidadeErrorMessage() : string {
+  quantidadeErrorMessage() : string {
     if (this.quantidade?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
     }
@@ -160,7 +160,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     return MESSAGE.VAZIO;
   }
 
-    onSelectChangeTipoAtivoId(event: MatSelectChange){
+  onSelectChangeTipoAtivoId(event: MatSelectChange){
     this.tipoAtivo = <TipoAtivoEnum>event.value;
     this.ativos = [];
     this.formGroup.get('ativo')?.setValue(undefined);
@@ -260,7 +260,7 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
       var editarReq: EditarAporte = {
         id: this.aporte.id,
         preco: this.converterRealToDouble(this.preco?.value),
-        quantidade: this.quantidade?.value,
+        quantidade: this.converterRealToDouble(this.quantidade?.value),
         movimentacao: this.movimentacao?.value
       }
       if (this.tipoAtivo == TipoAtivoEnum.TituloPublico)
