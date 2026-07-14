@@ -60,7 +60,7 @@
                 <div class="col-sm-6">
                   <mat-form-field color="primary">
                     <mat-label>Quantidade</mat-label>
-                    <input matInput required formControlName="quantidade">
+                    <input matInput required formControlName="quantidade" (blur)="onQuantidadeInputBlur(quantidade?.value)">
                     <mat-error *ngIf="quantidade?.invalid && (quantidade?.dirty || quantidade?.touched)">{{quantidadeErrorMessage()}}</mat-error>
                   </mat-form-field>
                 </div>

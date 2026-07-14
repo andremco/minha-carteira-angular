@@ -6,7 +6,7 @@ export interface Aporte{
   id?: number;
   acao?: Acao;
   tituloPublico?: TituloPublico;
-  Moeda?: Moeda;
+  moeda?: Moeda;
   preco?: number;
   quantidade?: number;
   movimentacao?: string;

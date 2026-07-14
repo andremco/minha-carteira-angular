@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatOption} from "@angular/material/autocomplete";
@@ -78,6 +78,11 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
       const {tituloPublico} = this.aporte;
       this.ativos?.push({ id: tituloPublico.id, descricao: tituloPublico?.descricao });
     }
+    if (this.aporte.moeda){
+      this.tipoAtivo = TipoAtivoEnum.Moeda
+      const {moeda} = this.aporte;
+      this.ativos?.push({ id: moeda.id, nome: moeda?.nome });
+    }
   }
   ngOnInit(): void {
     this.inicializarAtivoForm();
@@ -97,9 +102,10 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
       preco: new FormControl(numberToReal(this.aporte.preco), [
         Validators.required
       ]),
-      quantidade: new FormControl(this.aporte.quantidade, [
-        Validators.required
-      ])
+      quantidade: new FormControl(
+        this.formatQuantidadeParaExibicao(this.aporte.quantidade),
+        [Validators.required, this.quantidadeValidator()]
+      )
     });
     if (this.aporte.movimentacao)
       this.formGroup.get('movimentacao')?.setValue(
@@ -141,17 +147,25 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
     return MESSAGE.VAZIO;
   }
 
-  quantidadeErrorMessage() : string {
+    quantidadeErrorMessage() : string {
     if (this.quantidade?.hasError('required')) {
       return MESSAGE.OBRIGATORIO;
+    }
+    if (this.quantidade?.hasError('quantidadeMoeda')) {
+      return 'Informe um número válido';
+    }
+    if (this.quantidade?.hasError('quantidadeInteiro')) {
+      return 'Informe um número válido';
     }
     return MESSAGE.VAZIO;
   }
 
-  onSelectChangeTipoAtivoId(event: MatSelectChange){
+    onSelectChangeTipoAtivoId(event: MatSelectChange){
     this.tipoAtivo = <TipoAtivoEnum>event.value;
     this.ativos = [];
     this.formGroup.get('ativo')?.setValue(undefined);
+    // Revalida o campo quantidade pois a regra muda conforme o tipo de ativo
+    this.formGroup.get('quantidade')?.updateValueAndValidity();
   }
 
   onSelectChangeAtivo(ativo : any){
@@ -273,4 +287,70 @@ export class DialogAporteComponent extends BaseComponent implements OnInit{
   }
 
   protected readonly TipoAtivoEnum = TipoAtivoEnum;
+
+  /**
+   * Formata um número para exibição no campo quantidade conforme o tipo de ativo.
+   * Para Moeda: usa formato brasileiro com vírgula (ex: 0,00026)
+   * Para demais ativos: exibe apenas o número inteiro
+   */
+  private formatQuantidadeParaExibicao(valor?: number): string {
+    if (valor == null) return '';
+    if (this.tipoAtivo === TipoAtivoEnum.Moeda) {
+      return valor.toLocaleString('pt-BR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 10
+      });
+    }
+    // Para inteiros, remove qualquer fração
+    return Math.floor(valor).toString();
+  }
+
+  /**
+   * Validador customizado que verifica o formato da quantidade conforme o tipo de ativo:
+   * - Moeda: aceita números decimais com vírgula (ex: 0,00026; 3,52; 6,5677)
+   * - Demais ativos: aceita apenas números inteiros (sem casas decimais e sem vírgula)
+   */
+  private quantidadeValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) return null;
+
+      let strValue = control.value.toString().trim();
+
+      if (this.tipoAtivo === TipoAtivoEnum.Moeda) {
+        const moedaPattern = /^\d+(\,\d+)?$/;
+        return moedaPattern.test(strValue) ? null : { quantidadeMoeda: true };
+      } else {
+        const inteiroPattern = /^\d+$/;
+        return inteiroPattern.test(strValue) ? null : { quantidadeInteiro: true };
+      }
+    };
+  }
+
+  /**
+   * Manipula o evento blur do campo quantidade para formatar o valor corretamente:
+   * - Remove caracteres inválidos
+   * - Para Moeda: formata com vírgula como separador decimal
+   * - Para demais ativos: mantém apenas dígitos (inteiro)
+   */
+  onQuantidadeInputBlur(value: string) {
+    const cleaned = value.replace(/[^\d,]/g, '');
+
+    if (this.tipoAtivo === TipoAtivoEnum.Moeda) {
+      const normalized = cleaned.replace(',', '.');
+      const numeric = parseFloat(normalized);
+      if (!isNaN(numeric) && numeric > 0) {
+        this.formGroup.get('quantidade')?.setValue(
+          numeric.toLocaleString('pt-BR', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 10
+          })
+        );
+      }
+    } else {
+      const digitsOnly = cleaned.replace(/[^\d]/g, '');
+      if (digitsOnly) {
+        this.formGroup.get('quantidade')?.setValue(digitsOnly);
+      }
+    }
+  }
 }
