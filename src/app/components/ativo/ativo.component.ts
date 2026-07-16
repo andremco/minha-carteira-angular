@@ -267,6 +267,12 @@ export class AtivoComponent extends BaseComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  protected readonly String = String;
+    protected readonly String = String;
   protected readonly checkUrlLogoAtivo = checkUrlLogoAtivo;
+
+    protected trocarPontoPorVirgula(valor?: string | number | null): string {
+    if (valor === null || valor === undefined)
+      return '';
+    return String(valor).replace('.', ',');
+  }
 }

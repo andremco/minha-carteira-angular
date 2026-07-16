@@ -8,6 +8,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {SetoresFatiado} from "src/app/models/carteira/SetoresFatiado";
 import * as Chartist from "chartist";
 import {NgIf} from "@angular/common";
+import {numberToPercent} from "src/app/util/number-to-percent";
 
 @Component({
   selector: 'posicao-setor',
@@ -107,11 +108,11 @@ export class PosicaoSetorDashboardComponent extends BaseComponent implements Aft
     this.ref.detectChanges();
   }
 
-  montarDashboard(itens : SetoresFatiado[]){
+    montarDashboard(itens : SetoresFatiado[]){
     if (!itens || itens.length == 0)
       return
 
-    let labels = itens.map(f => (f.setor ? f.setor : "") + " " + (f.percentual?.toString()) + "%")
+    let labels = itens.map(f => (f.setor ? f.setor : "") + " " + (f.percentual) + "%");
     let series = itens.map(f => f.percentual)
 
     var setores = {

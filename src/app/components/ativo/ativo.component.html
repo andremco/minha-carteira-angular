@@ -355,7 +355,7 @@
                   <span>{{ moeda.precoDinamico | currency:'BRL':'symbol':'1.2-2' }}</span>
                 </div>
                 <div class="col-sm-6">
-                  <p class="card-category">{{ moeda.quantidade }}</p>
+                  <p class="card-category">{{ trocarPontoPorVirgula(moeda.quantidade) }}</p>
                 </div>
               </div>
               <div class="row">
